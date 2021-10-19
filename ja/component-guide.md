@@ -1,1 +1,1 @@
-## Image Builder
+## Compute > Image Builder > インストールコンポーネントガイド
