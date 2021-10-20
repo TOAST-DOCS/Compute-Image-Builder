@@ -1,1 +1,85 @@
-## Image Builder
+## Compute > Image Builder > Console User Guide
+### Create Image Template
+Create an image template. The image builder creates an image based on the contents of the image template you created in advance.
+
+<table class="it" style="padding-top: 15px; padding-bottom: 10px;">
+  <tr>
+    <th>Item</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Image Template Name </td>
+    <td>Up to 255 English characters or 85 Korean characters</td>
+  </tr>
+  <tr>
+    <td>OS Type</td>
+    <td>OS type of the private image to create</td>
+  </tr>
+  <tr>
+    <td>OS Distro</td>
+    <td>OS distribution of the private image to create</td>
+  </tr>
+  <tr>
+    <td>OS Version</td>
+    <td>OS version of the private image to create</td>
+  </tr>
+  <tr>
+    <td>Component</td>
+    <td>Application installation components<br/>Multiple components can be selected, but the selection may be limited if there is a conflict between the components.</td>
+  </tr>
+  <tr>
+    <td>Minimum Block Storage Size (GB)</td>
+    <td>Minimum block storage size required to create an instance using an image</td>
+  </tr>
+  <tr>
+    <td>User Script Type</td>
+    <td>Type of the script to be executed after component installation</td>
+  </tr>
+  <tr>
+    <td>User Script </td>
+    <td>Script to be executed after component installation</td>
+  </tr>
+  <tr>
+    <td>Description</td>
+    <td>Image template description </td>
+  </tr>
+</table>
+
+> [Note]
+> As of October 2021, only Linux OS and shell type user scripts are supported.
+
+### Update Image Template
+You can modify the contents of an image template by selecting an image template and clicking the **Update Image Template** button.
+
+### Delete Image Template
+You can delete an image template by selecting an image template and clicking the **Delete Image Template** button.
+
+### Build Image
+Select an image template and click the **Build Image** button to start the build.
+
+<table class="it" style="padding-top: 15px; padding-bottom: 10px;">
+  <tr>
+    <th>Item</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Image Name</td>
+    <td>Up to 255 English characters</td>
+  </tr>
+  <tr>
+    <td>Base Image</td>
+    <td>The OS image used as the base when creating a private image<br/>The list of base images you can choose from depends on the components stored in the image template.</td>
+  </tr>
+</table>
+
+### Image Template Details
+If you select an image template, you can check the information of the image template in the bottom tab.
+
+### Image Template Build Status
+Check the list of build tasks for the selected image template. You can select a build task to view details or cancel a build task in progress.
+
+* **Build Details**: View details of an ongoing or finished build task. If the build failed, you can check the cause of the failure through the detailed log.
+* **Cancel Build**: Cancel a build task in progress. If the build task does not end due to an error in a user script, or if the build needs to be restarted for other reasons, you can use Cancel Build to end the task and clean up the resources used in the build.
+
+### Image List
+You can see a list of images created with the selected image template.
