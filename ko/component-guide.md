@@ -20,7 +20,7 @@ shell> systemctl restart postgresql-13
 
 #### PostgreSQL 접속
 
-이미지 생성 후 초기에는 아래와 같이 접속합니다.
+인스턴스를 생성한 후 초기에는 아래와 같이 접속합니다.
 <br>
 ```
 #postgres로 계정 전환 후 접속
@@ -38,9 +38,9 @@ shell> psql
 shell> vi /var/lib/pgsql/13/data/postgresql.conf
 
 
-#postgresql.conf 파일에 사용하고자 하는 포트를 명시해 줍니다.
+#postgresql.conf 파일에 사용할 포트를 입력합니다.
 
-port =사용하고자 하는 포트명
+port =사용할 포트명
 
 
 #vi 편집기 저장
@@ -64,9 +64,9 @@ shell> psql -p[변경된 포트 번호]
 shell> vi /var/lib/pgsql/13/data/postgresql.conf
 
 
-#postgresql.conf 파일에 사용하고자 하는 타임 존을 명시해 줍니다.
+#postgresql.conf 파일에 사용할 타임 존을 입력합니다.
 
-log_timezone =사용하고자 하는 타임 존
+log_timezone =사용할 타임 존
 
 
 #vi 편집기 저장
@@ -87,7 +87,7 @@ shell> psql
 postgres=# SHOW log_timezone;
 ```
 
-### 3\. public 스키마 권한 취소
+#### 3\. public 스키마 권한 취소
 
 기본적으로 모든 사용자에게 public 스키마에 대한 CREATE 및 USAGE 권한을 부여하고 있으므로 데이터베이스에 접속할 수 있는 사용자는 public 스키마에서 객체를 생성할 수 있습니다. 모든 사용자가 public 스키마에서 객체를 생성하지 못하도록 권한 취소를 권장합니다.
 <br>
@@ -110,12 +110,12 @@ postgres=# REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 shell> vi /var/lib/pgsql/13/data/postgresql.conf
 
 
-#postgresql.conf 파일에 허용하고자 하는 주소를 명시해 줍니다.
+#postgresql.conf 파일에 허용할 주소를 명시해 줍니다.
 #IPv4 주소를 모두 허용하는 경우 0.0.0.0
 #IPv6 주소를 모두 허용하는 경우 ::
 #모든 주소를 허용하는 경우 *
 
-listen_addresses =허용하고자 하는 주소
+listen_addresses =허용할 주소
 
 
 #vi 편집기 저장
@@ -124,7 +124,7 @@ listen_addresses =허용하고자 하는 주소
 shell> vi /var/lib/pgsql/13/data/pg_hba.conf
 
 
-#IP주소 형식별로 클라이언트 인증 제어
+#IP 주소 형식별로 클라이언트 인증 제어
 #오래된 클라이언트 라이브러리는 scram-sha-256 방식이 지원되지 않으므로 md5로 변경 필요
 
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
@@ -133,7 +133,7 @@ host    all             all             127.0.0.1/32            scram-sha-256
 host    허용DB           허용유저          허용주소                   scram-sha-256
 # IPv6 local connections:
 host    all             all             ::1/128                 scram-sha-256
-host    허용DB           허용유저          허용주소                   scram-sha-256
+host    허용 DB          허용 유저          허용 주소                 scram-sha-256
 
 
 #postgresql 서비스 재시작
@@ -151,3 +151,4 @@ PostgreSQL 디렉터리 및 파일 설명은 아래와 같습니다.
 | initdb.log | PostgreSQL 데이터베이스 클러스터 생성 log - /var/lib/pgsql/{version}/initdb.log |
 | DATADIR | PostgreSQL 데이터 파일 경로 - /var/lib/pgsql/{version}/data/ |
 | LOG | PostgreSQL log 파일 경로 - /var/lib/pgsql/{version}/data/log/\*.log |
+
