@@ -130,10 +130,10 @@ shell> vi /var/lib/pgsql/13/data/pg_hba.conf
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 # IPv4 local connections:
 host    all             all             127.0.0.1/32            scram-sha-256
-host    허용DB           허용유저          허용주소                   scram-sha-256
+host    허용 DB          허용 유저         허용 주소                  scram-sha-256
 # IPv6 local connections:
 host    all             all             ::1/128                 scram-sha-256
-host    허용 DB          허용 유저          허용 주소                 scram-sha-256
+host    허용 DB          허용 유저         허용 주소                  scram-sha-256
 
 
 #postgresql 서비스 재시작
