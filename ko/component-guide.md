@@ -1,11 +1,11 @@
 ## Compute > Image Builder > 설치 구성 요소 가이드
 
-### PostgreSQL 
+## PostgreSQL 
 
 `본 가이드는 13 버전을 기준으로 작성되었습니다.`  
 `다른 버전을 사용하시는 경우 해당 버전에 맞게 변경해 주십시오.`
 
-#### PostgreSQL 시작/정지 방법
+### PostgreSQL 시작/정지 방법
 
 ```
 #postgresql 서비스 시작
@@ -28,7 +28,7 @@ shell> su - postgres
 shell> psql
 ```
 
-#### PostgreSQL 인스턴스 생성 후 초기 설정
+### PostgreSQL 인스턴스 생성 후 초기 설정
 
 #### 1\. 포트\(port\) 변경
 
@@ -141,7 +141,7 @@ host    허용 DB          허용 유저         허용 주소                  
 shell> systemctl restart postgresql-13
 ```
 
-#### PostgreSQL 디렉터리 설명
+### PostgreSQL 디렉터리 설명
 
 PostgreSQL 디렉터리 및 파일 설명은 아래와 같습니다.
 
