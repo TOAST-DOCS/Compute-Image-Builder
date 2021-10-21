@@ -19,7 +19,7 @@ shell> systemctl stop postgresql-13
 shell> systemctl restart postgresql-13
 ```
 
-#### PostgreSQL 접속
+### PostgreSQL 접속
 
 인스턴스를 생성한 후 초기에는 아래와 같이 접속합니다.
 <br>
