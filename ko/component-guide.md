@@ -271,9 +271,9 @@ shell> csql -u dba -c "ALTER USER dba PASSWORD 'new_password'" demodb@localhost
 **query\_editor**의 브로커 포트는 기본값이 **30000**으로 설정되며, **broker1**의 브로커 포트는 기본값이 **33000**으로 설정됩니다.
 보안상 포트 변경을 권장합니다.
 
-##### 1)  broker  파일 수정
+##### 1) broker 파일 수정
 
-`/opt/cubrid/conf/cubrid\_broker.conf`  파일을 열어서 아래와 같이 변경할 포트 주소를 입력합니다.
+`/opt/cubrid/conf/cubrid\_broker.conf` 파일을 열어서 아래와 같이 변경할 포트 주소를 입력합니다.
 
 ```
 shell> vi /opt/cubrid/conf/cubrid_broker.conf
