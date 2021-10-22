@@ -29,9 +29,9 @@ shell> su - postgres
 shell> psql
 ```
 
-### Initial Setup After Creating PostgreSQL Instance
+### Initial Setup After Creating a PostgreSQL Instance
 
-#### 1\. Change Port \(port\)
+#### 1\. Change the Port
 
 The provided image port is 5432, which is the PostgreSQL default port. For security reasons, it is recommended to change the port.
 <br>
@@ -152,4 +152,144 @@ PostgreSQL directory and file descriptions are given below.
 | initdb.log | PostgreSQL database cluster creation log - /var/lib/pgsql/{version}/initdb.log |
 | DATADIR | PostgreSQL data file path - /var/lib/pgsql/{version}/data/ |
 | LOG | PostgreSQL log file path - /var/lib/pgsql/{version}/data/log/\*.log |
+
+## MariaDB
+
+### How to Start/Stop MariaDB
+
+``` sh
+# Start the MariaDB service
+shell> sudo systemctl start mariadb.service
+
+# Stop the MariaDB service
+shell> sudo systemctl stop mariadb.service
+
+# Restart the MariaDB service
+shell> sudo systemctl restart mariadb.service
+```
+
+### Connect to MariaDB
+
+After creating an instance, initially connect to MariaDB as follows.
+
+``` sh
+shell> mysql -u root
+```
+
+After changing the password, connect to MariaDB as follows.
+
+``` sh
+shell> mysql -u root -p
+Enter password:
+```
+
+### Initial Setup After Creating a MariaDB Instance
+
+#### 1\. Set the Password
+
+After initial installation, the MariaDB root account password is not set. Therefore, you must set a password after installation.
+
+```
+SET PASSWORD [FOR user] = password_option
+
+MariaDB> SET PASSWORD = PASSWORD('password');
+```
+
+#### 2\. Change the Port
+
+After initial installation, the port is 3306, which is MariaDB's default port. For security reasons, it is recommended to change the port.
+
+##### 1) Modify the `/etc/my.cnf.d/servfer.cnf` file
+
+Open the `/etc/my.cnf.d/server.cnf` file and enter the port address to change under [mariadb] as follows.
+
+```
+shell> sudo vi /etc/my.cnf.d/server.cnf
+```
+
+```
+[mariadb]
+port=[port address to change]
+```
+
+##### 2) Restart the instance
+Restart the instance for the port change to take effect.
+```
+sudo systemctl restart mariadb.service
+```
+
+## CUBRID
+
+### How to Start/Stop the CUBRID service
+
+You can start or stop the CUBRID service as follows by logging in with the “cubrid” Linux account.
+
+``` sh
+# Start the CUBRID service/server
+shell> sudo su - cubrid
+shell> cubrid service start 
+shell> cubrid server start demodb
+
+# Stop the CUBRID service/server
+shell> sudo su - cubrid
+shell> cubrid server stop demodb
+shell> cubrid service stop 
+
+# Restart the CUBRID service/server
+shell> sudo su - cubrid
+shell> cubrid server restart demodb
+shell> cubrid service restart 
+
+# Start/stop/restart the CUBRID broker
+shell> sudo su - cubrid
+shell> cubrid broker start
+shell> cubrid broker stop
+shell> cubrid broker restart
+```
+
+### Connect to CUBRID
+
+After creating an instance, initially connect to CUBRID as follows.
+
+``` sh
+shell> sudo su - cubrid
+shell> csql -u dba demodb@localhost
+```
+
+### Initial Setup After Creating a CUBRID Instance
+
+#### 1\. Set the Password
+
+After initial installation, the CUBRID dba account password is not set. Therefore, you must set a password after installation.
+
+```
+shell> csql -u dba -c "ALTER USER dba PASSWORD 'new_password'" demodb@localhost
+```
+
+#### 2\. Change the broker Port
+
+The broker port for **query\_editor** defaults to **30000**, and the broker port for **broker1** defaults to **33000**.
+For security reasons, it is recommended to change the port.
+
+##### 1) Modify the broker file
+
+Open the `/opt/cubrid/conf/cubrid\_broker.conf` file and enter the port address to change as follows.
+
+```
+shell> vi /opt/cubrid/conf/cubrid_broker.conf
+```
+
+```
+[%query_editor]
+BROKER_PORT             =[port address to change]
+
+[%BROKER1]
+BROKER_PORT             =[port address to change]
+```
+
+##### 2) Restart the broker
+Restart the broker for the port change to take effect.
+```
+shell> cubrid broker restart 
+```
 
