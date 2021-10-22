@@ -153,3 +153,144 @@ PostgreSQL 디렉터리 및 파일 설명은 아래와 같습니다.
 | DATADIR | PostgreSQL 데이터 파일 경로 - /var/lib/pgsql/{version}/data/ |
 | LOG | PostgreSQL log 파일 경로 - /var/lib/pgsql/{version}/data/log/\*.log |
 
+### MariaDB
+
+#### MariaDB 시작/정지 방법
+
+``` sh
+# MariaDB 서비스 시작
+shell> sudo systemctl start mariadb.service
+
+# MariaDB 서비스 종료
+shell> sudo systemctl stop mariadb.service
+
+# MariaDB 서비스 재시작
+shell> sudo systemctl restart mariadb.service
+```
+
+#### MariaDB 접속
+
+이미지 생성 후 초기에는 아래와 같이 접속합니다.
+
+``` sh
+shell> mysql -u root
+```
+
+패스워드 변경 후에는 아래와 같이 접속합니다.
+
+``` sh
+shell> mysql -u root -p
+Enter password:
+```
+
+#### MariaDB 인스턴스 생성 후 초기 설정
+
+##### 1\. 비밀번호 설정
+
+초기 설치 후 MariaDB root 계정 비밀번호는 지정되어 있지 않습니다. 그러므로 설치 후 반드시 비밀번호를 설정해야 합니다.
+
+```
+SET PASSWORD [FOR user] = password_option
+
+MariaDB> SET PASSWORD = PASSWORD('비밀번호');
+```
+
+##### 2\. 포트\(port\) 변경
+
+초기 설치 후 포트는 MariaDB의 기본 포트인 3306입니다. 보안상 포트 변경을 권장합니다.
+
+###### 1) `/etc/my.cnf.d/servfer.cnf` 파일 수정
+
+`/etc/my.cnf.d/server.cnf` 파일을 열어서 [mariadb] 밑에 아래와 같이 변경할 포트 주소를 입력합니다.
+
+```
+shell> sudo vi /etc/my.cnf.d/server.cnf
+```
+
+```
+[mariadb]
+port=[변경할 port 주소]
+```
+
+###### 2) 인스턴스 재시작
+
+```
+sudo systemctl restart mariadb.service
+```
+
+## CUBRID
+
+#### CUBRID 서비스 시작/정지 방법
+
+“cubrid” Linux 계정으로 로그인하여 CUBRID 서비스를 다음과 같이 사용가능합니다.
+
+``` sh
+# CUBRID 서비스/서버 시작
+shell> sudo su - cubrid
+shell> cubrid service start 
+shell> cubrid server start demodb
+
+# CUBRID 서비스/서버 종료
+shell> sudo su - cubrid
+shell> cubrid server stop demodb
+shell> cubrid service stop 
+
+# CUBRID 서비스/서버 재시작
+shell> sudo su - cubrid
+shell> cubrid server restart demodb
+shell> cubrid service restart 
+
+# CUBRID 브로커 시작/종료/재시작
+shell> sudo su - cubrid
+shell> cubrid broker start
+shell> cubrid broker stop
+shell> cubrid broker restart
+```
+
+#### CUBRID 접속
+
+이미지 생성 후 초기에는 아래와 같이 접속합니다.
+“cubrid” Linux 계정으로 로그인하여 CUBRID 서비스를 다음과 같이 시작합니다.
+
+``` sh
+shell> sudo su - cubrid
+shell> csql -u dba demodb@localhost
+```
+
+#### CUBRID 인스턴스 생성 후 초기 설정
+
+##### 1\. 비밀번호 설정
+
+초기 설치 후 cubrid dba 계정 비밀번호는 지정되어 있지 않습니다.  그러므로 설치 후 반드시 비밀번호를 설정해야 합니다.
+
+```
+shell> csql -u dba -c "ALTER USER dba PASSWORD 'new_password'" demodb@localhost
+```
+
+##### 2\. broker 포트\(port\) 변경
+
+**query\_editor**<span style="color:  #404040;;"> 의 브로커 포트는 기본값이 </span>**30000**<span style="color:  #404040;;"> 으로 설정되며, </span>**broker1**<span style="color:  #404040;;"> 의 브로커 포트는 기본값이 </span>**33000**<span style="color:  #404040;;"> 으로 설정됩니다.</span>
+보안상 포트 변경을 권장합니다.
+
+###### 1)  broker  파일 수정
+
+/opt/cubrid/conf/cubrid\_broker.conf  파일을 열어서 아래와 같이 변경할 포트 주소를 입력합니다.
+
+```
+shell> vi /opt/cubrid/conf/cubrid_broker.conf
+```
+
+```
+[%query_editor]
+BROKER_PORT             =[변경할 port 주소]
+
+[%BROKER1]
+BROKER_PORT             =[변경할 port 주소]
+```
+
+###### 2) broker 재시작
+
+```
+shell> cubrid broker restart 
+```
+
