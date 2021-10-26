@@ -1,207 +1,207 @@
 ## Compute > Image Builder > インストールコンポーネントガイド
 
-## PostgreSQL
+## PostgreSQL 
 
-> [Note]
-> This guide is based on PostgreSQL version 13.
-> If you are using a different version, please change the commands accordingly.
+> [参考]
+> このガイドはPostgreSQL 13バージョンを基準に作成されました。
+> 異なるバージョンを使用する場合は該当バージョンに合わせて変更してください。
 
-### How to Start/Stop PostgreSQL
+### PostgreSQL開始/停止方法
 
 ```
-#Start the postgresql service
+#postgresqlサービス開始
 shell> systemctl start postgresql-13
 
-#Stop the postgresql service
+#postgresqlサービス中止
 shell> systemctl stop postgresql-13
 
-#Restart the postgresql service
+#postgresqlサービス再起動
 shell> systemctl restart postgresql-13
 ```
 
-### Connect to PostgreSQL
+### PostgreSQL接続
 
-After creating an instance, initially connect to PostgreSQL as follows.
+インスタンスを作成した後、始めに以下のように接続します。
 <br>
 ```
-#Log in after switching the account to postgres
+#postgresにアカウント切り替え後に接続
 shell> su - postgres
 shell> psql
 ```
 
-### Initial Setup After Creating a PostgreSQL Instance
+### PostgreSQLインスタンス作成後、初期設定
 
-#### 1\. Change the Port
+#### 1\. ポート\(port\)変更
 
-The provided image port is 5432, which is the PostgreSQL default port. For security reasons, it is recommended to change the port.
+提供されるイメージポートはPostgreSQL基本ポートの5432です。セキュリティ上、ポートの変更を推奨します。
 <br>
 ```
 shell> vi /var/lib/pgsql/13/data/postgresql.conf
 
 
-#Enter the port to use in the postgresql.conf file.
+#postgresql.confファイルに使用するポートを入力します。
 
-port =port name to use
-
-
-#Save vi editor
+port =使用するポート名
 
 
-#Restart the postgresql service
+#viエディタ保存
+
+
+#postgresqlサービス再起動
 
 shell> systemctl restart postgresql-13
 
 
-#Connect to the changed port as follows
+#変更されたポートで以下のように接続
 
-shell> psql -p [changed port number]
+shell> psql -p[変更されたポート番号]
 ```
 
-#### 2\. Change the Server Log Time Zone
+#### 2\. サーバーログタイムゾーン変更
 
-The default time zone logged in the server log is set to UTC. It is recommended to change it to be the same as the SYSTEM local time.
+サーバーログに記録される基本時間帯がUTCに設定されています。 SYSTEMローカル時間と同じに変更することを推奨します。
 <br>
 ```
 shell> vi /var/lib/pgsql/13/data/postgresql.conf
 
 
-#Enter the time zone to use in the postgresql.conf file.
+#postgresql.confファイルに使用するタイムゾーンを入力します。
 
-log_timezone =time zone to use
-
-
-#Save vi editor
+log_timezone =使用するタイムゾーン
 
 
-#Restart the postgresql service
+#viエディタ保存
+
+
+#postgresqlサービス再起動
 
 shell> systemctl restart postgresql-13
 
 
-#Connect to postgresql
+#postgresql接続
 
 shell> psql
 
 
-#Confirm changed settings
+#変更した設定の確認
 
 postgres=# SHOW log_timezone;
 ```
 
-#### 3\. Revoke the public Schema Privilege
+#### 3\. publicスキーマ権限キャンセル
 
-By default, all users are granted CREATE and USAGE privileges for the public schema, so users who can access the database can create objects in the public schema. It is recommended to revoke the privileges to prevent all users from creating objects in the public schema.
+基本的にすべてのユーザーにpublicスキーマのCREATEおよびUSAGE権限を付与しているため、データベースに接続することができるユーザーはpublicスキーマからオブジェクトを作成できます。すべてのユーザーがpublicスキーマからオブジェクトを作成できないように権限の取り消しを推奨します。
 <br>
 ```
-#Connect to postgresql
+#postgresql接続
 
 shell> psql
 
 
-#Execute the command to revoke the privilege
+#権限取り消しコマンド実行
 
 postgres=# REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 ```
 
-#### 4\. Allow Remote Access
+#### 4\. 遠隔接続許可
 
-To allow access from connections other than localhost, you need to change the listen_addresses variable and the client authentication configuration file.
+ローカルホスト以外の接続を許可するにはlisten_addresses変数とクライアント認証設定ファイルを変更する必要があります。
 <br>
 ```
 shell> vi /var/lib/pgsql/13/data/postgresql.conf
 
 
-#Specify the addresses to allow in the postgresql.conf file.
-#0.0.0.0 to allow all IPv4 addresses
-#:: to allow all IPv6 addresses
-#* to allow any address
+#postgresql.confファイルに許可するアドレスを指定してください。
+#IPv4アドレスを全て許可する場合0.0.0.0
+#IPv6アドレスを全て許可する場合::
+#すべてのアドレスを許可する場合 *
 
-listen_addresses =Addresses to allow
+listen_addresses =許可するアドレス
 
 
-#Save vi editor
+#viエディタ保存
 
 
 shell> vi /var/lib/pgsql/13/data/pg_hba.conf
 
 
-#Client authentication control by IP address format
-#Older client libraries do not support the scram-sha-256 method, so it needs to be changed to md5
+#IPアドレス形式ごとにクライアント認証制御
+#古いクライアントライブラリはscram-sha-256方式をサポートしていないため、md5に変更必要
 
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 # IPv4 local connections:
 host    all             all             127.0.0.1/32            scram-sha-256
-host    Allowed DB          Allowed user         Allowed address                  scram-sha-256
+host   許可DB         許可ユーザー      許可アドレス                scram-sha-256
 # IPv6 local connections:
 host    all             all             ::1/128                 scram-sha-256
-host    Allowed DB          Allowed user         Allowed address                  scram-sha-256
+host   許可DB         許可ユーザー      許可アドレス                scram-sha-256
 
 
-#Restart the postgresql service
+#postgresqlサービス再起動
 
 shell> systemctl restart postgresql-13
 ```
 
-### PostgreSQL Directory Description
+### PostgreSQLディレクトリの説明
 
-PostgreSQL directory and file descriptions are given below.
+PostgreSQLディレクトリおよびファイルの説明は以下の通りです。
 
-| Name | Description |
+| 名前 | 説明 |
 | --- | --- |
 | postgresql.cnf | /var/lib/pgsql/{version}/data/postgresql.cnf |
-| initdb.log | PostgreSQL database cluster creation log - /var/lib/pgsql/{version}/initdb.log |
-| DATADIR | PostgreSQL data file path - /var/lib/pgsql/{version}/data/ |
-| LOG | PostgreSQL log file path - /var/lib/pgsql/{version}/data/log/\*.log |
+| initdb.log | PostgreSQLデータベースクラスタ作成log - /var/lib/pgsql/{version}/initdb.log |
+| DATADIR | PostgreSQLデータファイルパス - /var/lib/pgsql/{version}/data/ |
+| LOG | PostgreSQL logファイルパス - /var/lib/pgsql/{version}/data/log/\*.log |
 
 ## MariaDB
 
-### How to Start/Stop MariaDB
+### MariaDB起動/停止方法
 
 ``` sh
-# Start the MariaDB service
+# MariaDBサービス開始
 shell> sudo systemctl start mariadb.service
 
-# Stop the MariaDB service
+# MariaDBサービス終了
 shell> sudo systemctl stop mariadb.service
 
-# Restart the MariaDB service
+# MariaDBサービス再起動
 shell> sudo systemctl restart mariadb.service
 ```
 
-### Connect to MariaDB
+### MariaDB接続
 
-After creating an instance, initially connect to MariaDB as follows.
+イメージ作成後、最初は以下のように接続します。
 
 ``` sh
 shell> mysql -u root
 ```
 
-After changing the password, connect to MariaDB as follows.
+パスワード変更後は以下のように接続します。
 
 ``` sh
 shell> mysql -u root -p
 Enter password:
 ```
 
-### Initial Setup After Creating a MariaDB Instance
+### MariaDBインスタンス作成後の初期設定
 
-#### 1\. Set the Password
+#### 1\. パスワード設定
 
-After initial installation, the MariaDB root account password is not set. Therefore, you must set a password after installation.
+最初のインストール後、MariaDB rootアカウントパスワードは指定されていません。そのためインストール後に必ずパスワードを設定する必要があります。
 
 ```
 SET PASSWORD [FOR user] = password_option
 
-MariaDB> SET PASSWORD = PASSWORD('password');
+MariaDB> SET PASSWORD = PASSWORD('パスワード');
 ```
 
-#### 2\. Change the Port
+#### 2\. ポート\(port\)変更
 
-After initial installation, the port is 3306, which is MariaDB's default port. For security reasons, it is recommended to change the port.
+最初のインストール後のポートはMariaDBの基本ポート3306です。セキュリティ上、ポートの変更を推奨します。
 
-##### 1) Modify the `/etc/my.cnf.d/servfer.cnf` file
+##### 1) `/etc/my.cnf.d/servfer.cnf`ファイル修正
 
-Open the `/etc/my.cnf.d/server.cnf` file and enter the port address to change under [mariadb] as follows.
+`/etc/my.cnf.d/server.cnf`ファイルを開いて[mariadb]の下に以下のように変更するポートアドレスを入力します。
 
 ```
 shell> sudo vi /etc/my.cnf.d/server.cnf
@@ -209,71 +209,71 @@ shell> sudo vi /etc/my.cnf.d/server.cnf
 
 ```
 [mariadb]
-port=[port address to change]
+port=[変更するportアドレス]
 ```
 
-##### 2) Restart the instance
-Restart the instance for the port change to take effect.
+##### 2)インスタンス再起動
+ポートの変更を適用するためにインスタンスを再起動します。
 ```
 sudo systemctl restart mariadb.service
 ```
 
 ## CUBRID
 
-### How to Start/Stop the CUBRID service
+### CUBRIDサービスの開始/停止方法
 
-You can start or stop the CUBRID service as follows by logging in with the “cubrid” Linux account.
+“cubrid” LinuxアカウントでログインしてCUBRIDサービスを次のように開始/終了できます。
 
 ``` sh
-# Start the CUBRID service/server
+# CUBRIDサービス/サーバー起動
 shell> sudo su - cubrid
-shell> cubrid service start
+shell> cubrid service start 
 shell> cubrid server start demodb
 
-# Stop the CUBRID service/server
+# CUBRIDサービス/サーバー終了
 shell> sudo su - cubrid
 shell> cubrid server stop demodb
-shell> cubrid service stop
+shell> cubrid service stop 
 
-# Restart the CUBRID service/server
+# CUBRIDサービス/サーバー再起動
 shell> sudo su - cubrid
 shell> cubrid server restart demodb
-shell> cubrid service restart
+shell> cubrid service restart 
 
-# Start/stop/restart the CUBRID broker
+# CUBRIDブローカー開始/終了/再起動
 shell> sudo su - cubrid
 shell> cubrid broker start
 shell> cubrid broker stop
 shell> cubrid broker restart
 ```
 
-### Connect to CUBRID
+### CUBRID接続
 
-After creating an instance, initially connect to CUBRID as follows.
+イメージ作成後、次のように接続します。
 
 ``` sh
 shell> sudo su - cubrid
 shell> csql -u dba demodb@localhost
 ```
 
-### Initial Setup After Creating a CUBRID Instance
+### CUBRIDインスタンス作成後の初期設定
 
-#### 1\. Set the Password
+#### 1\. パスワード設定
 
-After initial installation, the CUBRID dba account password is not set. Therefore, you must set a password after installation.
+最初のインストール後、CUBRID dbaアカウントパスワードは指定されていません。そのためインストール後に必ずパスワードを設定する必要があります。
 
 ```
 shell> csql -u dba -c "ALTER USER dba PASSWORD 'new_password'" demodb@localhost
 ```
 
-#### 2\. Change the broker Port
+#### 2\. brokerポート\(port\)変更
 
-The broker port for **query\_editor** defaults to **30000**, and the broker port for **broker1** defaults to **33000**.
-For security reasons, it is recommended to change the port.
+**query\_editor**のブローカーポートはデフォルト値が**30000**に設定されていて、**broker1**のブローカーポートはデフォルト値が**33000**に設定されます。
+セキュリティ上、ポートの変更を推奨します。
 
-##### 1) Modify the broker file
+##### 1) brokerファイル修正
 
-Open the `/opt/cubrid/conf/cubrid\_broker.conf` file and enter the port address to change as follows.
+`/opt/cubrid/conf/cubrid\_broker.conf`ファイルを開いて以下のように変更するポートアドレスを入力します。
 
 ```
 shell> vi /opt/cubrid/conf/cubrid_broker.conf
@@ -281,14 +281,14 @@ shell> vi /opt/cubrid/conf/cubrid_broker.conf
 
 ```
 [%query_editor]
-BROKER_PORT             =[port address to change]
+BROKER_PORT             =[変更するportアドレス]
 
 [%BROKER1]
-BROKER_PORT             =[port address to change]
+BROKER_PORT             =[変更するportアドレス]
 ```
 
-##### 2) Restart the broker
-Restart the broker for the port change to take effect.
+##### 2) broker再起動
+ポートの変更を適用するためにbrokerを再起動します。
 ```
-shell> cubrid broker restart
+shell> cubrid broker restart 
 ```
