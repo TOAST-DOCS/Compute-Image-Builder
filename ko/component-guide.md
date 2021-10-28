@@ -292,4 +292,3 @@ BROKER_PORT             =[변경할 port 주소]
 ```
 shell> cubrid broker restart 
 ```
-
