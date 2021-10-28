@@ -292,3 +292,79 @@ BROKER_PORT             =[変更するportアドレス]
 ```
 shell> cubrid broker restart 
 ```
+
+## Jeus, WebtoB
+
+> [참고]
+> 본 가이드는 Jeus8Fxi1, WebtoB5.0Sp0Fix4  버전을 기준으로 작성되었습니다.
+> 다른 버전을 사용하시는 경우 해당 버전에 맞게 변경해 주십시오.
+
+각 이미지 스크립트는 jdk 설치 후 das, ms, webtob 를 설치합니다.
+설치 이후의 설정이나 제어 부분은 TmaxSoft의 가이드문서([Jeus](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20190227-000001/index.html), [WebtoB](https://technet.tmaxsoft.com/upload/download/online/webtob/pver-20201021-000001/index.html) )를 참고해야 합니다.
+
+### 이미지 설치
+
+jdk는 /home1/centos/apps/jdk8u292 에 설치되며 /home1/centos/apps/jdk8 로 링크를 생성합니다.
+.bash_profile 의 PATH 에 /home1/centos/apps/jdk8/bin 경로를 추가합니다.
+이미 /home1/centos/apps/jdk8 경로의 디렉토리가 있다면 설치하지 않습니다.
+
+#### Jeus DAS, MS
+
+Jeus는 /home1/centos/apps/jeus8 에 설치를 합니다.
+
+
+설치 시 아래 속성들로 설정을 합니다.
+
+| 구분 | 기본값 | 
+| --- | --- |
+| 도메인 이름 | jeus_domain |
+| 웹 어드민 포트 | 9736 |
+| 어드민 서버 이름 | adminServer |
+| 어드민 유저 아이디 | administrator |
+| 어드민 유저 비밀번호 | jeusadmin |
+| 노드 매니저 | java |
+
+#### WebtoB
+
+WetoB는 /home1/centos/apps/webtob 에 설치를 합니다.
+
+### 기동 확인
+
+#### Jeus
+
+설정이나 제어를 위해서는 노드 매니저를 기동 후 웹어드민이나 jeusadmin을 통해서 제어를 해야 합니다.
+
+##### 노드 매니저 기동
+
+쉘로 접속하여 startNodeManager 명령어로 실행을 합니다.
+노드 매니저끼리 통신이 필요하기 때문에 기본 포트인 7730 에 대해 보안그룹에 허용 추가 해야 합니다.
+
+##### Jeus 기동
+
+DAS 는 startDomainAdminServer 명령어로 실행을 합니다.
+```
+startDomainAdminServer -uadministrator -pjeusadmin
+```
+
+##### Jeus WebAdmin
+
+DAS가 설치된 인스턴스에 플롯팅 IP를 설정 후
+웹브라우저에서 http://플롯팅IP:9736/webadmin 으로 접속하면
+웹어드민 화면을 볼 수 있습니다.
+(9736 포트에 대해서 보안 그룹에 허용 추가를 해야 합니다.)
+
+
+#### WebtoB
+
+wscfl 명령어를 이용하여 설정 파일을 컴파일 합니다.
+```
+wscfl -i http.m
+```
+
+wsboot를 이용하여 기동을 합니다.
+```
+wsboot 
+```
+
+wsadmin 을 이용하여 상태를 확인하거나 제어를 할수 있습니다.
+
