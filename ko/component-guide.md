@@ -297,11 +297,11 @@ shell> cubrid broker restart
 
 ### Deep Learning Instance 생성
 
-Deep Learning Instance를 사용하기 위해서 먼저 인스턴스를 생성해야 합니다.
+Deep Learning Framework를 사용하기 위해서 먼저 GPU Instance를 생성해야 합니다.
 
-![deeplearninginstance_guide_ko_01_20211013.png](https://static.toastoven.net/prod_deep_learning_instance/deeplearninginstance_guide_ko_01_20211013.png)
+**GPU Instance** 버튼을 클릭하면 **Compute > GPU Instance > GPU Instance 생성**으로 이동합니다.
 
-**Deep Learning Instance 생성** 버튼을 클릭하면 **Machine Learning > Deep Learning Instance > 인스턴스 생성**으로 이동합니다.
+인스턴스 생성 시 **Deep Learning Instance**를 선택하셔서 인스턴스를 생성하시면 됩니다.
 
 Deep Learning Instance에서는 다음과 같은 버전의 소프트웨어가 제공됩니다.
 
