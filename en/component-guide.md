@@ -326,7 +326,7 @@ JEUS는 `/home1/centos/apps/jeus8`에 설치됩니다. (스크립트 등에서 �
 
 #### WebtoB
 
-WetoB는 `/home1/centos/apps/webtob` 에 설치를 합니다.
+WebtoB는 `/home1/centos/apps/webtob` 에 설치됩니다.
 
 ### JEUS, WebtoB 기동 확인
 
@@ -337,34 +337,35 @@ JEUS를 설정하거나 제어하려면 노드 매니저를 기동한 후 WebAdm
 ##### 노드 매니저 기동
 
 셸로 접속하여 startNodeManager 명령어로 노드 매니저를 실행합니다.
-노드 매니저끼리 통신이 필요하므로 보안 그룹에 기본 포트인 7730 에 대한 허용 규칙을 추가해야 합니다.
+노드 매니저끼리 통신이 필요하므로 보안 그룹에 기본 포트인 7730에 대한 허용 규칙을 추가해야 합니다.
 
 ##### JEUS 기동
 
-DAS 는 startDomainAdminServer 명령어로 실행을 합니다.
+DAS는 startDomainAdminServer 명령어로 실행합니다.
 ```
 startDomainAdminServer -uadministrator -pjeusadmin
 ```
 
 ##### JEUS WebAdmin
 
-DAS가 설치된 인스턴스에 플롯팅 IP를 설정 후
-웹브라우저에서 `http://플롯팅IP:9736/webadmin` 으로 접속하면
-WebAdmin 화면을 볼 수 있습니다.
-(9736 포트에 대해서 보안 그룹에 허용 추가를 해야 합니다.)
+다음과 같이 WebAdmin을 실행합니다.
+
+1. DAS가 설치된 인스턴스에 플로팅 IP를 설정합니다.
+2. 해당 인스턴스의 보안 그룹에 9736 포트에 대한 허용 규칙을 추가합니다.
+3. 웹 브라우저에서 `http://{플로팅 IP}:9736/webadmin`으로 접속하면 WebAdmin 화면을 볼 수 있습니다.
 
 
 #### WebtoB
 
-wscfl 명령어를 이용하여 설정 파일을 컴파일 합니다.
+wscfl 명령어를 이용하여 설정 파일을 컴파일합니다.
 ```
 wscfl -i http.m
 ```
 
-wsboot를 이용하여 기동을 합니다.
+wsboot를 이용하여 WebtoB를 기동합니다.
 ```
 wsboot 
 ```
 
-wsadmin 을 이용하여 상태를 확인하거나 제어를 할수 있습니다.
+wsadmin을 이용하여 상태를 확인하거나 제어할 수 있습니다.
 
