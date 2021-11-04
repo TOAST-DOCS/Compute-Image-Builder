@@ -300,7 +300,7 @@ shell> cubrid broker restart
 > 다른 버전을 사용하시는 경우 해당 버전에 맞게 변경해 주십시오.
 
 각 이미지 스크립트는 JDK 설치 후 DAS, MS, WebtoB를 설치합니다.
-설치 이후의 설정이나 제어 방법은 TmaxSoft의 가이드 문서([Jeus](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20190227-000001/index.html), [WebtoB](https://technet.tmaxsoft.com/upload/download/online/webtob/pver-20201021-000001/index.html))를 참고하시기 바랍니다.
+설치 이후의 설정이나 제어 방법은 TmaxSoft의 가이드 문서([JEUS](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20190227-000001/index.html), [WebtoB](https://technet.tmaxsoft.com/upload/download/online/webtob/pver-20201021-000001/index.html))를 참고하시기 바랍니다.
 
 ### 이미지 설치
 
@@ -310,7 +310,7 @@ JDK 설치 과정에서 `.bash_profile`의 `PATH`에 `/home1/centos/apps/jdk8/bi
 
 #### JEUS DAS, MS
 
-Jeus는 `/home1/centos/apps/jeus8`에 설치됩니다. (스크립트 등에서 내부적으로 정해진 디렉토리에 설치하는 경우)
+JEUS는 `/home1/centos/apps/jeus8`에 설치됩니다. (스크립트 등에서 내부적으로 정해진 디렉토리에 설치하는 경우)
 
 
 설치 시 아래 속성들로 설정됩니다.
