@@ -304,13 +304,13 @@ shell> cubrid broker restart
 
 ### 이미지 설치
 
-JDK는 `/home1/centos/apps/jdk8u292`에 설치되며, 해당 디렉토리에서 `/home1/centos/apps/jdk8`로 링크가 생성됩니다.
-JDK 설치 과정에서 `.bash_profile`의 `PATH`에 `/home1/centos/apps/jdk8/bin` 경로가 추가됩니다.
-이미 `/home1/centos/apps/jdk8` 디렉토리가 있다면 JDK가 설치되지 않습니다.
+JDK는 `~/apps/jdk8u292`에 설치되며, 해당 디렉토리에서 `~/apps/jdk8`로 링크가 생성됩니다.
+JDK 설치 과정에서 `.bash_profile`의 `PATH`에 `~/apps/jdk8/bin` 경로가 추가됩니다.
+이미 `~/apps/jdk8` 디렉토리가 있다면 JDK가 설치되지 않습니다.
 
 #### JEUS DAS, MS
 
-JEUS는 `/home1/centos/apps/jeus8`에 설치됩니다. (스크립트 등에서 내부적으로 정해진 디렉토리에 설치하는 경우)
+JEUS는 `~/apps/jeus8`에 설치됩니다. (스크립트 등에서 내부적으로 정해진 디렉토리에 설치하는 경우)
 
 
 설치 시 아래 속성들로 설정됩니다.
@@ -326,7 +326,7 @@ JEUS는 `/home1/centos/apps/jeus8`에 설치됩니다. (스크립트 등에서 �
 
 #### WebtoB
 
-WebtoB는 `/home1/centos/apps/webtob` 에 설치됩니다.
+WebtoB는 `~/apps/webtob` 에 설치됩니다.
 
 ### JEUS, WebtoB 기동 확인
 
