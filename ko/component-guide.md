@@ -318,8 +318,6 @@ Deep Learning Instance에서는 다음과 같은 버전의 소프트웨어가 �
 | NVIDIA TensorRT | 7.1.3 | apt |
 | Intel oneAPI MKL | 2021.4.0 | apt |
 
-![deeplearninginstance_guide_ko_02_20211013.png](https://static.toastoven.net/prod_deep_learning_instance/deeplearninginstance_guide_ko_02_20211013.png)
-
 설정을 완료한 후 인스턴스를 생성합니다. 인스턴스 생성에 대한 자세한 내용은 [Instance 개요](http://docs.toast.com/ko/Compute/Instance/ko/overview/)를 참고하시기 바랍니다.
 
 ### 설치된 개발 환경 확인
