@@ -298,11 +298,13 @@ shell> cubrid broker restart
 ### 기본 위치
 Tomcat의 설치 경로는 아래와 같습니다.
 
-**~/apps/apache-tomcat-{버전}/**
+```
+~/apps/apache-tomcat-{버전}/
+```
 
 ### Tomcat 시작/정지 방법
 
-Tomcat은 초기 설치 시 기본적으로 서비스로 등록이 되어, 인스턴스 시작 시 자동으로 실행됩니다. 수동으로 시작/정지를 하기 위해 아래 명령어를 사용할 수 있습니다.
+Tomcat은 초기 설치 과정에서 기본적으로 서비스로 등록이 되어, 인스턴스 시작 시 자동으로 실행됩니다. Tomcat을 수동으로 시작하거나 정지하기 하기 위해 아래 명령어를 사용할 수 있습니다.
 
 ``` sh
 #tomcat 서비스 시작
@@ -316,7 +318,7 @@ shell> sudo systemctl restart tomcat
 ```
 
 ### Tomcat 기본 페이지 접속
-초기 설치 시 기본 포트 8080으로 실행되어 Tomcat 기본 페이지로 접근이 가능합니다.
+Tomcat은 초기 설치 시 기본 포트인 8080으로 실행됩니다. 다음 명령어를 실행하면 Tomcat 기본 페이지에 접근할 수 있습니다.
 
 ```sh
 shell> curl -i http://127.0.0.1:8080
@@ -330,15 +332,15 @@ Content-Type: text/html;charset=UTF-8
 #### 1\. 포트\(port\) 변경
 초기 설치 시 기본 설정으로 실행됩니다. 보안상 포트 변경을 권장합니다.
 
-##### 1) `~/apps/apache-tomcat-{버전}/conf/server.xml` 파일 수정
+##### 1) `server.xml` 파일 수정
 
 `~/apps/apache-tomcat-{버전}/conf/server.xml` 파일을 열어서 \<Connector\> 부분에 아래와 같이 변경할 포트 주소를 입력합니다.
 
-```
+```sh
 shell> vi ~/apps/apache-tomcat-{버전}/conf/server.xml
 ```
 
-```
+```xml
 ...
 <Connector port="{변경할 포트 주소}" protocol="HTTP/1.1"
             connectionTimeout="20000"
@@ -358,11 +360,13 @@ shell> sudo systemctl restart tomcat
 ### 기본 위치
 Node.js의 설치 경로는 아래와 같습니다.
 
->**~/apps/node-{버전}/**
+```
+~/apps/node-{버전}/
+```
 
 ### Node 실행 방법
 
-``` sh
+```sh
 # app.js 예제 코드 작성
 shell> echo "console.log('Hello World')" > app.js
 
