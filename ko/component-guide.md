@@ -297,11 +297,11 @@ shell> cubrid broker restart
 
 ### Deep Learning Instance 생성
 
-Deep Learning Framework를 사용하기 위해서 먼저 GPU Instance를 생성해야 합니다.
+Deep Learning Framework를 사용하려면 먼저 GPU Instance를 생성해야 합니다.
 
 **GPU Instance** 버튼을 클릭하면 **Compute > GPU Instance > GPU Instance 생성**으로 이동합니다.
 
-인스턴스 생성 시 **Deep Learning Instance**를 선택하셔서 인스턴스를 생성하시면 됩니다.
+인스턴스 생성 시 **Deep Learning Instance**를 선택하여 인스턴스를 생성합니다.
 
 Deep Learning Instance에서는 다음과 같은 버전의 소프트웨어가 제공됩니다.
 
@@ -322,7 +322,9 @@ Deep Learning Instance에서는 다음과 같은 버전의 소프트웨어가 �
 
 설정을 완료한 후 인스턴스를 생성합니다. 인스턴스 생성에 대한 자세한 내용은 [Instance 개요](http://docs.toast.com/ko/Compute/Instance/ko/overview/)를 참고하시기 바랍니다.
 
-### Miniconda에 의해 설치된 개발 환경 확인
+### 설치된 개발 환경 확인
+
+conda 명령어를 사용하여 Miniconda로 설치된 개발 환경을 확인합니다.
 
 ```
 $ conda info --envs
@@ -337,18 +339,18 @@ tf2_py38                 /root/miniconda3/envs/tf2_py38
 
 >[참고]
 >
->더 자세한 사용법은 [Miniconda](https://docs.conda.io/en/latest/miniconda.html)을 참고하세요.
+>더 자세한 사용법은 [Miniconda 문서](https://docs.conda.io/en/latest/miniconda.html)를 참고하세요.
 
 ### TensorFlow 사용 방법
 
-TensorFlow 환경 활성화
+먼저 TensorFlow 환경을 활성화합니다.
 
 ```
 (base) root@b64e6a035884:~# conda activate tf2_py38
 (tf2_py38) root@b64e6a035884:~#
 ```
 
-TensorFlow 트레이닝 테스트
+다음과 같이 TensorFlow 훈련을 테스트합니다.
 
 ```
 $ cd ~/
@@ -369,7 +371,7 @@ export PYTHONPATH=$HOME/models
 export NCCL_DEBUG=INFO
 MODEL_DIR=$HOME/models/model
 DATA_DIR=$HOME/models/dataset
-# 1개 이상의 GPU를 사용 시 설정
+# 1개 이상의 GPU 사용 시 설정
 NUM_GPUS=1 # 예) NUM_GPUS=2
 
 python $HOME/models/official/vision/image_classification/mnist_main.py \
@@ -386,11 +388,11 @@ $ python ./train.sh
 
 >[참고]
 >
->더 자세한 사용법은 [TensorFlow Tutorials](https://www.tensorflow.org/tutorials)을 참고하세요.
+>더 자세한 사용법은 [TensorFlow 튜토리얼](https://www.tensorflow.org/tutorials)을 참고하세요.
 
-## PyTorch 사용 방법
+### PyTorch 사용 방법
 
-PyTorch 환경 활성화
+먼저 PyTorch 환경을 활성화합니다.
 
 ```
 (tf2_py38) root@b64e6a035884:~# conda deactivate
@@ -398,7 +400,7 @@ PyTorch 환경 활성화
 (pt_py38) root@b64e6a035884:~#
 ```
 
-PyTorch 트레이닝 테스트
+다음과 같이 PyTorch 훈련을 테스트합니다.
 
 ```
 $ cd ~/
@@ -409,4 +411,4 @@ $ python manin.py --epochs 1
 
 >[참고]
 >
->더 자세한 사용법은 [PyTorch Tutorials](https://pytorch.org/tutorials/)을 참고하세요.
+>더 자세한 사용법은 [PyTorch 튜토리얼](https://pytorch.org/tutorials/)을 참고하세요.
