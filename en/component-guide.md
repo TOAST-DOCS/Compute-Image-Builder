@@ -369,15 +369,15 @@ export PYTHONPATH=$HOME/models
 export NCCL_DEBUG=INFO
 MODEL_DIR=$HOME/models/model
 DATA_DIR=$HOME/models/dataset
-# Set when more than one GPU is used
+# Set when one or more GPU is used
 NUM_GPUS=1 # Example: NUM_GPUS=2
 
 python $HOME/models/official/vision/image_classification/mnist_main.py \
   --model_dir=$MODEL_DIR \
   --data_dir=$DATA_DIR \
   --train_epochs=2 \
-  --distribution_strategy=mirrored \ # Set when more than one GPU is used
-  --num_gpus=$NUM_GPUS \ # Set when more than one GPU is used
+  --distribution_strategy=mirrored \ # Set when one or more GPU is used
+  --num_gpus=$NUM_GPUS \ # Set when one or more GPU is used
   --download
 
 $ chmod +x train.sh
