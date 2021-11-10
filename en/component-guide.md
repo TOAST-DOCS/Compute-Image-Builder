@@ -381,7 +381,7 @@ python $HOME/models/official/vision/image_classification/mnist_main.py \
   --download
 
 $ chmod +x train.sh
-$ python ./train.sh
+$ ./train.sh
 ```
 
 >[Note]
@@ -404,7 +404,7 @@ Test PyTorch training as follows:
 $ cd ~/
 $ git clone https://github.com/pytorch/examples.git
 $ cd examples/mnist
-$ python manin.py --epochs 1
+$ python main.py --epochs 1
 ```
 
 >[Note]
