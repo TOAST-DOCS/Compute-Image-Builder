@@ -428,7 +428,7 @@ JDK 설치 과정에서 `.bash_profile`의 `PATH`에 `~/apps/jdk8/bin` 경로가
 
 #### JEUS DAS, MS
 
-JEUS는 `~/apps/jeus8`에 설치됩니다. (스크립트 등에서 내부적으로 정해진 디렉토리에 설치하는 경우)
+JEUS는 `~/apps/jeus8`에 설치됩니다.
 
 
 설치 시 아래 속성들로 설정됩니다.
