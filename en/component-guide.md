@@ -428,7 +428,7 @@ If you already have a `~/apps/jdk8` directory, the JDK will not be installed.
 
 #### JEUS DAS, MS
 
-JEUS is installed in `~/apps/jeus8`. (if it is installed by script, etc. in a directory set internally)
+JEUS is installed in `~/apps/jeus8`.
 
 
 The following properties are set during installation.
