@@ -292,3 +292,278 @@ BROKER_PORT             =[변경할 port 주소]
 ```
 shell> cubrid broker restart 
 ```
+
+## Deep Learning Framework
+
+### Deep Learning Instance 생성
+
+Deep Learning Framework를 사용하려면 먼저 GPU Instance를 생성해야 합니다.
+
+**GPU Instance** 버튼을 클릭하면 **Compute > GPU Instance > GPU Instance 생성**으로 이동합니다.
+
+인스턴스 생성 시 **Deep Learning Instance**를 선택하여 인스턴스를 생성합니다.
+
+Deep Learning Instance에서는 다음과 같은 버전의 소프트웨어가 제공됩니다.
+
+| 소프트웨어 | 버전 | 설치 방식 |
+| --- | --- | --- | 
+| TensorFlow | 2.4.1 | pip, [참조](https://www.tensorflow.org/install/pip) |
+| PyTorch | 1.7.1 | conda, [참조](https://pytorch.org/get-started/previous-versions/) |
+| Python | 3.8.11 | conda |
+| OS | Ubuntu 18.04 LTS | n/a |
+| NVIDIA Driver | 450.102.04 | apt |
+| NVIDIA CUDA | 11.0 | apt |
+| NVIDIA cuDNN | 8.0.4 | apt |
+| NVIDIA NCCL | 2.7.8 | apt |
+| NVIDIA TensorRT | 7.1.3 | apt |
+| Intel oneAPI MKL | 2021.4.0 | apt |
+
+설정을 완료한 후 인스턴스를 생성합니다. 인스턴스 생성에 대한 자세한 내용은 [Instance 개요](http://docs.toast.com/ko/Compute/Instance/ko/overview/)를 참고하시기 바랍니다.
+
+### 설치된 개발 환경 확인
+
+conda 명령어를 사용하여 Miniconda로 설치된 개발 환경을 확인합니다.
+
+```
+$ conda info --envs
+# conda environments:
+#
+                         /opt/intel/oneapi/intelpython/latest
+                         /opt/intel/oneapi/intelpython/latest/envs/2021.4.0
+base                  *  /root/miniconda3
+pt_py38                  /root/miniconda3/envs/pt_py38
+tf2_py38                 /root/miniconda3/envs/tf2_py38
+```
+
+>[참고]
+>
+>더 자세한 사용법은 [Miniconda 문서](https://docs.conda.io/en/latest/miniconda.html)를 참고하세요.
+
+### TensorFlow 사용 방법
+
+먼저 TensorFlow 환경을 활성화합니다.
+
+```
+(base) root@b64e6a035884:~# conda activate tf2_py38
+(tf2_py38) root@b64e6a035884:~#
+```
+
+다음과 같이 TensorFlow 훈련을 테스트합니다.
+
+```
+$ cd ~/
+$ git clone https://github.com/tensorflow/models.git
+$ cd models
+$ git checkout tags/v2.4.0
+$ git status
+HEAD detached at v2.4.0
+nothing to commit, working tree clean
+
+$ mkdir $HOME/models/model
+$ mkdir $HOME/models/dataset
+$ vim train.sh
+#!/bin/bash
+
+
+export PYTHONPATH=$HOME/models
+export NCCL_DEBUG=INFO
+MODEL_DIR=$HOME/models/model
+DATA_DIR=$HOME/models/dataset
+# 1개 이상의 GPU 사용 시 설정
+NUM_GPUS=1 # 예) NUM_GPUS=2
+
+python $HOME/models/official/vision/image_classification/mnist_main.py \
+  --model_dir=$MODEL_DIR \
+  --data_dir=$DATA_DIR \
+  --train_epochs=2 \
+  --distribution_strategy=mirrored \ # 1개 이상의 GPU를 사용 시 설정
+  --num_gpus=$NUM_GPUS \ # 1개 이상의 GPU를 사용 시 설정
+  --download
+
+$ chmod +x train.sh
+$ ./train.sh
+```
+
+>[참고]
+>
+>더 자세한 사용법은 [TensorFlow 튜토리얼](https://www.tensorflow.org/tutorials)을 참고하세요.
+
+### PyTorch 사용 방법
+
+먼저 PyTorch 환경을 활성화합니다.
+
+```
+(tf2_py38) root@b64e6a035884:~# conda deactivate
+(base) root@b64e6a035884:~# conda activate pt_py38
+(pt_py38) root@b64e6a035884:~#
+```
+
+다음과 같이 PyTorch 훈련을 테스트합니다.
+
+```
+$ cd ~/
+$ git clone https://github.com/pytorch/examples.git
+$ cd examples/mnist
+$ python main.py --epochs 1
+```
+
+>[참고]
+>
+>더 자세한 사용법은 [PyTorch 튜토리얼](https://pytorch.org/tutorials/)을 참고하세요.
+
+## JEUS, WebtoB
+
+> [참고]
+> 본 가이드는 JEUS 8 Fxi#1, WebtoB 5 Fix4  버전을 기준으로 작성되었습니다.
+> 다른 버전을 사용하시는 경우 해당 버전에 맞게 변경해 주십시오.
+
+각 이미지 스크립트는 JDK 설치 후 DAS, MS, WebtoB를 설치합니다.
+설치 이후의 설정이나 제어 방법은 TmaxSoft의 가이드 문서([JEUS](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20190227-000001/index.html), [WebtoB](https://technet.tmaxsoft.com/upload/download/online/webtob/pver-20201021-000001/index.html))를 참고하시기 바랍니다.
+
+### 이미지 설치
+
+JDK는 `~/apps/jdk8u292`에 설치되며, 해당 디렉토리에서 `~/apps/jdk8`로 링크가 생성됩니다.
+JDK 설치 과정에서 `.bash_profile`의 `PATH`에 `~/apps/jdk8/bin` 경로가 추가됩니다.
+이미 `~/apps/jdk8` 디렉토리가 있다면 JDK가 설치되지 않습니다.
+
+#### JEUS DAS, MS
+
+JEUS는 `~/apps/jeus8`에 설치됩니다.
+
+
+설치 시 아래 속성들로 설정됩니다.
+
+| 구분 | 기본값 | 
+| --- | --- |
+| 도메인 이름 | jeus_domain |
+| WebAdmin 포트 | 9736 |
+| 어드민 서버 이름 | adminServer |
+| 어드민 유저 아이디 | administrator |
+| 어드민 유저 비밀번호 | jeusadmin |
+| 노드 매니저 | java |
+
+#### WebtoB
+
+WebtoB는 `~/apps/webtob` 에 설치됩니다.
+
+### JEUS, WebtoB 기동 확인
+
+#### JEUS
+
+JEUS를 설정하거나 제어하려면 노드 매니저를 기동한 후 WebAdmin이나 jeusadmin을 통해서 제어해야 합니다.
+
+##### 노드 매니저 기동
+
+셸로 접속하여 startNodeManager 명령어로 노드 매니저를 실행합니다.
+노드 매니저끼리 통신이 필요하므로 보안 그룹에 기본 포트인 7730에 대한 허용 규칙을 추가해야 합니다.
+
+##### JEUS 기동
+
+DAS는 startDomainAdminServer 명령어로 실행합니다.
+```
+startDomainAdminServer -uadministrator -pjeusadmin
+```
+
+##### JEUS WebAdmin
+
+다음과 같이 WebAdmin을 실행합니다.
+
+1. DAS가 설치된 인스턴스에 플로팅 IP를 설정합니다.
+2. 해당 인스턴스의 보안 그룹에 9736 포트에 대한 허용 규칙을 추가합니다.
+3. 웹 브라우저에서 `http://{플로팅 IP}:9736/webadmin`으로 접속하면 WebAdmin 화면을 볼 수 있습니다.
+
+
+#### WebtoB
+
+wscfl 명령어를 이용하여 설정 파일을 컴파일합니다.
+```
+wscfl -i http.m
+```
+
+wsboot를 이용하여 WebtoB를 기동합니다.
+```
+wsboot 
+```
+
+wsadmin을 이용하여 상태를 확인하거나 제어할 수 있습니다.
+
+## Tomcat
+
+### 기본 위치
+Tomcat의 설치 경로는 아래와 같습니다.
+
+```
+~/apps/apache-tomcat-{버전}/
+```
+
+### Tomcat 시작/정지 방법
+
+Tomcat은 초기 설치 과정에서 기본적으로 서비스로 등록이 되어, 인스턴스 시작 시 자동으로 실행됩니다. Tomcat을 수동으로 시작하거나 정지하기 하기 위해 아래 명령어를 사용할 수 있습니다.
+
+``` sh
+#tomcat 서비스 시작
+shell> sudo systemctl start tomcat
+
+#tomcat 서비스 정지
+shell> sudo systemctl stop tomcat
+
+#tomcat 서비스 재시작
+shell> sudo systemctl restart tomcat
+```
+
+### Tomcat 기본 페이지 접속
+Tomcat은 초기 설치 시 기본 포트인 8080으로 실행됩니다. 다음 명령어를 실행하면 Tomcat 기본 페이지에 접근할 수 있습니다.
+
+```sh
+shell> curl -i http://127.0.0.1:8080
+HTTP/1.1 200
+Content-Type: text/html;charset=UTF-8
+...
+```
+
+### Tomcat 인스턴스 생성 후 초기 설정
+
+#### 1\. 포트\(port\) 변경
+초기 설치 시 기본 설정으로 실행됩니다. 보안상 포트 변경을 권장합니다.
+
+##### 1) `server.xml` 파일 수정
+
+`~/apps/apache-tomcat-{버전}/conf/server.xml` 파일을 열어서 \<Connector\> 부분에 아래와 같이 변경할 포트 주소를 입력합니다.
+
+```sh
+shell> vi ~/apps/apache-tomcat-{버전}/conf/server.xml
+```
+
+```xml
+...
+<Connector port="{변경할 포트 주소}" protocol="HTTP/1.1"
+            connectionTimeout="20000"
+            redirectPort="8443" />
+...
+```
+
+##### 2) 서비스 재시작
+포트 변경이 적용되도록 Tomcat 서비스를 재시작합니다.
+```
+shell> sudo systemctl restart tomcat
+```
+
+## Node.js
+
+### 기본 위치
+Node.js의 설치 경로는 아래와 같습니다.
+
+```
+~/apps/node-{버전}/
+```
+
+### Node 실행 방법
+
+```sh
+# app.js 예제 코드 작성
+shell> echo "console.log('Hello World')" > app.js
+
+# node 실행
+shell> node app.js
+Hello World
+```

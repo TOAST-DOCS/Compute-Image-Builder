@@ -293,3 +293,277 @@ Restart the broker for the port change to take effect.
 shell> cubrid broker restart 
 ```
 
+## Deep Learning Framework
+
+### Create a Deep Learning Instance
+
+To use Deep Learning Framework, you must first create a GPU instance.
+
+Click the **GPU Instance** button to go to **Compute > GPU Instance > Create GPU Instance**.
+
+When creating an instance, select **Deep Learning Instance** to create an instance.
+
+Deep Learning Instance provides the following versions of the software:
+
+| Software | Version | Installation method |
+| --- | --- | --- | 
+| TensorFlow | 2.4.1 | pip, [reference] (https://www.tensorflow.org/install/pip) |
+| PyTorch | 1.7.1 | conda, [reference] (https://pytorch.org/get-started/previous-versions/) |
+| Python | 3.8.11 | conda |
+| OS | Ubuntu 18.04 LTS | N/A |
+| NVIDIA Driver | 450.102.04 | apt |
+| NVIDIA CUDA | 11.0 | apt |
+| NVIDIA cuDNN | 8.0.4 | apt |
+| NVIDIA NCCL | 2.7.8 | apt |
+| NVIDIA TensorRT | 7.1.3 | apt |
+| Intel oneAPI MKL | 2021.4.0 | apt |
+
+After completing the setup, create an instance. For more information on instance creation, see [Instance Overview](http://docs.toast.com/en/Compute/Instance/en/overview/).
+
+### Check Installed Development Environment
+
+Use the conda command to check the development environment installed by Miniconda.
+
+```
+$ conda info --envs
+# conda environments:
+#
+                         /opt/intel/oneapi/intelpython/latest
+                         /opt/intel/oneapi/intelpython/latest/envs/2021.4.0
+base                  *  /root/miniconda3
+pt_py38                  /root/miniconda3/envs/pt_py38
+tf2_py38                 /root/miniconda3/envs/tf2_py38
+```
+
+>[Note]
+>
+>For more detailed instructions, refer to [Miniconda documentation](https://docs.conda.io/en/latest/miniconda.html).
+
+### How to Use TensorFlow
+
+First, activate the TensorFlow environment.
+
+```
+(base) root@b64e6a035884:~# conda activate tf2_py38
+(tf2_py38) root@b64e6a035884:~#
+```
+
+Test TensorFlow training as follows:
+
+```
+$ cd ~/
+$ git clone https://github.com/tensorflow/models.git
+$ cd models
+$ git checkout tags/v2.4.0
+$ git status
+HEAD detached at v2.4.0
+nothing to commit, working tree clean
+
+$ mkdir $HOME/models/model
+$ mkdir $HOME/models/dataset
+$ vim train.sh
+#!/bin/bash
+
+
+export PYTHONPATH=$HOME/models
+export NCCL_DEBUG=INFO
+MODEL_DIR=$HOME/models/model
+DATA_DIR=$HOME/models/dataset
+# Set when one or more GPU is used
+NUM_GPUS=1 # Example: NUM_GPUS=2
+
+python $HOME/models/official/vision/image_classification/mnist_main.py \
+  --model_dir=$MODEL_DIR \
+  --data_dir=$DATA_DIR \
+  --train_epochs=2 \
+  --distribution_strategy=mirrored \ # Set when one or more GPU is used
+  --num_gpus=$NUM_GPUS \ # Set when one or more GPU is used
+  --download
+
+$ chmod +x train.sh
+$ ./train.sh
+```
+
+>[Note]
+>
+>For more detailed instructions, refer to [TensorFlow Tutorial](https://www.tensorflow.org/tutorials).
+
+### How to Use PyTorch
+
+First, activate the PyTorch environment.
+
+```
+(tf2_py38) root@b64e6a035884:~# conda deactivate
+(base) root@b64e6a035884:~# conda activate pt_py38
+(pt_py38) root@b64e6a035884:~#
+```
+
+Test PyTorch training as follows:
+
+```
+$ cd ~/
+$ git clone https://github.com/pytorch/examples.git
+$ cd examples/mnist
+$ python main.py --epochs 1
+```
+
+>[Note]
+>
+>For more detailed instructions, refer to [PyTorch Tutorial](https://pytorch.org/tutorials/).
+
+## JEUS, WebtoB
+
+> [Note]
+> This guide is based on JEUS 8 Fxi#1 and WebtoB 5 Fix4.
+> If you are using a different version, please change the commands accordingly.
+
+Each image script installs DAS, MS, and WebtoB after installing JDK.
+For how to set up and control the services after installation, refer to TmaxSoft's guide document ([JEUS](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20190227-000001/index.html), [WebtoB](https://technet.tmaxsoft.com/upload/download/online/webtob/pver-20201021-000001/index.html)).
+
+### Install Images
+
+The JDK will be installed in `~/apps/jdk8u292`, and a link will be created from that directory to `~/apps/jdk8`.
+During the JDK installation process, the path `~/apps/jdk8/bin` is added to `PATH` in `.bash_profile`.
+If you already have a `~/apps/jdk8` directory, the JDK will not be installed.
+
+#### JEUS DAS, MS
+
+JEUS is installed in `~/apps/jeus8`.
+
+
+The following properties are set during installation.
+
+| Property | Default value | 
+| --- | --- |
+| Domain name | jeus_domain |
+| WebAdmin port | 9736 |
+| Admin server name | adminServer |
+| Admin user ID | administrator |
+| Admin user password | jeusadmin |
+| Node manager | java |
+
+#### WebtoB
+
+WebtoB is installed in `~/apps/webtob`.
+
+### Check JEUS, WebtoB Startup
+
+#### JEUS
+
+To configure or control JEUS, start the node manager and then control it through WebAdmin or jeusadmin.
+
+##### Start the Node Manager
+
+Connect to the shell and run the node manager with the startNodeManager command.
+Since the node managers need to communicate with each other, add an allow rule for the default port 7730 to the security group.
+
+##### Start JEUS
+
+Run DAS with the startDomainAdminServer command.
+```
+startDomainAdminServer -uadministrator -pjeusadmin
+```
+
+##### JEUS WebAdmin
+
+Run WebAdmin as follows:
+
+1. Set a floating IP on the instance where DAS is installed.
+2. Add an allow rule for port 9736 to that instance's security group.
+3. If you connect to `http://{floating IP}:9736/webadmin` in a web browser, you can see the WebAdmin screen.
+
+
+#### WebtoB
+
+Compile the configuration file using the wscfl command.
+```
+wscfl -i http.m
+```
+
+Start WebtoB using wsboot.
+```
+wsboot 
+```
+
+You can use wsadmin to view or control the status.
+
+## Tomcat
+
+### Default Location
+The installation path of Tomcat is as follows.
+
+```
+~/apps/apache-tomcat-{version}/
+```
+
+### How to Start/Stop Tomcat
+
+Tomcat is registered as a service by default during the initial installation process and is automatically started when the instance starts. You can use the command below to manually start or stop Tomcat.
+
+``` sh
+#Start the tomcat service
+shell> sudo systemctl start tomcat
+
+#Stop the tomcat service
+shell> sudo systemctl stop tomcat
+
+#Restart the tomcat service
+shell> sudo systemctl restart tomcat
+```
+
+### Access the Tomcat Default Page
+Tomcat runs on port 8080, which is the default from initial installation. You can access the Tomcat default page by running the following command:
+
+```sh
+shell> curl -i http://127.0.0.1:8080
+HTTP/1.1 200
+Content-Type: text/html;charset=UTF-8
+...
+```
+
+### Initial Setup After Creating a Tomcat Instance
+
+#### 1\. Change the Port
+It runs with the default settings configured during initial installation. For security reasons, it is recommended to change the port.
+
+##### 1) Modify the `server.xml` file
+
+Open the `~/apps/apache-tomcat-{version}/conf/server.xml` file and enter the port address to change in \<Connector\>, as follows:
+
+```sh
+shell> vi ~/apps/apache-tomcat-{version}/conf/server.xml
+```
+
+```xml
+...
+<Connector port="{Port address to change}" protocol="HTTP/1.1"
+            connectionTimeout="20000"
+            redirectPort="8443" />
+...
+```
+
+##### 2) Restart the service
+Restart the Tomcat service for the port change to take effect.
+```
+shell> sudo systemctl restart tomcat
+```
+
+## Node.js
+
+### Default Location
+The installation path of Node.js is as follows.
+
+```
+~/apps/node-{version}/
+```
+
+### How to Run Node
+
+```sh
+# Write the app.js example code
+shell> echo "console.log('Hello World')" > app.js
+
+# Run node
+shell> node app.js
+Hello World
+```
