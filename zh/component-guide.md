@@ -487,7 +487,7 @@ wsboot
 
 You can use wsadmin to view or control the status.
 
-## Tomcat
+## Apache Tomcat
 
 ### Default Location
 The installation path of Tomcat is as follows.

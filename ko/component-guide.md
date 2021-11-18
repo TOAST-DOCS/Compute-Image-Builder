@@ -487,7 +487,7 @@ wsboot
 
 wsadmin을 이용하여 상태를 확인하거나 제어할 수 있습니다.
 
-## Tomcat
+## Apache Tomcat
 
 ### 기본 위치
 Tomcat의 설치 경로는 아래와 같습니다.

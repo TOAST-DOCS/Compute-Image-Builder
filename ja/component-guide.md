@@ -480,7 +480,7 @@ wsboot
 
 wsadminを利用して状態の確認と制御を行うことができます。
 
-## Tomcat
+## Apache Tomcat
 
 ### デフォルトの場所
 Tomcatのインストールパスは以下の通りです。
