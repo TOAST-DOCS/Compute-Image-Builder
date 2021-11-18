@@ -21,7 +21,7 @@ shell> systemctl restart postgresql-13
 
 ### PostgreSQL接続
 
-インスタンスを作成した後、始めに以下のように接続します。
+インスタンスを作成した後、初めに以下のように接続します。
 <br>
 ```
 #postgresにアカウント切り替え後に接続
@@ -293,79 +293,270 @@ BROKER_PORT             =[変更するportアドレス]
 shell> cubrid broker restart 
 ```
 
+## Deep Learning Framework
+
+### Deep Learning Instance作成
+
+Deep Learning Frameworkを使用するには、GPU Instanceを作成する必要があります。
+
+**GPU Instance** ボタンをクリックすると、**Compute > GPU Instance > GPU Instance作成**に移動します。
+
+インスタンス作成時、**Deep Learning Instance**を選択してインスタンスを作成します。
+
+Deep Learning Instanceでは次のバージョンのソフトウェアが提供されます。
+
+| ソフトウェア | バージョン | インストール方式 |
+| --- | --- | --- | 
+| TensorFlow | 2.4.1 | pip, [参照](https://www.tensorflow.org/install/pip) |
+| PyTorch | 1.7.1 | conda, [参照](https://pytorch.org/get-started/previous-versions/) |
+| Python | 3.8.11 | conda |
+| OS | Ubuntu 18.04 LTS | n/a |
+| NVIDIA Driver | 450.102.04 | apt |
+| NVIDIA CUDA | 11.0 | apt |
+| NVIDIA cuDNN | 8.0.4 | apt |
+| NVIDIA NCCL | 2.7.8 | apt |
+| NVIDIA TensorRT | 7.1.3 | apt |
+| Intel oneAPI MKL | 2021.4.0 | apt |
+
+設定を完了した後、インスタンスを作成します。インスタンス作成の詳しい内容は[Instance概要](http://docs.toast.com/ko/Compute/Instance/ko/overview/)を参照してください。
+
+### インストールされた開発環境の確認
+
+condaコマンドを使用してMinicondaにインストールされた開発環境を確認します。
+
+```
+$ conda info --envs
+# conda environments:
+#
+                         /opt/intel/oneapi/intelpython/latest
+                         /opt/intel/oneapi/intelpython/latest/envs/2021.4.0
+base                  *  /root/miniconda3
+pt_py38                  /root/miniconda3/envs/pt_py38
+tf2_py38                 /root/miniconda3/envs/tf2_py38
+```
+
+>[参考]
+>
+>より詳しい使用方法は[Miniconda文書](https://docs.conda.io/en/latest/miniconda.html)を参照してください。
+### TensorFlowの使用方法
+
+TensorFlow環境を有効にします。
+
+```
+(base) root@b64e6a035884:~# conda activate tf2_py38
+(tf2_py38) root@b64e6a035884:~#
+```
+
+次のようにTensorFlowトレーニングをテストします。
+
+```
+$ cd ~/
+$ git clone https://github.com/tensorflow/models.git
+$ cd models
+$ git checkout tags/v2.4.0
+$ git status
+HEAD detached at v2.4.0
+nothing to commit, working tree clean
+$ mkdir $HOME/models/model
+$ mkdir $HOME/models/dataset
+$ vim train.sh
+#!/bin/bash
+export PYTHONPATH=$HOME/models
+export NCCL_DEBUG=INFO
+MODEL_DIR=$HOME/models/model
+DATA_DIR=$HOME/models/dataset
+# 1個以上のGPUを使用する時に設定
+NUM_GPUS=1 # 例) NUM_GPUS=2
+python $HOME/models/official/vision/image_classification/mnist_main.py \
+  --model_dir=$MODEL_DIR \
+  --data_dir=$DATA_DIR \
+  --train_epochs=2 \
+  --distribution_strategy=mirrored \ # 1個以上のGPUを使用する時に設定
+  --num_gpus=$NUM_GPUS \ # 1個以上のGPUを使用する時に設定
+  --download
+$ chmod +x train.sh
+$ python ./train.sh
+```
+
+>[参考]
+>
+>より詳しい使用方法は[TensorFlowチュートリアル](https://www.tensorflow.org/tutorials)を参考してください。
+### PyTorch使用方法
+
+PyTorch環境を有効にします。
+
+```
+(tf2_py38) root@b64e6a035884:~# conda deactivate
+(base) root@b64e6a035884:~# conda activate pt_py38
+(pt_py38) root@b64e6a035884:~#
+```
+
+次のようにPyTorchトレーニングをテストします。
+
+```
+$ cd ~/
+$ git clone https://github.com/pytorch/examples.git
+$ cd examples/mnist
+$ python manin.py --epochs 1
+```
+
+>[参考]
+>
+>より詳しい使用方法は[PyTorch チュートリアル](https://pytorch.org/tutorials/)を参照してください。
+
 ## JEUS, WebtoB
 
-> [참고]
-> 본 가이드는 JEUS 8 Fxi#1, WebtoB 5 Fix4  버전을 기준으로 작성되었습니다.
-> 다른 버전을 사용하시는 경우 해당 버전에 맞게 변경해 주십시오.
+> [参考]
+> このガイドはJEUS 8 Fxi#1, WebtoB 5 Fix4 バージョンを基準に作成されました。
+> 他のバージョンを使用する場合はそのバージョンに合わせて変更してください。
 
-각 이미지 스크립트는 JDK 설치 후 DAS, MS, WebtoB를 설치합니다.
-설치 이후의 설정이나 제어 방법은 TmaxSoft의 가이드 문서([JEUS](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20190227-000001/index.html), [WebtoB](https://technet.tmaxsoft.com/upload/download/online/webtob/pver-20201021-000001/index.html))를 참고하시기 바랍니다.
+各イメージスクリプトは、JDKのインストール後にDAS、MS、WebtoBをインストールします。
+インストール後の設定や制御方法はTmaxSoftのガイド文書([JEUS](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20190227-000001/index.html), [WebtoB](https://technet.tmaxsoft.com/upload/download/online/webtob/pver-20201021-000001/index.html))を参照してください。
 
-### 이미지 설치
+### イメージのインストール
 
-JDK는 `~/apps/jdk8u292`에 설치되며, 해당 디렉토리에서 `~/apps/jdk8`로 링크가 생성됩니다.
-JDK 설치 과정에서 `.bash_profile`의 `PATH`에 `~/apps/jdk8/bin` 경로가 추가됩니다.
-이미 `~/apps/jdk8` 디렉토리가 있다면 JDK가 설치되지 않습니다.
+JDKは`~/apps/jdk8u292`にインストールされ、そのディレクトリで`~/apps/jdk8`にリンクが作成されます。
+JDKのインストール中に`.bash_profile`の`PATH`に`~/apps/jdk8/bin`パスが追加されます。
+すでに`~/apps/jdk8`ディレクトリがある場合はJDKがインストールされません。
 
 #### JEUS DAS, MS
 
-JEUS는 `~/apps/jeus8`에 설치됩니다.
+JEUSは`~/apps/jeus8`にインストールされます。 (スクリプトなどで内部的に決められたディレクトリにインストールする場合)
 
 
-설치 시 아래 속성들로 설정됩니다.
+インストールする時、以下のプロパティに設定されます。
 
-| 구분 | 기본값 | 
+| 区分 | デフォルト値 | 
 | --- | --- |
-| 도메인 이름 | jeus_domain |
-| WebAdmin 포트 | 9736 |
-| 어드민 서버 이름 | adminServer |
-| 어드민 유저 아이디 | administrator |
-| 어드민 유저 비밀번호 | jeusadmin |
-| 노드 매니저 | java |
+| ドメイン名 | jeus_domain |
+| WebAdminポート | 9736 |
+| Adminサーバー名 | adminServer |
+| AdminユーザーID | administrator |
+| Adminユーザーパスワード | jeusadmin |
+| ノードマネージャ | java |
 
 #### WebtoB
 
-WebtoB는 `~/apps/webtob` 에 설치됩니다.
+WebtoBは`~/apps/webtob`にインストールされます。
 
-### JEUS, WebtoB 기동 확인
+### JEUS、WebtoB起動確認
 
 #### JEUS
 
-JEUS를 설정하거나 제어하려면 노드 매니저를 기동한 후 WebAdmin이나 jeusadmin을 통해서 제어해야 합니다.
+JEUSを設定または制御するにはノードマネージャーを起動した後、WebAdminまたはjeusadminを通して制御する必要があります。
 
-##### 노드 매니저 기동
+##### ノードマネージャの起動
 
-셸로 접속하여 startNodeManager 명령어로 노드 매니저를 실행합니다.
-노드 매니저끼리 통신이 필요하므로 보안 그룹에 기본 포트인 7730에 대한 허용 규칙을 추가해야 합니다.
+シェルに接続してstartNodeManagerコマンドでノード マネージャを実行します。
+ノード マネージャ同士で通信が必要なため、セキュリティグループに基本ポートである7730の許可ルールを追加する必要があります。
 
-##### JEUS 기동
+##### JEUS起動
 
-DAS는 startDomainAdminServer 명령어로 실행합니다.
+DASはstartDomainAdminServerコマンドで実行します。
 ```
 startDomainAdminServer -uadministrator -pjeusadmin
 ```
 
 ##### JEUS WebAdmin
 
-다음과 같이 WebAdmin을 실행합니다.
+次のようにWebAdminを実行します。
 
-1. DAS가 설치된 인스턴스에 플로팅 IP를 설정합니다.
-2. 해당 인스턴스의 보안 그룹에 9736 포트에 대한 허용 규칙을 추가합니다.
-3. 웹 브라우저에서 `http://{플로팅 IP}:9736/webadmin`으로 접속하면 WebAdmin 화면을 볼 수 있습니다.
+1. DASがインストールされたインスタンスにFloating IPを設定します。
+2. 該当インスタンスのセキュリティグループに9736ポートの許可ルールを追加します。
+3. Webブラウザで`http://{Floating IP}:9736/webadmin`に接続するとWebAdmin画面を見ることができます。
 
 
 #### WebtoB
 
-wscfl 명령어를 이용하여 설정 파일을 컴파일합니다.
+wscflコマンドを利用して設定ファイルをコンパイルします。
 ```
 wscfl -i http.m
 ```
 
-wsboot를 이용하여 WebtoB를 기동합니다.
+wsbootを利用してWebtoBを起動します。
 ```
 wsboot 
 ```
 
-wsadmin을 이용하여 상태를 확인하거나 제어할 수 있습니다.
+wsadminを利用して状態の確認と制御を行うことができます。
 
+## Tomcat
+
+### デフォルトの場所
+Tomcatのインストールパスは以下の通りです。
+
+```
+~/apps/apache-tomcat-{バージョン}/
+```
+
+### Tomcatの起動/停止方法
+
+Tomcatは初期インストール中にデフォルトでサービスとして登録され、インスタンス起動時に自動的に実行されます。 Tomcatを手動で起動または停止するには、以下のコマンドを使用できます。
+
+``` sh
+#tomcatサービスの開始
+shell> sudo systemctl start tomcat
+
+#tomcatサービスの停止
+shell> sudo systemctl stop tomcat
+
+#tomcatサービスの再起動
+shell> sudo systemctl restart tomcat
+```
+
+### Tomcat基本ページ接続
+Tomcatは最初のインストール時にデフォルトのポート8080で実行されます。次のコマンドを実行するとTomcat基本ページにアクセスできます。
+
+```sh
+shell> curl -i http://127.0.0.1:8080
+HTTP/1.1 200
+Content-Type: text/html;charset=UTF-8
+...
+```
+
+### Tomcatインスタンス作成後の初期設定
+
+#### 1\. ポート\(port\)変更
+最初のインストール時にデフォルト設定で実行されます。セキュリティ上、ポートの変更を推奨します。
+
+##### 1) `server.xml`ファイルの修正
+
+`~/apps/apache-tomcat-{バージョン}/conf/server.xml`ファイルを開き\<Connector\> 部分に以下のように変更するポートアドレスを入力します。
+
+```sh
+shell> vi ~/apps/apache-tomcat-{バージョン}/conf/server.xml
+```
+
+```xml
+...
+<Connector port="{変更するポートアドレス}" protocol="HTTP/1.1"
+            connectionTimeout="20000"
+            redirectPort="8443" />
+...
+```
+
+##### 2)サービス再起動
+ポートの変更が適用されるようにTomcatサービスを再起動します。
+```
+shell> sudo systemctl restart tomcat
+```
+
+## Node.js
+
+### デフォルトの場所
+Node.jsのインストールパスは以下の通りです。
+
+```
+~/apps/node-{バージョン}/
+```
+
+### Node実行方法
+
+```sh
+# app.jsサンプルコードの作成
+shell> echo "console.log('Hello World')" > app.js
+
+# node実行
+shell> node app.js
+Hello World
+```
