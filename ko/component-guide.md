@@ -153,6 +153,70 @@ PostgreSQL 디렉터리 및 파일 설명은 아래와 같습니다.
 | DATADIR | PostgreSQL 데이터 파일 경로 - /var/lib/pgsql/{version}/data/ |
 | LOG | PostgreSQL log 파일 경로 - /var/lib/pgsql/{version}/data/log/\*.log |
 
+## MySQL
+
+### MySQL 시작/정지 방법
+
+``` sh
+# MySQL 서비스 시작
+shell> sudo systemctl start mysqld
+
+# MySQL 서비스 종료
+shell> sudo systemctl stop mysqld
+
+# MySQL 서비스 재시작
+shell> sudo systemctl restart mysqld
+```
+
+### MySQL 접속
+
+이미지 생성 후 초기에는 아래와 같이 접속합니다.
+
+``` sh
+shell> mysql -u root
+```
+
+패스워드 변경 후에는 아래와 같이 접속합니다.
+
+``` sh
+shell> mysql -u root -p
+Enter password:
+```
+
+### MySQL 인스턴스 생성 후 초기 설정
+
+#### 1\. 비밀번호 설정
+
+초기 설치 후 MySQL root 계정 비밀번호는 지정되어 있지 않습니다. 그러므로 설치 후 반드시 비밀번호를 설정해야 합니다.
+
+```
+SET PASSWORD [FOR user] = password_option
+
+mysql> SET PASSWORD = PASSWORD('비밀번호');
+```
+
+#### 2\. 포트\(port\) 변경
+
+초기 설치 후 포트는 MySQL의 기본 포트인 3306입니다. 보안상 포트 변경을 권장합니다.
+
+##### 1) `/etc/my.cnf` 파일 수정
+
+`/etc/my.cnf` 파일에 사용하고자 하는 포트를 명시해 줍니다.
+
+```
+shell> sudo vi /etc/my.cnf
+```
+
+```
+port=[변경할 port 주소]
+```
+
+##### 2) 인스턴스 재시작
+포트 변경이 적용되도록 인스턴스를 재시작합니다.
+```
+sudo systemctl restart mysqld
+```
+
 ## MariaDB
 
 ### MariaDB 시작/정지 방법
