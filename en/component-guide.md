@@ -153,6 +153,70 @@ PostgreSQL directory and file descriptions are given below.
 | DATADIR | PostgreSQL data file path - /var/lib/pgsql/{version}/data/ |
 | LOG | PostgreSQL log file path - /var/lib/pgsql/{version}/data/log/\*.log |
 
+## MySQL
+
+### How to Start/Stop MySQL
+
+``` sh
+# Start the MySQL service
+shell> sudo systemctl start mysqld
+
+# Stop the MySQL service
+shell> sudo systemctl stop mysqld
+
+# Restart the MySQL service
+shell> sudo systemctl restart mysqld
+```
+
+### Connect to MySQL
+
+After creating an instance, initially connect to MariaDB as follows.
+
+``` sh
+shell> mysql -u root
+```
+
+After changing the password, connect to MariaDB as follows.
+
+``` sh
+shell> mysql -u root -p
+Enter password:
+```
+
+### Initial Setup After Creating a MySQL Instance
+
+#### 1\. Set the Password
+
+After initial installation, the MySQL root account password is not set. Therefore, you must set a password after installation.
+
+```
+SET PASSWORD [FOR user] = password_option
+
+mysql> SET PASSWORD = PASSWORD('password');
+```
+
+#### 2\. Change the Port
+
+After initial installation, the port is 3306, which is MySQL's default port. For security reasons, it is recommended to change the port.
+
+##### 1) Modify the `/etc/my.cnf` file
+
+Specify the port you want to use in the `/etc/my.cnf` file.
+
+```
+shell> sudo vi /etc/my.cnf
+```
+
+```
+port=[port address to change]
+```
+
+##### 2) Restart the instance
+Restart the instance for the port change to take effect.
+```
+sudo systemctl restart mysqld
+```
+
 ## MariaDB
 
 ### How to Start/Stop MariaDB
