@@ -361,23 +361,21 @@ shell> cubrid broker restart
 
 ### Deep Learning Framework 이미지 템플릿 생성
 
-Deep Learning Framework를 사용하려면 먼저 이미지 템플릿 생성을 해야 합니다.
+Deep Learning Framework를 사용하려면 먼저 이미지 템플릿을 생성해야 합니다.
 
-서비스 선택에서 **Compute > Image Builder > 이미지 템플릿 생성**으로 이동합니다.
+서비스 선택 화면에서 **Compute > Image Builder > 이미지 템플릿 생성**으로 이동합니다.
 
-**이미지 템플릿 이름**을 적고, OS는 **linux - Ubuntu - Server 18.04 LTS**를 선택하고 **최소 블록 스토리지는 60기가 이상**을 선택하셔야 합니다.
+**이미지 템플릿 이름**을 입력하고, OS는 **linux - Ubuntu - Server 18.04 LTS**를 선택하고 **최소 블록 스토리지는 60기가 이상**로 지정합니다.
 
 이렇게 선택하면, 아래 화면에 **Deep Learning Framework**가 보입니다.
 
-해당 스크립트를 선택하시고, 확인 - 생성 버튼을 클릭합니다.
+해당 스크립트를 선택한 후, **확인** 버튼을 클릭합니다. 팝업이 나타나면 **생성** 버튼을 클릭합니다.
 
 ### Deep Learning Framework Instance 생성
 
-이미지 템플릿 생성이 끝났으면, 스크립트를 선택하고, 이미지 빌드 버튼을 눌러서 이미지가 빌드 되면, 
+이미지 빌드가 완료된 후 실제로 GPU Instance를 생성하기 위해 **GPU Instance** 버튼을 클릭하면 **Compute > GPU Instance > GPU Instance 생성**으로 이동합니다.
 
-실제로 GPU Instance를 생성하기 위해 **GPU Instance** 버튼을 클릭하면 **Compute > GPU Instance > GPU Instance 생성**으로 이동합니다.
-
-인스턴스 생성 시 생성한 이미지를 선택하여 인스턴스를 생성합니다.
+인스턴스 생성 시, 앞서 빌드하여 생성한 이미지를 선택하여 인스턴스를 생성합니다.
 
 Deep Learning Framework Instance에서는 다음과 같은 버전의 소프트웨어가 제공됩니다.
 
