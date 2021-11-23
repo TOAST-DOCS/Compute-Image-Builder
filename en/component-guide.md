@@ -359,15 +359,25 @@ shell> cubrid broker restart
 
 ## Deep Learning Framework
 
-### Create a Deep Learning Instance
+### Create a Deep Learning Framework Image Template
 
-To use Deep Learning Framework, you must first create a GPU instance.
+To use the Deep Learning Framework, you must first create an image template.
 
-Click the **GPU Instance** button to go to **Compute > GPU Instance > Create GPU Instance**.
+From the service selection screen, go to **Compute > Image Builder > Create Image Template**.
 
-When creating an instance, select **Deep Learning Instance** to create an instance.
+Enter **Image Template Name**, select **linux - Ubuntu - Server 18.04 LTS** for OS, and set **Minimum Block Storage** to **60 GB** or more.
 
-Deep Learning Instance provides the following versions of the software:
+If you select the options, you will see **deep learning framework** in the screen.
+
+After selecting the script, click the **Confirm** button. In the pop-up that appears, click the **Create** button.
+
+### Create a Deep Learning Framework Instance
+
+After the image build is complete, click the **GPU Instance** button to actually create a GPU instance, and you will be taken to **Compute > GPU Instance > Create GPU Instance**.
+
+When creating an instance, select the image built and created earlier to create an instance.
+
+Deep Learning Framework Instance provides the following versions of software:
 
 | Software | Version | Installation method |
 | --- | --- | --- | 
