@@ -21,7 +21,7 @@ shell> systemctl restart postgresql-13
 
 ### PostgreSQL接続
 
-インスタンスを作成した後、始めに以下のように接続します。
+インスタンスを作成した後、初めに以下のように接続します。
 <br>
 ```
 #postgresにアカウント切り替え後に接続
@@ -291,4 +291,161 @@ BROKER_PORT             =[変更するportアドレス]
 ポートの変更を適用するためにbrokerを再起動します。
 ```
 shell> cubrid broker restart 
+```
+
+## JEUS, WebtoB
+
+> [参考]
+> このガイドはJEUS 8 Fxi#1, WebtoB 5 Fix4 バージョンを基準に作成されました。
+> 他のバージョンを使用する場合はそのバージョンに合わせて変更してください。
+
+各イメージスクリプトは、JDKのインストール後にDAS、MS、WebtoBをインストールします。
+インストール後の設定や制御方法はTmaxSoftのガイド文書([JEUS](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20190227-000001/index.html), [WebtoB](https://technet.tmaxsoft.com/upload/download/online/webtob/pver-20201021-000001/index.html))を参照してください。
+
+### イメージのインストール
+
+JDKは`~/apps/jdk8u292`にインストールされ、そのディレクトリで`~/apps/jdk8`にリンクが作成されます。
+JDKのインストール中に`.bash_profile`の`PATH`に`~/apps/jdk8/bin`パスが追加されます。
+すでに`~/apps/jdk8`ディレクトリがある場合はJDKがインストールされません。
+
+#### JEUS DAS, MS
+
+JEUSは`~/apps/jeus8`にインストールされます。 (スクリプトなどで内部的に決められたディレクトリにインストールする場合)
+
+
+インストールする時、以下のプロパティに設定されます。
+
+| 区分 | デフォルト値 | 
+| --- | --- |
+| ドメイン名 | jeus_domain |
+| WebAdminポート | 9736 |
+| Adminサーバー名 | adminServer |
+| AdminユーザーID | administrator |
+| Adminユーザーパスワード | jeusadmin |
+| ノードマネージャ | java |
+
+#### WebtoB
+
+WebtoBは`~/apps/webtob`にインストールされます。
+
+### JEUS、WebtoB起動確認
+
+#### JEUS
+
+JEUSを設定または制御するにはノードマネージャーを起動した後、WebAdminまたはjeusadminを通して制御する必要があります。
+
+##### ノードマネージャの起動
+
+シェルに接続してstartNodeManagerコマンドでノード マネージャを実行します。
+ノード マネージャ同士で通信が必要なため、セキュリティグループに基本ポートである7730の許可ルールを追加する必要があります。
+
+##### JEUS起動
+
+DASはstartDomainAdminServerコマンドで実行します。
+```
+startDomainAdminServer -uadministrator -pjeusadmin
+```
+
+##### JEUS WebAdmin
+
+次のようにWebAdminを実行します。
+
+1. DASがインストールされたインスタンスにFloating IPを設定します。
+2. 該当インスタンスのセキュリティグループに9736ポートの許可ルールを追加します。
+3. Webブラウザで`http://{Floating IP}:9736/webadmin`に接続するとWebAdmin画面を見ることができます。
+
+
+#### WebtoB
+
+wscflコマンドを利用して設定ファイルをコンパイルします。
+```
+wscfl -i http.m
+```
+
+wsbootを利用してWebtoBを起動します。
+```
+wsboot 
+```
+
+wsadminを利用して状態の確認と制御を行うことができます。
+
+## Apache Tomcat
+
+### デフォルトの場所
+Tomcatのインストールパスは以下の通りです。
+
+```
+~/apps/apache-tomcat-{バージョン}/
+```
+
+### Tomcatの起動/停止方法
+
+Tomcatは初期インストール中にデフォルトでサービスとして登録され、インスタンス起動時に自動的に実行されます。 Tomcatを手動で起動または停止するには、以下のコマンドを使用できます。
+
+``` sh
+#tomcatサービスの開始
+shell> sudo systemctl start tomcat
+
+#tomcatサービスの停止
+shell> sudo systemctl stop tomcat
+
+#tomcatサービスの再起動
+shell> sudo systemctl restart tomcat
+```
+
+### Tomcat基本ページ接続
+Tomcatは最初のインストール時にデフォルトのポート8080で実行されます。次のコマンドを実行するとTomcat基本ページにアクセスできます。
+
+```sh
+shell> curl -i http://127.0.0.1:8080
+HTTP/1.1 200
+Content-Type: text/html;charset=UTF-8
+...
+```
+
+### Tomcatインスタンス作成後の初期設定
+
+#### 1\. ポート\(port\)変更
+最初のインストール時にデフォルト設定で実行されます。セキュリティ上、ポートの変更を推奨します。
+
+##### 1) `server.xml`ファイルの修正
+
+`~/apps/apache-tomcat-{バージョン}/conf/server.xml`ファイルを開き\<Connector\> 部分に以下のように変更するポートアドレスを入力します。
+
+```sh
+shell> vi ~/apps/apache-tomcat-{バージョン}/conf/server.xml
+```
+
+```xml
+...
+<Connector port="{変更するポートアドレス}" protocol="HTTP/1.1"
+            connectionTimeout="20000"
+            redirectPort="8443" />
+...
+```
+
+##### 2)サービス再起動
+ポートの変更が適用されるようにTomcatサービスを再起動します。
+```
+shell> sudo systemctl restart tomcat
+```
+
+## Node.js
+
+### デフォルトの場所
+Node.jsのインストールパスは以下の通りです。
+
+```
+~/apps/node-{バージョン}/
+```
+
+### Node実行方法
+
+```sh
+# app.jsサンプルコードの作成
+shell> echo "console.log('Hello World')" > app.js
+
+# node実行
+shell> node app.js
+Hello World
 ```

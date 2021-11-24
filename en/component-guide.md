@@ -153,6 +153,70 @@ PostgreSQL directory and file descriptions are given below.
 | DATADIR | PostgreSQL data file path - /var/lib/pgsql/{version}/data/ |
 | LOG | PostgreSQL log file path - /var/lib/pgsql/{version}/data/log/\*.log |
 
+## MySQL
+
+### How to Start/Stop MySQL
+
+``` sh
+# Start the MySQL service
+shell> sudo systemctl start mysqld
+
+# Stop the MySQL service
+shell> sudo systemctl stop mysqld
+
+# Restart the MySQL service
+shell> sudo systemctl restart mysqld
+```
+
+### Connect to MySQL
+
+After creating an instance, initially connect to MariaDB as follows.
+
+``` sh
+shell> mysql -u root
+```
+
+After changing the password, connect to MariaDB as follows.
+
+``` sh
+shell> mysql -u root -p
+Enter password:
+```
+
+### Initial Setup After Creating a MySQL Instance
+
+#### 1\. Set the Password
+
+After initial installation, the MySQL root account password is not set. Therefore, you must set a password after installation.
+
+```
+SET PASSWORD [FOR user] = password_option
+
+mysql> SET PASSWORD = PASSWORD('password');
+```
+
+#### 2\. Change the Port
+
+After initial installation, the port is 3306, which is MySQL's default port. For security reasons, it is recommended to change the port.
+
+##### 1) Modify the `/etc/my.cnf` file
+
+Specify the port you want to use in the `/etc/my.cnf` file.
+
+```
+shell> sudo vi /etc/my.cnf
+```
+
+```
+port=[port address to change]
+```
+
+##### 2) Restart the instance
+Restart the instance for the port change to take effect.
+```
+sudo systemctl restart mysqld
+```
+
 ## MariaDB
 
 ### How to Start/Stop MariaDB
@@ -293,3 +357,159 @@ Restart the broker for the port change to take effect.
 shell> cubrid broker restart 
 ```
 
+## JEUS, WebtoB
+
+> [Note]
+> This guide is based on JEUS 8 Fxi#1 and WebtoB 5 Fix4.
+> If you are using a different version, please change the commands accordingly.
+
+Each image script installs DAS, MS, and WebtoB after installing JDK.
+For how to set up and control the services after installation, refer to TmaxSoft's guide document ([JEUS](https://technet.tmaxsoft.com/upload/download/online/jeus/pver-20190227-000001/index.html), [WebtoB](https://technet.tmaxsoft.com/upload/download/online/webtob/pver-20201021-000001/index.html)).
+
+### Install Images
+
+The JDK will be installed in `~/apps/jdk8u292`, and a link will be created from that directory to `~/apps/jdk8`.
+During the JDK installation process, the path `~/apps/jdk8/bin` is added to `PATH` in `.bash_profile`.
+If you already have a `~/apps/jdk8` directory, the JDK will not be installed.
+
+#### JEUS DAS, MS
+
+JEUS is installed in `~/apps/jeus8`.
+
+
+The following properties are set during installation.
+
+| Property | Default value | 
+| --- | --- |
+| Domain name | jeus_domain |
+| WebAdmin port | 9736 |
+| Admin server name | adminServer |
+| Admin user ID | administrator |
+| Admin user password | jeusadmin |
+| Node manager | java |
+
+#### WebtoB
+
+WebtoB is installed in `~/apps/webtob`.
+
+### Check JEUS, WebtoB Startup
+
+#### JEUS
+
+To configure or control JEUS, start the node manager and then control it through WebAdmin or jeusadmin.
+
+##### Start the Node Manager
+
+Connect to the shell and run the node manager with the startNodeManager command.
+Since the node managers need to communicate with each other, add an allow rule for the default port 7730 to the security group.
+
+##### Start JEUS
+
+Run DAS with the startDomainAdminServer command.
+```
+startDomainAdminServer -uadministrator -pjeusadmin
+```
+
+##### JEUS WebAdmin
+
+Run WebAdmin as follows:
+
+1. Set a floating IP on the instance where DAS is installed.
+2. Add an allow rule for port 9736 to that instance's security group.
+3. If you connect to `http://{floating IP}:9736/webadmin` in a web browser, you can see the WebAdmin screen.
+
+
+#### WebtoB
+
+Compile the configuration file using the wscfl command.
+```
+wscfl -i http.m
+```
+
+Start WebtoB using wsboot.
+```
+wsboot 
+```
+
+You can use wsadmin to view or control the status.
+
+## Apache Tomcat
+
+### Default Location
+The installation path of Tomcat is as follows.
+
+```
+~/apps/apache-tomcat-{version}/
+```
+
+### How to Start/Stop Tomcat
+
+Tomcat is registered as a service by default during the initial installation process and is automatically started when the instance starts. You can use the command below to manually start or stop Tomcat.
+
+``` sh
+#Start the tomcat service
+shell> sudo systemctl start tomcat
+
+#Stop the tomcat service
+shell> sudo systemctl stop tomcat
+
+#Restart the tomcat service
+shell> sudo systemctl restart tomcat
+```
+
+### Access the Tomcat Default Page
+Tomcat runs on port 8080, which is the default from initial installation. You can access the Tomcat default page by running the following command:
+
+```sh
+shell> curl -i http://127.0.0.1:8080
+HTTP/1.1 200
+Content-Type: text/html;charset=UTF-8
+...
+```
+
+### Initial Setup After Creating a Tomcat Instance
+
+#### 1\. Change the Port
+It runs with the default settings configured during initial installation. For security reasons, it is recommended to change the port.
+
+##### 1) Modify the `server.xml` file
+
+Open the `~/apps/apache-tomcat-{version}/conf/server.xml` file and enter the port address to change in \<Connector\>, as follows:
+
+```sh
+shell> vi ~/apps/apache-tomcat-{version}/conf/server.xml
+```
+
+```xml
+...
+<Connector port="{Port address to change}" protocol="HTTP/1.1"
+            connectionTimeout="20000"
+            redirectPort="8443" />
+...
+```
+
+##### 2) Restart the service
+Restart the Tomcat service for the port change to take effect.
+```
+shell> sudo systemctl restart tomcat
+```
+
+## Node.js
+
+### Default Location
+The installation path of Node.js is as follows.
+
+```
+~/apps/node-{version}/
+```
+
+### How to Run Node
+
+```sh
+# Write the app.js example code
+shell> echo "console.log('Hello World')" > app.js
+
+# Run node
+shell> node app.js
+Hello World
+```
