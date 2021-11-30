@@ -153,6 +153,67 @@ PostgreSQLディレクトリおよびファイルの説明は以下の通りで�
 | DATADIR | PostgreSQLデータファイルパス - /var/lib/pgsql/{version}/data/ |
 | LOG | PostgreSQL logファイルパス - /var/lib/pgsql/{version}/data/log/\*.log |
 
+## MySQL
+
+### MySQL 起動/停止方法
+
+``` sh
+# MySQLサービスの起動
+shell> sudo systemctl start mysqld
+# MySQLサービスの終了
+shell> sudo systemctl stop mysqld
+# MySQLサービスの再起動
+shell> sudo systemctl restart mysqld
+```
+
+### MySQL接続
+
+イメージ作成後、最初は以下のように接続します。
+
+``` sh
+shell> mysql -u root
+```
+
+パスワード変更後は以下のように接続します。
+
+``` sh
+shell> mysql -u root -p
+Enter password:
+```
+
+### MySQLインスタンス作成後の初期設定
+
+#### 1\. パスワード設定
+
+初期インストール後、MySQL rootアカウントパスワードは指定されていません。そのため、インストール後に必ずパスワードを設定する必要があります。
+
+```
+SET PASSWORD [FOR user] = password_option
+mysql> SET PASSWORD = PASSWORD('パスワード');
+```
+
+#### 2\. ポート\(port\)変更
+
+初期インストール後、ポートはMySQLの基本ポートである3306です。セキュリティ上、ポートを変更することを推奨します。
+
+##### 1) `/etc/my.cnf`ファイルの修正
+
+`/etc/my.cnf`ファイルに使用するポートを指定します。
+
+```
+shell> sudo vi /etc/my.cnf
+```
+
+```
+port=[変更するportアドレス]
+```
+
+##### 2)インスタンスの再起動
+ポートの変更が適用されるようにインスタンスを再起動します。
+```
+sudo systemctl restart mysqld
+```
+
 ## MariaDB
 
 ### MariaDB起動/停止方法
