@@ -522,7 +522,7 @@ Deep Learning Framework를 사용하려면 먼저 이미지 템플릿을 생성�
 
 서비스 선택 화면에서 **Compute > Image Builder > 이미지 템플릿 생성**으로 이동합니다.
 
-**이미지 템플릿 이름**을 입력하고, OS는 **linux - Ubuntu - Server 18.04 LTS**를 선택하고, **최소 블록 스토리지**는 **60기가** 이상으로 지정합니다.
+**이미지 템플릿 이름**을 입력하고, OS는 **linux - Ubuntu - Server 18.04 LTS**를 선택하고, **최소 블록 스토리지**는 **70기가** 이상으로 지정합니다.
 
 이렇게 선택하면, 아래 화면에 **Deep Learning Framework**가 보입니다.
 
