@@ -522,7 +522,7 @@ To use the Deep Learning Framework, you must first create an image template.
 
 From the service selection screen, go to **Compute > Image Builder > Create Image Template**.
 
-Enter **Image Template Name**, select **linux - Ubuntu - Server 18.04 LTS** for OS, and set **Minimum Block Storage** to **60 GB** or more.
+Enter **Image Template Name**, select **linux - Ubuntu - Server 18.04 LTS** for OS, and set **Minimum Block Storage** to **70 GB** or more.
 
 If you select the options, you will see **Deep Learning Framework** in the screen.
 
