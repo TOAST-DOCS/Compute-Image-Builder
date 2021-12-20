@@ -21,7 +21,7 @@ shell> systemctl restart postgresql-13
 
 ### Connect to PostgreSQL
 
-After creating an instance, initially connect to PostgreSQL as follows.
+After creating an instance, initially connect as follows.
 <br>
 ```
 #Log in after switching the account to postgres
@@ -170,13 +170,13 @@ shell> sudo systemctl restart mysqld
 
 ### Connect to MySQL
 
-After creating an instance, initially connect to MariaDB as follows.
+After creating an instance, initially connect as follows.
 
 ``` sh
 shell> mysql -u root
 ```
 
-After changing the password, connect to MariaDB as follows.
+After changing the password, connect as follows.
 
 ``` sh
 shell> mysql -u root -p
@@ -234,13 +234,13 @@ shell> sudo systemctl restart mariadb.service
 
 ### Connect to MariaDB
 
-After creating an instance, initially connect to MariaDB as follows.
+After creating an instance, initially connect as follows.
 
 ``` sh
 shell> mysql -u root
 ```
 
-After changing the password, connect to MariaDB as follows.
+After changing the password, connect as follows.
 
 ``` sh
 shell> mysql -u root -p
@@ -313,7 +313,7 @@ shell> cubrid broker restart
 
 ### Connect to CUBRID
 
-After creating an instance, initially connect to CUBRID as follows.
+After creating an instance, connect as follows.
 
 ``` sh
 shell> sudo su - cubrid
