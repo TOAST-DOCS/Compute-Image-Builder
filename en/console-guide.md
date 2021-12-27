@@ -12,32 +12,20 @@ Create an image template. The image builder creates an image based on the conten
     <td>Up to 255 English characters or 85 Korean characters</td>
   </tr>
   <tr>
-    <td>OS Type</td>
-    <td>OS type of the private image to create</td>
+    <td>OS</td>
+    <td>OS type, distribution, and version of the private image to create</td>
   </tr>
   <tr>
-    <td>OS Distro</td>
-    <td>OS distribution of the private image to create</td>
+    <td>Application</td>
+    <td>Application installation components<br/>Multiple applications can be selected, but the selection may be limited if there is a conflict between the applications.</td>
   </tr>
   <tr>
-    <td>OS Version</td>
-    <td>OS version of the private image to create</td>
-  </tr>
-  <tr>
-    <td>Component</td>
-    <td>Application installation components<br/>Multiple components can be selected, but the selection may be limited if there is a conflict between the components.</td>
-  </tr>
-  <tr>
-    <td>Minimum Block Storage Size (GB)</td>
+    <td>Minimum Block Storage (GB)</td>
     <td>Minimum block storage size required to create an instance using an image</td>
   </tr>
   <tr>
-    <td>User Script Type</td>
-    <td>Type of the script to be executed after component installation</td>
-  </tr>
-  <tr>
     <td>User Script </td>
-    <td>Script to be executed after component installation</td>
+    <td>Script to be executed after application installation</td>
   </tr>
   <tr>
     <td>Description</td>
@@ -68,7 +56,7 @@ Select an image template and click the **Build Image** button to start the build
   </tr>
   <tr>
     <td>Base Image</td>
-    <td>The OS image used as the base when creating a private image<br/>The list of base images you can choose from depends on the components stored in the image template.</td>
+    <td>The OS image used as the base when creating a private image<br/>The list of base images you can choose from depends on the applications stored in the image template.</td>
   </tr>
 </table>
 

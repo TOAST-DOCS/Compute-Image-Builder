@@ -153,6 +153,67 @@ PostgreSQLディレクトリおよびファイルの説明は以下の通りで�
 | DATADIR | PostgreSQLデータファイルパス - /var/lib/pgsql/{version}/data/ |
 | LOG | PostgreSQL logファイルパス - /var/lib/pgsql/{version}/data/log/\*.log |
 
+## MySQL
+
+### MySQL 起動/停止方法
+
+``` sh
+# MySQLサービスの起動
+shell> sudo systemctl start mysqld
+# MySQLサービスの終了
+shell> sudo systemctl stop mysqld
+# MySQLサービスの再起動
+shell> sudo systemctl restart mysqld
+```
+
+### MySQL接続
+
+イメージ作成後、最初は以下のように接続します。
+
+``` sh
+shell> mysql -u root
+```
+
+パスワード変更後は以下のように接続します。
+
+``` sh
+shell> mysql -u root -p
+Enter password:
+```
+
+### MySQLインスタンス作成後の初期設定
+
+#### 1\. パスワード設定
+
+初期インストール後、MySQL rootアカウントパスワードは指定されていません。そのため、インストール後に必ずパスワードを設定する必要があります。
+
+```
+SET PASSWORD [FOR user] = password_option
+mysql> SET PASSWORD = PASSWORD('パスワード');
+```
+
+#### 2\. ポート\(port\)変更
+
+初期インストール後、ポートはMySQLの基本ポートである3306です。セキュリティ上、ポートを変更することを推奨します。
+
+##### 1) `/etc/my.cnf`ファイルの修正
+
+`/etc/my.cnf`ファイルに使用するポートを指定します。
+
+```
+shell> sudo vi /etc/my.cnf
+```
+
+```
+port=[変更するportアドレス]
+```
+
+##### 2)インスタンスの再起動
+ポートの変更が適用されるようにインスタンスを再起動します。
+```
+sudo systemctl restart mysqld
+```
+
 ## MariaDB
 
 ### MariaDB起動/停止方法
@@ -449,3 +510,116 @@ shell> echo "console.log('Hello World')" > app.js
 shell> node app.js
 Hello World
 ```
+
+## Deep Learning Framework
+
+### Deep Learning Instance作成
+
+Deep Learning Frameworkを使用するには、GPU Instanceを作成する必要があります。
+
+**GPU Instance** ボタンをクリックすると、**Compute > GPU Instance > GPU Instance作成**に移動します。
+
+インスタンス作成時、**Deep Learning Instance**を選択してインスタンスを作成します。
+
+Deep Learning Instanceでは次のバージョンのソフトウェアが提供されます。
+
+| ソフトウェア | バージョン | インストール方式 |
+| --- | --- | --- | 
+| TensorFlow | 2.4.1 | pip, [参照](https://www.tensorflow.org/install/pip) |
+| PyTorch | 1.7.1 | conda, [参照](https://pytorch.org/get-started/previous-versions/) |
+| Python | 3.8.11 | conda |
+| OS | Ubuntu 18.04 LTS | n/a |
+| NVIDIA Driver | 450.102.04 | apt |
+| NVIDIA CUDA | 11.0 | apt |
+| NVIDIA cuDNN | 8.0.4 | apt |
+| NVIDIA NCCL | 2.7.8 | apt |
+| NVIDIA TensorRT | 7.1.3 | apt |
+| Intel oneAPI MKL | 2021.4.0 | apt |
+
+設定を完了した後、インスタンスを作成します。インスタンス作成の詳しい内容は[Instance概要](http://docs.toast.com/ko/Compute/Instance/ko/overview/)を参照してください。
+
+### インストールされた開発環境の確認
+
+condaコマンドを使用してMinicondaにインストールされた開発環境を確認します。
+
+```
+$ conda info --envs
+# conda environments:
+#
+                         /opt/intel/oneapi/intelpython/latest
+                         /opt/intel/oneapi/intelpython/latest/envs/2021.4.0
+base                  *  /root/miniconda3
+pt_py38                  /root/miniconda3/envs/pt_py38
+tf2_py38                 /root/miniconda3/envs/tf2_py38
+```
+
+>[参考]
+>
+>より詳しい使用方法は[Miniconda文書](https://docs.conda.io/en/latest/miniconda.html)を参照してください。
+
+### TensorFlowの使用方法
+
+TensorFlow環境を有効にします。
+
+```
+(base) root@b64e6a035884:~# conda activate tf2_py38
+(tf2_py38) root@b64e6a035884:~#
+```
+
+次のようにTensorFlowトレーニングをテストします。
+
+```
+$ cd ~/
+$ git clone https://github.com/tensorflow/models.git
+$ cd models
+$ git checkout tags/v2.4.0
+$ git status
+HEAD detached at v2.4.0
+nothing to commit, working tree clean
+$ mkdir $HOME/models/model
+$ mkdir $HOME/models/dataset
+$ vim train.sh
+#!/bin/bash
+export PYTHONPATH=$HOME/models
+export NCCL_DEBUG=INFO
+MODEL_DIR=$HOME/models/model
+DATA_DIR=$HOME/models/dataset
+# 1個以上のGPUを使用する時に設定
+NUM_GPUS=1 # 例) NUM_GPUS=2
+python $HOME/models/official/vision/image_classification/mnist_main.py \
+  --model_dir=$MODEL_DIR \
+  --data_dir=$DATA_DIR \
+  --train_epochs=2 \
+  --distribution_strategy=mirrored \ # 1個以上のGPUを使用する時に設定
+  --num_gpus=$NUM_GPUS \ # 1個以上のGPUを使用する時に設定
+  --download
+$ chmod +x train.sh
+$ python ./train.sh
+```
+
+>[参考]
+>
+>より詳しい使用方法は[TensorFlowチュートリアル](https://www.tensorflow.org/tutorials)を参考してください。
+
+### PyTorch使用方法
+
+PyTorch環境を有効にします。
+
+```
+(tf2_py38) root@b64e6a035884:~# conda deactivate
+(base) root@b64e6a035884:~# conda activate pt_py38
+(pt_py38) root@b64e6a035884:~#
+```
+
+次のようにPyTorchトレーニングをテストします。
+
+```
+$ cd ~/
+$ git clone https://github.com/pytorch/examples.git
+$ cd examples/mnist
+$ python manin.py --epochs 1
+```
+
+>[参考]
+>
+>より詳しい使用方法は[PyTorch チュートリアル](https://pytorch.org/tutorials/)を参照してください。
