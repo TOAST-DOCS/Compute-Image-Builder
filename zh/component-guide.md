@@ -1,6 +1,6 @@
 ## Compute > Image Builder > Installation Component Guide
 
-## PostgreSQL
+## PostgreSQL 
 
 > [Note]
 > This guide is based on PostgreSQL version 13.
@@ -21,7 +21,7 @@ shell> systemctl restart postgresql-13
 
 ### Connect to PostgreSQL
 
-After creating an instance, initially connect to PostgreSQL as follows.
+After creating an instance, initially connect as follows.
 <br>
 ```
 #Log in after switching the account to postgres
@@ -153,6 +153,70 @@ PostgreSQL directory and file descriptions are given below.
 | DATADIR | PostgreSQL data file path - /var/lib/pgsql/{version}/data/ |
 | LOG | PostgreSQL log file path - /var/lib/pgsql/{version}/data/log/\*.log |
 
+## MySQL
+
+### How to Start/Stop MySQL
+
+``` sh
+# Start the MySQL service
+shell> sudo systemctl start mysqld
+
+# Stop the MySQL service
+shell> sudo systemctl stop mysqld
+
+# Restart the MySQL service
+shell> sudo systemctl restart mysqld
+```
+
+### Connect to MySQL
+
+After creating an instance, initially connect as follows.
+
+``` sh
+shell> mysql -u root
+```
+
+After changing the password, connect as follows.
+
+``` sh
+shell> mysql -u root -p
+Enter password:
+```
+
+### Initial Setup After Creating a MySQL Instance
+
+#### 1\. Set the Password
+
+After initial installation, the MySQL root account password is not set. Therefore, you must set a password after installation.
+
+```
+SET PASSWORD [FOR user] = password_option
+
+mysql> SET PASSWORD = PASSWORD('password');
+```
+
+#### 2\. Change the Port
+
+After initial installation, the port is 3306, which is MySQL's default port. For security reasons, it is recommended to change the port.
+
+##### 1) Modify the `/etc/my.cnf` file
+
+Specify the port you want to use in the `/etc/my.cnf` file.
+
+```
+shell> sudo vi /etc/my.cnf
+```
+
+```
+port=[port address to change]
+```
+
+##### 2) Restart the instance
+Restart the instance for the port change to take effect.
+```
+sudo systemctl restart mysqld
+```
+
 ## MariaDB
 
 ### How to Start/Stop MariaDB
@@ -170,13 +234,13 @@ shell> sudo systemctl restart mariadb.service
 
 ### Connect to MariaDB
 
-After creating an instance, initially connect to MariaDB as follows.
+After creating an instance, initially connect as follows.
 
 ``` sh
 shell> mysql -u root
 ```
 
-After changing the password, connect to MariaDB as follows.
+After changing the password, connect as follows.
 
 ``` sh
 shell> mysql -u root -p
@@ -227,18 +291,18 @@ You can start or stop the CUBRID service as follows by logging in with the “cu
 ``` sh
 # Start the CUBRID service/server
 shell> sudo su - cubrid
-shell> cubrid service start
+shell> cubrid service start 
 shell> cubrid server start demodb
 
 # Stop the CUBRID service/server
 shell> sudo su - cubrid
 shell> cubrid server stop demodb
-shell> cubrid service stop
+shell> cubrid service stop 
 
 # Restart the CUBRID service/server
 shell> sudo su - cubrid
 shell> cubrid server restart demodb
-shell> cubrid service restart
+shell> cubrid service restart 
 
 # Start/stop/restart the CUBRID broker
 shell> sudo su - cubrid
@@ -249,7 +313,7 @@ shell> cubrid broker restart
 
 ### Connect to CUBRID
 
-After creating an instance, initially connect to CUBRID as follows.
+After creating an instance, connect as follows.
 
 ``` sh
 shell> sudo su - cubrid
@@ -449,3 +513,131 @@ shell> echo "console.log('Hello World')" > app.js
 shell> node app.js
 Hello World
 ```
+
+## Deep Learning Framework
+
+### Create a Deep Learning Framework Image Template
+
+To use the Deep Learning Framework, you must first create an image template.
+
+From the service selection screen, go to **Compute > Image Builder > Create Image Template**.
+
+Enter **Image Template Name**, select **linux - Ubuntu - Server 18.04 LTS** for OS, and set **Minimum Block Storage** to **70 GB** or more.
+
+If you select the options, you will see **Deep Learning Framework** in the screen.
+
+After selecting the script, click the **Confirm** button. In the pop-up that appears, click the **Create** button.
+
+### Create a Deep Learning Framework Instance
+
+After the image build is complete, click the **GPU Instance** button to actually create a GPU instance, and you will be taken to **Compute > GPU Instance > Create GPU Instance**.
+
+When creating an instance, select the image built and created earlier to create an instance.
+
+Deep Learning Framework Instance provides the following versions of software:
+
+| Software | Version | Installation method |
+| --- | --- | --- | 
+| TensorFlow | 2.4.1 | pip, [Reference](https://www.tensorflow.org/install/pip) |
+| PyTorch | 1.7.1 | conda, [Reference](https://pytorch.org/get-started/previous-versions/) |
+| Python | 3.8.11 | conda |
+| OS | Ubuntu 18.04 LTS | N/A |
+| NVIDIA Driver | 450.102.04 | apt |
+| NVIDIA CUDA | 11.0 | apt |
+| NVIDIA cuDNN | 8.0.4 | apt |
+| NVIDIA NCCL | 2.7.8 | apt |
+| NVIDIA TensorRT | 7.1.3 | apt |
+| Intel oneAPI MKL | 2021.4.0 | apt |
+
+After completing the setup, create an instance. For more information on instance creation, see [Instance Overview](http://docs.toast.com/en/Compute/Instance/en/overview/).
+
+### Check Installed Development Environment
+
+Use the conda command to check the development environment installed by Miniconda.
+
+```
+$ conda info --envs
+# conda environments:
+#
+                         /opt/intel/oneapi/intelpython/latest
+                         /opt/intel/oneapi/intelpython/latest/envs/2021.4.0
+base                  *  /root/miniconda3
+pt_py38                  /root/miniconda3/envs/pt_py38
+tf2_py38                 /root/miniconda3/envs/tf2_py38
+```
+
+>[Note]
+>
+>For more detailed instructions, refer to [Miniconda documentation](https://docs.conda.io/en/latest/miniconda.html).
+
+### How to Use TensorFlow
+
+First, activate the TensorFlow environment.
+
+```
+(base) root@b64e6a035884:~# conda activate tf2_py38
+(tf2_py38) root@b64e6a035884:~#
+```
+
+Test TensorFlow training as follows:
+
+```
+$ cd ~/
+$ git clone https://github.com/tensorflow/models.git
+$ cd models
+$ git checkout tags/v2.4.0
+$ git status
+HEAD detached at v2.4.0
+nothing to commit, working tree clean
+
+$ mkdir $HOME/models/model
+$ mkdir $HOME/models/dataset
+$ vim train.sh
+#!/bin/bash
+
+
+export PYTHONPATH=$HOME/models
+export NCCL_DEBUG=INFO
+MODEL_DIR=$HOME/models/model
+DATA_DIR=$HOME/models/dataset
+# Set when one or more GPU is used
+NUM_GPUS=1 # Example: NUM_GPUS=2
+
+python $HOME/models/official/vision/image_classification/mnist_main.py \
+  --model_dir=$MODEL_DIR \
+  --data_dir=$DATA_DIR \
+  --train_epochs=2 \
+  --distribution_strategy=mirrored \ # Set when one or more GPU is used
+  --num_gpus=$NUM_GPUS \ # Set when one or more GPU is used
+  --download
+
+$ chmod +x train.sh
+$ ./train.sh
+```
+
+>[Note]
+>
+>For more detailed instructions, refer to [TensorFlow Tutorial](https://www.tensorflow.org/tutorials).
+
+### How to Use PyTorch
+
+First, activate the PyTorch environment.
+
+```
+(tf2_py38) root@b64e6a035884:~# conda deactivate
+(base) root@b64e6a035884:~# conda activate pt_py38
+(pt_py38) root@b64e6a035884:~#
+```
+
+Test PyTorch training as follows:
+
+```
+$ cd ~/
+$ git clone https://github.com/pytorch/examples.git
+$ cd examples/mnist
+$ python main.py --epochs 1
+```
+
+>[Note]
+>
+>For more detailed instructions, refer to [PyTorch Tutorial](https://pytorch.org/tutorials/).
