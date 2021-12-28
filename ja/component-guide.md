@@ -513,15 +513,25 @@ Hello World
 
 ## Deep Learning Framework
 
-### Deep Learning Instance作成
+### Deep Learning Frameworkイメージテンプレートの作成
 
-Deep Learning Frameworkを使用するには、GPU Instanceを作成する必要があります。
+Deep Learning Frameworkを使用するには、まずイメージテンプレートを作成する必要があります。
 
-**GPU Instance** ボタンをクリックすると、**Compute > GPU Instance > GPU Instance作成**に移動します。
+サービス選択画面で**Compute > Image Builder > イメージテンプレートの作成**に移動します。
 
-インスタンス作成時、**Deep Learning Instance**を選択してインスタンスを作成します。
+**イメージテンプレート名**を入力し、OSは**linux - Ubuntu - Server 18.04 LTS**を選択して**最小ブロックストレージは60GB以上**を指定します。
 
-Deep Learning Instanceでは次のバージョンのソフトウェアが提供されます。
+このように選択すると、下の画面に**Deep Learning Framework**が表示されます。
+
+該当スクリプトを選択した後、 **確認**ボタンをクリックします。ポップアップが表示されたら**作成**ボタンをクリックします。
+
+### Deep Learning Framework Instance作成
+
+イメージビルドが完了した後、実際にGPU Instanceを作成するために**GPU Instance**ボタンをクリックすると**Compute > GPU Instance > GPU Instanceの作成**に移動します。
+
+インスタンスの作成時、ビルドして作成したイメージを選択してインスタンスを作成します。
+
+Deep Learning Framework Instanceでは次のバージョンのソフトウェアが提供されます。
 
 | ソフトウェア | バージョン | インストール方式 |
 | --- | --- | --- | 
