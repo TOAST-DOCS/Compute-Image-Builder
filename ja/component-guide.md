@@ -519,7 +519,7 @@ Deep Learning Frameworkを使用するには、まずイメージテンプレー
 
 サービス選択画面で**Compute > Image Builder > イメージテンプレートの作成**に移動します。
 
-**イメージテンプレート名**を入力し、OSは**linux - Ubuntu - Server 18.04 LTS**を選択して**最小ブロックストレージは60GB以上**を指定します。
+**イメージテンプレート名**を入力し、OSは**linux - Ubuntu - Server 18.04 LTS**を選択して**最小ブロックストレージは70GB以上**を指定します。
 
 このように選択すると、下の画面に**Deep Learning Framework**が表示されます。
 
