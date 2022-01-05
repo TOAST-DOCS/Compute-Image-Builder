@@ -645,7 +645,11 @@ $ python main.py --epochs 1
 
 ## Slurm
 
-아래 명령어는 모두 root 권한으로 실행하여야 합니다.
+Image Builder는 Slurm 작동을 위한 Munge 설치 및 설정, 그리고 Slurm 설치까지 진행합니다. 실행을 위한 자세한 방법은 [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)를 참고하세요.
+
+>[참고]
+>
+>Slurm 가이드에 있는 명령어는 모두 root 권한으로 실행하여야 합니다.
 
 ### 준비
 
@@ -668,13 +672,11 @@ $ python main.py --epochs 1
 
 ### Slurm 설정
 
-초기에 적용된 기본 설정이 없으므로, 직접 설정 후 실행하여야 합니다.
-
-Configuration의 역할과 설정은 [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)을 참고하세요. 설정 파일을 모두 작성하였으면 `/etc/slurm/slurm.conf` 파일에 저장합니다.
+초기에 적용된 기본 설정이 없으므로, 직접 설정 후 실행하여야 합니다. [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)를 참고하여 configuration 파일을 작성한 후, `/etc/slurm/slurm.conf` 파일에 저장합니다.
 
 >[참고]
 >
->로그 파일의 경로는 `/var/log/slurm/` 경로 아래로 지정하여야 합니다. 다른 경로 지정을 원할 경우, configuration 파일에 경로를 명시하고 해당 directory의 소유자를 `SlurmUser`와 일치시켜야 합니다.
+>로그 파일의 경로는 `/var/log/slurm/` 경로 아래로 지정하여야 합니다. 다른 경로 지정을 원할 경우, configuration 파일에 경로를 명시하고 해당 directory의 소유자를 `SlurmUser` 설정값과 일치시켜야 합니다.
 
 
 ### Slurm 실행
