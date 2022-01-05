@@ -641,3 +641,59 @@ $ python main.py --epochs 1
 >[참고]
 >
 >더 자세한 사용법은 [PyTorch 튜토리얼](https://pytorch.org/tutorials/)을 참고하세요.
+
+
+## Slurm
+
+Image Builder 서비스를 통한 Slurm의 환경설정은 사용자가 직접 하여야 합니다. 아래는 설정과 실행에 대한 간단 설명입니다. 아래 명령어는 모두 root 권한으로 실행하여야 합니다.
+
+### 준비
+
+#### 1. 연결 정보 추가
+
+##### 1) `hosts` 파일 수정
+
+`/etc/hosts` 파일을 열어서 클러스터 환경에 구성할 node의 IP와 별칭을 입력합니다.
+
+``` console
+# vi /etc/hosts
+```
+
+##### 2) `hostname` 파일 수정
+
+`/etc/hostname` 파일을 열어서 현재 node의 별칭을 `hosts` 파일과 일치시킵니다.
+
+``` console
+# vi /etc/hostname
+```
+
+
+### Slurm 설정
+
+기본적으로 설정은 사용자의 환경에 맞춰 작성해야 합니다. Configuration의 역할과 설정은 [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)을 참고하세요.
+
+>[참고]
+>
+>Image Builder 서비스를 통해 설치된 Slurm은 사용자 권한 문제를 최소화하기 위해 log directory를 `/var/log/slurm`으로 가정합니다. Configuration 파일 작성 시, log 파일 directory를 반드시 위 경로로 지정하여야 합니다.
+>
+>다른 경로 지정을 원할 경우, configuration 파일에 directory를 명시하고 해당 directory의 소유자를 `SlurmUser`와 일치시켜야 합니다.
+
+#### Slurm 실행
+
+설정을 마쳤으면, 아래 명령어를 통해 slurm daemon을 실행시킬 수 있습니다.
+
+##### Controller node의 경우
+``` console
+# systemctl enable slurmctld
+# systemctl start slurmctld
+```
+
+##### Compute node의 경우
+``` console
+# systemctl enable slurmd
+# systemctl start slurmd
+```
+
+### 간단 동작 확인
+
+간단 예시 및 가이드는 [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)를 통해 확인할 수 있습니다.
