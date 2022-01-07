@@ -645,7 +645,7 @@ $ python main.py --epochs 1
 
 ## Slurm
 
-Image Builder는 Slurm 작동을 위한 Munge 설치 및 설정, 그리고 Slurm 설치까지 진행합니다. 실행을 위한 자세한 방법은 [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)를 참고하세요.
+Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm 패키지 설치까지 진행합니다. 실행을 위한 자세한 방법은 [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)를 참고하세요.
 
 >[참고]
 >
@@ -670,31 +670,14 @@ Image Builder는 Slurm 작동을 위한 Munge 설치 및 설정, 그리고 Slurm
 ```
 
 
-### Slurm 설정
+### 클러스터 구성 및 Slurm 설정
 
-초기에 적용된 기본 설정이 없으므로, 직접 설정 후 실행하여야 합니다. [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)를 참고하여 configuration 파일을 작성한 후, `/etc/slurm/slurm.conf` 파일에 저장합니다.
+초기에 적용된 기본 설정이 없으므로, 직접 설정파일을 작성하여야 합니다. [Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config)와 [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)을 참고하여 작성 후, `/etc/slurm/slurm.conf` 파일에 저장합니다.
 
->[참고]
->
->로그 파일의 경로는 `/var/log/slurm/` 경로 아래로 지정하여야 합니다. 다른 경로 지정을 원할 경우, configuration 파일에 경로를 명시하고 해당 directory의 소유자를 `SlurmUser` 설정값과 일치시켜야 합니다.
+로그 파일의 경로는 `/var/log/slurm/` 경로 아래로 지정하여야 합니다. 다른 경로 지정을 원할 경우, configuration 파일에 경로를 명시하고 해당 directory의 소유자를 `SlurmUser` 설정값과 일치시켜야 합니다.
 
 
 ### Slurm 실행
 
-아래 명령어를 통해 slurm daemon을 실행시킬 수 있습니다.
+클러스터를 모두 구성하고 구성 정보를 설정해야 실행할 수 있습니다. [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)와 [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)를 참고하세요.
 
-#### Controller node의 경우
-``` console
-# systemctl enable slurmctld
-# systemctl start slurmctld
-```
-
-#### Compute node의 경우
-``` console
-# systemctl enable slurmd
-# systemctl start slurmd
-```
-
-### 간단 동작 확인
-
-간단 예시 및 가이드는 [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)를 통해 확인할 수 있습니다.
