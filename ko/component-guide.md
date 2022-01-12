@@ -649,7 +649,7 @@ Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm
 
 >[참고]
 >
->Slurm 가이드에 있는 명령어는 모두 root 권한으로 실행하여야 합니다.
+>Slurm 가이드에 있는 명령어는 모두 root 권한으로 실행해야 합니다.
 
 ### 준비
 
@@ -672,7 +672,7 @@ Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm
 
 ### 클러스터 구성 및 Slurm 설정
 
-초기에 적용된 기본 설정이 없으므로, 직접 설정파일을 작성하여야 합니다. [Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config)와 [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)을 참고하여 작성 후, `/etc/slurm/slurm.conf` 파일에 저장합니다.
+초기에 적용된 기본 설정이 없으므로, 직접 설정파일을 작성해야 합니다. [Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config)와 [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)을 참고하여 작성 후, `/etc/slurm/slurm.conf` 파일에 저장합니다.
 
 로그 파일의 경로는 `/var/log/slurm/` 경로 아래로 지정하여야 합니다. 다른 경로 지정을 원할 경우, configuration 파일에 경로를 명시하고 해당 directory의 소유자를 `SlurmUser` 설정값과 일치시켜야 합니다.
 
