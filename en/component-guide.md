@@ -645,11 +645,11 @@ $ python main.py --epochs 1
 
 ## Slurm
 
-For the Slurm installation component, you need to install and set up the MUNGE package, and install the Slurm package. For details on how to run Slurm, see [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html).
+This component installs and sets up the MUNGE package, and installs the Slurm package. For details on how to run Slurm, see [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html).
 
 >[Note]
 >
->All commands in the Slurm guide must be executed with the root privilege.
+>All commands included in this section must be executed with the root privilege.
 
 ### Preparation
 
@@ -679,5 +679,5 @@ The log file path must be specified as a directory under the `/var/log/slurm/` p
 
 ### Running Slurm
 
-You must configure all of the clusters and set the configuration before running Slurm. See [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html) and [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html).
+You must configure all of the clusters and set the configuration before running Slurm. For more information, see [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html) and [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html).
 
