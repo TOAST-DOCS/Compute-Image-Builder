@@ -34,7 +34,14 @@ Create an image template. The image builder creates an image based on the conten
 </table>
 
 > [Note]
-> As of October 2021, only Linux OS and shell type user scripts are supported.
+> As of January 2022, only Linux OS and user scripts in shell script format are supported.
+
+<br/>
+
+> [Note]
+> User scripts run with the default user account. If you have a command that requires a root privilege, you must configure the script to run the command to gain the privilege first.
+> The first line of the user script must start with a shebang. In general, `#!/bin/bash -e` is used.
+> An error in the user script can cause the image build to fail. To determine the cause of the error, see the detailed log in the **Build Details** window.
 
 ### Update Image Template
 You can modify the contents of an image template by selecting an image template and clicking the **Update Image Template** button.
