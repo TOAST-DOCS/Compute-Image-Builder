@@ -39,7 +39,7 @@ Create an image template. The image builder creates an image based on the conten
 <br/>
 
 > [Note]
-> User scripts run with the default user account. If you have a command that requires a root privilege, you must configure the script to run the command to gain the privilege first.
+> User scripts run with the default user account. If a user script includes commands that require a root privilege, you must configure the script to run the command to gain the privilege first.
 > The first line of the user script must start with a shebang. In general, `#!/bin/bash -e` is used.
 > An error in the user script can cause the image build to fail. To determine the cause of the error, see the detailed log in the **Build Details** window.
 
