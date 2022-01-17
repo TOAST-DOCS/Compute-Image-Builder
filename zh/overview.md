@@ -9,7 +9,7 @@ Image Builder is a service that creates a private image that meets the user's re
 * A variety of continuously managed application installation components are available.
 
 > [Note]
-> The Image Builder service is only available in Korea (Pangyo) and Korea (Pyeongchon) regions as of October 2021.
+> The Image Builder service is only available in Korea (Pangyo) and Korea (Pyeongchon) regions as of January 2022.
 
 ## Image Template
 An image template is a document that includes information for creating an image. You can keep your private image up to date by writing application installation components and user scripts and only changing the OS image that is updated periodically.
