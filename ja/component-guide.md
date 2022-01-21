@@ -633,3 +633,41 @@ $ python manin.py --epochs 1
 >[参考]
 >
 >より詳しい使用方法は[PyTorch チュートリアル](https://pytorch.org/tutorials/)を参照してください。
+
+## Slurm
+
+Slurmインストールコンポーネントは、Mungeパッケージのインストールと設定、そしてSlurmパッケージのインストールまで行います。実行方法の詳細については[Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)を参照してください。
+
+>[参考]
+>
+>Slurmガイドにあるコマンドはすべてroot権限で実行する必要があります。
+
+### 準備
+
+#### 1. `hosts`ファイルの修正
+
+`/etc/hosts`ファイルを開き、クラスタ環境に構成するnodeのIPとエイリアスを入力します。
+
+``` console
+# vi /etc/hosts
+```
+
+#### 2. `hostname`ファイルの修正
+
+`/etc/hostname`ファイルを開き、現在nodeのエイリアスを`hosts`ファイルと一致させます。
+
+``` console
+# vi /etc/hostname
+```
+
+
+### クラスタの構成とSlurm設定
+
+初期に適用された基本設定がないため、直接設定ファイルを作成する必要があります。 [Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config)と[Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)を参考にして作成した後、 `/etc/slurm/slurm.conf`ファイルに保存します。
+
+ログファイルのパスは`/var/log/slurm/`パスの下に指定する必要があります。他のパスを指定したい場合は、 configurationファイルにパスを明記し、そのdirectoryの所有者を`SlurmUser`設定値と一致させる必要があります。
+
+
+### Slurm実行
+
+すべてのクラスタを構成し、構成情報を設定すると実行できます。 [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)と[Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)を参照してください。
