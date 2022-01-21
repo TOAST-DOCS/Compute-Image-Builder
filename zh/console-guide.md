@@ -12,32 +12,20 @@ Create an image template. The image builder creates an image based on the conten
     <td>Up to 255 English characters or 85 Korean characters</td>
   </tr>
   <tr>
-    <td>OS Type</td>
-    <td>OS type of the private image to create</td>
+    <td>OS</td>
+    <td>OS type, distribution, and version of the private image to create</td>
   </tr>
   <tr>
-    <td>OS Distro</td>
-    <td>OS distribution of the private image to create</td>
+    <td>Application</td>
+    <td>Application installation components<br/>Multiple applications can be selected, but the selection may be limited if there is a conflict between the applications.</td>
   </tr>
   <tr>
-    <td>OS Version</td>
-    <td>OS version of the private image to create</td>
-  </tr>
-  <tr>
-    <td>Component</td>
-    <td>Application installation components<br/>Multiple components can be selected, but the selection may be limited if there is a conflict between the components.</td>
-  </tr>
-  <tr>
-    <td>Minimum Block Storage Size (GB)</td>
+    <td>Minimum Block Storage (GB)</td>
     <td>Minimum block storage size required to create an instance using an image</td>
   </tr>
   <tr>
-    <td>User Script Type</td>
-    <td>Type of the script to be executed after component installation</td>
-  </tr>
-  <tr>
     <td>User Script </td>
-    <td>Script to be executed after component installation</td>
+    <td>Script to be executed after application installation</td>
   </tr>
   <tr>
     <td>Description</td>
@@ -46,7 +34,14 @@ Create an image template. The image builder creates an image based on the conten
 </table>
 
 > [Note]
-> As of October 2021, only Linux OS and shell type user scripts are supported.
+> As of January 2022, only Linux OS and user scripts in shell script format are supported.
+
+<br/>
+
+> [Note]
+> User scripts run with the default user account. If a user script includes commands that require a root privilege, you must configure the script to run the command to gain the privilege first.
+> The first line of the user script must start with a shebang. In general, `#!/bin/bash -e` is used.
+> An error in the user script can cause the image build to fail. To determine the cause of the error, see the detailed log in the **Build Details** window.
 
 ### Update Image Template
 You can modify the contents of an image template by selecting an image template and clicking the **Update Image Template** button.
@@ -68,7 +63,7 @@ Select an image template and click the **Build Image** button to start the build
   </tr>
   <tr>
     <td>Base Image</td>
-    <td>The OS image used as the base when creating a private image<br/>The list of base images you can choose from depends on the components stored in the image template.</td>
+    <td>The OS image used as the base when creating a private image<br/>The list of base images you can choose from depends on the applications stored in the image template.</td>
   </tr>
 </table>
 
