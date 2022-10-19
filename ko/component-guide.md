@@ -1,6 +1,6 @@
 ## Compute > Image Builder > 설치 구성 요소 가이드
 
-## PostgreSQL 
+## PostgreSQL
 
 > [참고]
 > 본 가이드는 PostgreSQL 13 버전을 기준으로 작성되었습니다.
@@ -291,18 +291,18 @@ sudo systemctl restart mariadb.service
 ``` sh
 # CUBRID 서비스/서버 시작
 shell> sudo su - cubrid
-shell> cubrid service start 
+shell> cubrid service start
 shell> cubrid server start demodb
 
 # CUBRID 서비스/서버 종료
 shell> sudo su - cubrid
 shell> cubrid server stop demodb
-shell> cubrid service stop 
+shell> cubrid service stop
 
 # CUBRID 서비스/서버 재시작
 shell> sudo su - cubrid
 shell> cubrid server restart demodb
-shell> cubrid service restart 
+shell> cubrid service restart
 
 # CUBRID 브로커 시작/종료/재시작
 shell> sudo su - cubrid
@@ -354,8 +354,9 @@ BROKER_PORT             =[변경할 port 주소]
 ##### 2) broker 재시작
 포트 변경이 적용되도록 broker를 재시작합니다.
 ```
-shell> cubrid broker restart 
+shell> cubrid broker restart
 ```
+## Kafka
 
 ## JEUS, WebtoB
 
@@ -379,7 +380,7 @@ JEUS는 `~/apps/jeus8`에 설치됩니다.
 
 설치 시 아래 속성들로 설정됩니다.
 
-| 구분 | 기본값 | 
+| 구분 | 기본값 |
 | --- | --- |
 | 도메인 이름 | jeus_domain |
 | WebAdmin 포트 | 9736 |
@@ -428,7 +429,7 @@ wscfl -i http.m
 
 wsboot를 이용하여 WebtoB를 기동합니다.
 ```
-wsboot 
+wsboot
 ```
 
 wsadmin을 이용하여 상태를 확인하거나 제어할 수 있습니다.
@@ -537,7 +538,7 @@ Deep Learning Framework를 사용하려면 먼저 이미지 템플릿을 생성�
 Deep Learning Framework Instance에서는 다음과 같은 버전의 소프트웨어가 제공됩니다.
 
 | 소프트웨어 | 버전 | 설치 방식 |
-| --- | --- | --- | 
+| --- | --- | --- |
 | TensorFlow | 2.4.1 | pip, [참조](https://www.tensorflow.org/install/pip) |
 | PyTorch | 1.7.1 | conda, [참조](https://pytorch.org/get-started/previous-versions/) |
 | Python | 3.8.11 | conda |
@@ -680,4 +681,3 @@ Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm
 ### Slurm 실행
 
 클러스터를 모두 구성하고 구성 정보를 설정해야 실행할 수 있습니다. [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)와 [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)를 참고하세요.
-
