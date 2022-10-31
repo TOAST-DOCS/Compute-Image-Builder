@@ -364,11 +364,11 @@ shell> cubrid broker restart
 
 ### Zookeeper, Kafka 시작/정지
 ```
-# Zookeeper, Kafka 시작 (Zookeeper 먼저 시작)
+# Zookeeper, Kafka 시작(Zookeeper 먼저 시작)
 shell> sudo systemctl start zookeeper.service
 shell> sudo systemctl start kafka.service
 
-# Zookeeper, Kafka 종료 (Kafka 먼저 종료)
+# Zookeeper, Kafka 종료(Kafka 먼저 종료)
 shell> sudo systemctl stop kafka.service
 shell> sudo systemctl stop zookeeper.service
 
