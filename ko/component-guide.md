@@ -1,6 +1,6 @@
 ## Compute > Image Builder > 설치 구성 요소 가이드
 
-## PostgreSQL 
+## PostgreSQL
 
 > [참고]
 > 본 가이드는 PostgreSQL 13 버전을 기준으로 작성되었습니다.
@@ -291,18 +291,18 @@ sudo systemctl restart mariadb.service
 ``` sh
 # CUBRID 서비스/서버 시작
 shell> sudo su - cubrid
-shell> cubrid service start 
+shell> cubrid service start
 shell> cubrid server start demodb
 
 # CUBRID 서비스/서버 종료
 shell> sudo su - cubrid
 shell> cubrid server stop demodb
-shell> cubrid service stop 
+shell> cubrid service stop
 
 # CUBRID 서비스/서버 재시작
 shell> sudo su - cubrid
 shell> cubrid server restart demodb
-shell> cubrid service restart 
+shell> cubrid service restart
 
 # CUBRID 브로커 시작/종료/재시작
 shell> sudo su - cubrid
@@ -354,7 +354,161 @@ BROKER_PORT             =[변경할 port 주소]
 ##### 2) broker 재시작
 포트 변경이 적용되도록 broker를 재시작합니다.
 ```
-shell> cubrid broker restart 
+shell> cubrid broker restart
+```
+
+## KAFKA
+> [참고]
+> 본 가이드는 Kafka 3.3.1 버전을 기준으로 작성되었습니다.
+> 다른 버전을 사용하시는 경우 해당 버전에 맞게 변경해 주십시오.
+
+### Zookeeper, Kafka 시작/정지
+```
+# Zookeeper, Kafka 시작(Zookeeper 먼저 시작)
+shell> sudo systemctl start zookeeper.service
+shell> sudo systemctl start kafka.service
+
+# Zookeeper, Kafka 종료(Kafka 먼저 종료)
+shell> sudo systemctl stop kafka.service
+shell> sudo systemctl stop zookeeper.service
+
+# Zookeeper, Kafka 재시작
+shell> sudo systemctl restart zookeeper.service
+shell> sudo systemctl restart kafka.service
+```
+
+### Kafka Cluster 설치
+- 반드시 신규 인스턴스에 설치합니다.
+- 인스턴스는 3대 이상 홀수로 필요하며, 인스턴스 1대에서 설치 스크립트를 수행합니다.
+- 인스턴스 1대에 kafka broker, zookeeper node 각 1개씩 같이 구성됩니다.
+- 설치 스크립트를 수행하는 인스턴스의 /home/centos/ 경로에 타 인스턴스 접속 시 필요한 키 페어(PEM 파일)가 있어야 합니다. 클러스터 인스턴스들의 키 페어는 모두 동일해야 합니다.
+- 기본 포트 설치만 지원합니다. 포트 변경이 필요할 경우 클러스터 설치를 완료한 뒤 초기 설정 가이드의 포트 변경을 참고하여 변경합니다.
+- 인스턴스 간 Kafka 관련 포트 통신을 위해 아래 보안 그룹 설정을 추가합니다.
+
+보안 그룹 설정
+```
+방향: 수신
+IP 프로토콜: TCP
+포트: 22, 9092, 2181, 2888, 3888
+```
+Hostname, IP 확인 방법
+```
+# Hostname 확인
+shell> hostname
+
+# IP 확인
+콘솔 화면
+또는 shell> hostname -i
+```
+Cluster 설치 스크립트 수행 예시(위에서 확인한 hostname, IP 입력)
+```
+shell> sh /home/centos/.make_cluster.sh
+
+Enter Cluster Node Count: 3
+### 3 is odd number.
+Enter Cluster's IP ( Cluster 1 ) : 10.0.0.1
+Enter Cluster's HOST_NAME ( Cluster 1 ) : kafka1.novalocal
+Enter Cluster's IP ( Cluster 2 ) : 10.0.0.2
+Enter Cluster's HOST_NAME ( Cluster 2 ) : kafka2.novalocal
+Enter Cluster's IP ( Cluster 3 ) : 10.0.0.3
+Enter Cluster's HOST_NAME ( Cluster 3 ) : kafka3.novalocal
+10.0.0.1 kafka1.novalocal
+10.0.0.2 kafka2.novalocal
+10.0.0.3 kafka3.novalocal
+Check Cluster Node Info (y/n) y
+Enter Pemkey's name: kafka.pem
+ls: cannot access /tmp/kafka-logs: No such file or directory
+ls: cannot access /tmp/zookeeper: No such file or directory
+### kafka1.novalocal ( 10.0.0.1 ), Check if kafka is being used
+### kafka1.novalocal ( 10.0.0.1 ), Store node information in the /etc/hosts directory.
+### kafka1.novalocal ( 10.0.0.1 ), Modify zookeeper.properties.
+### kafka1.novalocal ( 10.0.0.1 ), Modify server.properties.
+ls: cannot access /tmp/kafka-logs: No such file or directory
+ls: cannot access /tmp/zookeeper: No such file or directory
+### kafka2.novalocal ( 10.0.0.2 ), Check if kafka is being used
+### kafka2.novalocal ( 10.0.0.2 ), Store node information in the /etc/hosts directory.
+### kafka2.novalocal ( 10.0.0.2 ), Modify zookeeper.properties.
+### kafka2.novalocal ( 10.0.0.2 ), Modify server.properties.
+ls: cannot access /tmp/kafka-logs: No such file or directory
+ls: cannot access /tmp/zookeeper: No such file or directory
+### kafka3.novalocal ( 10.0.0.3 ), Check if kafka is being used
+### kafka3.novalocal ( 10.0.0.3 ), Store node information in the /etc/hosts directory.
+### kafka3.novalocal ( 10.0.0.3 ), Modify zookeeper.properties.
+### kafka3.novalocal ( 10.0.0.3 ), Modify server.properties.
+### kafka1.novalocal ( 10.0.0.1 ), Start Zookeeper, Kafka.
+### Zookeeper, Kafka process is running.
+### kafka2.novalocal ( 10.0.0.2 ), Start Zookeeper, Kafka.
+### Zookeeper, Kafka process is running.
+### kafka3.novalocal ( 10.0.0.3 ), Start Zookeeper, Kafka.
+### Zookeeper, Kafka process is running.
+##### Cluster Installation Complete #####
+```
+
+### Kafka 인스턴스 생성 후 초기 설정
+#### 포트(port) 변경
+최초 설치 후 포트는 Kafka 기본 포트인 9092, Zookeeper 기본 포트인 2181입니다. 보안을 위해 포트를 변경할 것을 권장합니다.
+
+##### 1) /home/centos/kafka/config/zookeeper.properties 파일 수정
+/home/centos/kafka/config/zookeeper.properties 파일을 열어서 clientPort에 변경할 Zookeeper port를 입력합니다.
+```
+shell> vi /home/centos/kafka/config/zookeeper.properties
+
+clientPort=[변경할 zookeeper port]
+```
+##### 2) /home/centos/kafka/config/server.properties 파일 수정
+/home/centos/kafka/config/server.properties 파일을 열어서 listeners에 변경할 Kafka port를 입력합니다.
+```
+shell> vi /home/centos/kafka/config/server.properties
+
+# 주석 해제
+listeners=PLAINTEXT://[Private IP]:[변경할 kafka port]
+
+# Zookeeper 포트 변경
+zookeeper.connect=인스턴스IP:[Zookeeper port]
+---> 클러스터인 경우, 각 인스턴스IP 의 port 변경
+```
+
+##### 3) Zookeeper, Kafka 재시작
+포트 변경이 적용되도록 Zookeeper, Kafka를 재시작합니다.
+```
+shell> sudo systemctl stop kafka.service
+shell> sudo systemctl stop zookeeper.service
+
+shell> sudo systemctl start zookeeper.service
+shell> sudo systemctl start kafka.service
+```
+
+##### 4) Zookeeper, Kafka port 변경 확인
+변경된 포트가 사용되고 있는지 확인합니다.
+```
+shell> netstat -ntl | grep [Kafka port]
+shell> netstat -ntl | grep [Zookeeper port]
+```
+
+### Kafka 토픽 및 데이터 생성/사용
+
+토픽 생성/조회
+```
+# 인스턴스IP = Private IP / Kafka 기본 port = 9092
+# 토픽 생성
+shell> /home/centos/kafka/bin/kafka-topics.sh --create --bootstrap-server [인스턴스IP]:[카프카PORT] --topic kafka
+
+# 토픽 리스트 조회
+shell> /home/centos/kafka/bin/kafka-topics.sh --list --bootstrap-server [인스턴스IP]:[카프카PORT]
+
+# 토픽 상세 정보 확인
+shell> /home/centos/kafka/bin/kafka-topics.sh --describe --bootstrap-server [인스턴스IP]:[카프카PORT] --topic kafka
+
+# 토픽 삭제
+shell> /home/centos/kafka/bin/kafka-topics.sh --delete --bootstrap-server [인스턴스IP]:[카프카PORT] --topic kafka
+```
+데이터 생성/사용
+```
+# producer 시작
+shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list [인스턴스IP]:[카프카PORT] --topic kafka
+
+# consumer 시작
+shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [인스턴스IP]:[카프카PORT] --from-beginning --topic kafka
 ```
 
 ## JEUS, WebtoB
@@ -379,7 +533,7 @@ JEUS는 `~/apps/jeus8`에 설치됩니다.
 
 설치 시 아래 속성들로 설정됩니다.
 
-| 구분 | 기본값 | 
+| 구분 | 기본값 |
 | --- | --- |
 | 도메인 이름 | jeus_domain |
 | WebAdmin 포트 | 9736 |
@@ -428,7 +582,7 @@ wscfl -i http.m
 
 wsboot를 이용하여 WebtoB를 기동합니다.
 ```
-wsboot 
+wsboot
 ```
 
 wsadmin을 이용하여 상태를 확인하거나 제어할 수 있습니다.
@@ -537,7 +691,7 @@ Deep Learning Framework를 사용하려면 먼저 이미지 템플릿을 생성�
 Deep Learning Framework Instance에서는 다음과 같은 버전의 소프트웨어가 제공됩니다.
 
 | 소프트웨어 | 버전 | 설치 방식 |
-| --- | --- | --- | 
+| --- | --- | --- |
 | TensorFlow | 2.4.1 | pip, [참조](https://www.tensorflow.org/install/pip) |
 | PyTorch | 1.7.1 | conda, [참조](https://pytorch.org/get-started/previous-versions/) |
 | Python | 3.8.11 | conda |
@@ -680,4 +834,3 @@ Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm
 ### Slurm 실행
 
 클러스터를 모두 구성하고 구성 정보를 설정해야 실행할 수 있습니다. [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)와 [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)를 참고하세요.
-
