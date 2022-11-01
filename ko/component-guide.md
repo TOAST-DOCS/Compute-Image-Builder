@@ -359,20 +359,20 @@ shell> cubrid broker restart
 
 ## Redis Instance
 
-### Redis 시작/정지 방법
+### Redis 시작/정지
 ```
-# redis 서비스 시작
+# Redis 서비스 시작
 shell> sudo systemctl start redis
 
-# redis 서비스 중지
+# Redis 서비스 중지
 shell> sudo systemctl stop redis
 
-# redis 서비스 재시작
+# Redis 서비스 재시작
 shell> sudo systemctl restart redis
 ```
 
 ### Redis 접속
-`redis-cli` 커맨드를 이용해 레디스 인스턴스에 접속할 수 있습니다.
+`redis-cli` 커맨드를 이용해 Redis 인스턴스에 접속할 수 있습니다.
 ```
 shell> redis-cli
 ```
@@ -384,7 +384,7 @@ Redis 인스턴스의 기본 설정 파일은 `/home/centos/redis/redis.conf` �
 - 기본 값: `127.0.0.1 -::1`
 - 변경 값: `<private ip> 127.0.0.1 -::1`
 
-redis가 사용할 ip에 대한 값입니다. 서버 외부에서 레디스 인스턴스로의 접근을 허용하려면 해당 파라미터에 private ip를 추가해주어야 합니다. private ip는 `hostname -I` 커맨드로 확인할 수 있습니다.
+Redis가 사용할 ip에 대한 값입니다. 서버 외부에서 Redis 인스턴스로의 접근을 허용하려면 해당 파라미터에 private ip를 추가해야 합니다. private ip는 `hostname -I` 커맨드로 확인할 수 있습니다.
 
 #### port
 - 기본 값: `6379`
@@ -395,18 +395,18 @@ redis가 사용할 ip에 대한 값입니다. 서버 외부에서 레디스 인�
 shell> redis-cli -p <새로운 포트>
 ```
 
-#### requirepass / masterauth
+#### requirepass/masterauth
 - 기본 값: `nhncloud`
 
-기본 비밀번호는 `nhncloud`입니다. 보안 상 비밀번호 변경을 권장합니다. 복제 연결을 사용할 경우 `requirepass`와 `masterauth`값을 동시에 변경해야 합니다.
+기본 비밀번호는 `nhncloud`입니다. 보안상 비밀번호 변경을 권장합니다. 복제 연결을 사용할 경우 `requirepass`와 `masterauth`값을 동시에 변경해야 합니다.
 
 ### 자동 HA 구성 스크립트
-nhn cloud의 redis 인스턴스는 자동으로 HA 환경을 구성해주는 스크립트를 제공합니다. 스크립트는 반드시 **설치 직후의 신규 인스턴스**에서만 사용 가능하며, redis.conf 에서 설정값을 변경했을 때에는 사용할 수 없습니다.
+NHN Cloud의 Redis 인스턴스는 자동으로 HA 환경을 구성해 주는 스크립트를 제공합니다. 스크립트는 반드시 **설치 직후의 신규 인스턴스**에서만 사용할 수 있으며, redis.conf에서 설정값을 변경한 경우에는 사용할 수 없습니다.
 
 스크립트를 사용하기 위해서는 다음 설정이 필수적으로 필요합니다.
 
 ##### 키 페어 복사
-설치 스크립트를 수행하는 인스턴스에 타 인스턴스 접속에 필요한 키 페어(pem 파일)가 있어야 합니다. 키 페어는 다음과 같이 복사할 수 있습니다.
+설치 스크립트를 수행하는 인스턴스에 타 인스턴스 접속에 필요한 키 페어(PEM 파일)가 있어야 합니다. 키 페어는 다음과 같이 복사할 수 있습니다.
 
 ```
 local> scp -i <키 페어>.pem <키 페어>.pem centos@<floating ip>:/home/centos/
@@ -414,8 +414,8 @@ local> scp -i <키 페어>.pem <키 페어>.pem centos@<floating ip>:/home/cento
 
 생성한 인스턴스들의 키 페어는 모두 동일해야 합니다.
 
-##### 보안그룹 설정
-redis 인스턴스간의 통신을 위해 보안그룹(Network > Security Groups) 설정이 필요합니다. 아래 룰을 가진 보안그룹을 생성한 뒤 Redis 인스턴스에 적용해주세요.
+##### 보안 그룹 설정
+Redis 인스턴스간의 통신을 위해 보안그룹(Network > Security Groups) 설정이 필요합니다. 아래 룰을 가진 보안그룹을 생성한 뒤 Redis 인스턴스에 적용해주세요.
 
 | 방향 | IP 프로토콜| 포트 범위| Ether| 원격|
 | --- | --- | --- | --- | --- |
