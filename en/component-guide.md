@@ -468,7 +468,7 @@ zookeeper.connect=Instance IP:[Zookeeper port]
 ---> If it is a cluster, change the port of each instance IP
 ```
 
-##### 3) Restart Zookeeper and Kafka
+##### 3) Restart Zookeeper, Kafka
 Restart the zookeeper and the kafka for the port change to take effect.
 ```
 shell> sudo systemctl stop kafka.service
@@ -485,7 +485,7 @@ shell> netstat -ntl | grep [Kafka port]
 shell> netstat -ntl | grep [Zookeeper port]
 ```
 
-### Create and Use Kafka Topic and Data 
+### Create and Use Kafka Topic. Data 
 
 Create and query a topic
 ```
