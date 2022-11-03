@@ -415,7 +415,7 @@ local> scp -i <키 페어>.pem <키 페어>.pem centos@<floating ip>:/home/cento
 생성한 인스턴스들의 키 페어는 모두 동일해야 합니다.
 
 ##### 보안 그룹 설정
-Redis 인스턴스간의 통신을 위해 보안그룹(Network > Security Groups) 설정이 필요합니다. 아래 룰을 가진 보안그룹을 생성한 뒤 Redis 인스턴스에 적용해주세요.
+Redis 인스턴스간의 통신을 위해 보안 그룹(**Network** > **Security Groups**) 설정이 필요합니다. 아래 규칙으로 보안 그룹을 생성한 뒤 Redis 인스턴스에 적용하세요.
 
 | 방향 | IP 프로토콜| 포트 범위| Ether| 원격|
 | --- | --- | --- | --- | --- |
@@ -424,13 +424,13 @@ Redis 인스턴스간의 통신을 위해 보안그룹(Network > Security Groups
 | 수신|TCP | 26379| IPv4| 인스턴스 IP(CIDR)|
 
 #### Sentinel 자동구성
-Sentinel 구성을 위해서는 세개의 Redis 인스턴스가 필요합니다. 마스터로 사용하고자 하는 인스턴스에 키 페어를 복사해온 뒤 아래와 같이 스크립트를 수행해주세요.
+Sentinel 구성을 위해 3개의 Redis 인스턴스가 필요합니다. 마스터로 사용할 인스턴스에 키 페어를 복사한 뒤 아래와 같이 스크립트를 수행하세요.
 
 ```
 shell> sh .make_sentinel.sh
 ```
 
-이후 마스터와 복제본의 private IP를 차레로 입력합니다. 각 인스턴스의 private IP는 `hostname -I` 커맨드로 확인할 수 있습니다.
+이후 마스터와 복제본의 private IP를 차례로 입력합니다. 각 인스턴스의 private IP는 `hostname -I` 커맨드로 확인할 수 있습니다.
 
 ```
 shell> sh .make_sentinel.sh
@@ -439,19 +439,19 @@ Enter Replica-1's IP: 192.168.0.27
 Enter Replica-2's IP: 192.168.0.97
 ```
 
-복사해온 키페어의 파일명을 입력합니다.
+복사해 온 키 페어의 파일명을 입력합니다.
 ```
 shell> Enter Pemkey's name: <키 페어>.pem
 ```
 
-#### Cluster 자동구성
-Cluster 구성을 위해서는 여섯개의 Redis 인스턴스가 필요합니다. 마스터로 사용하고자 하는 인스턴스에 키 페어를 복사해온 뒤 아래와 같이 스크립트를 수행해주세요.
+#### Cluster 자동 구성
+Cluster 구성을 위해 6개의 Redis 인스턴스가 필요합니다. 마스터로 사용할 인스턴스에 키 페어를 복사한 뒤 아래와 같이 스크립트를 수행하세요.
 
 ```
 shell> sh .make_cluster.sh
 ```
 
-이후 클러스터에 사용할 레디스 인스턴스의 private IP를 차레로 입력합니다. 각 인스턴스의 private IP는 `hostname -I` 커맨드로 확인할 수 있습니다.
+이후 클러스터에 사용할 Redis 인스턴스의 private IP를 차례로 입력합니다. 각 인스턴스의 private IP는 `hostname -I` 커맨드로 확인할 수 있습니다.
 
 ```
 shell> sh .make_cluster.sh
@@ -463,7 +463,7 @@ Enter cluster-5'IP:  192.168.0.91
 Enter cluster-6'IP:  192.168.0.32
 ```
 
-복사해온 키페어의 파일명을 입력합니다.
+복사해 온 키 페어의 파일명을 입력합니다.
 
 ```
 shell> Enter Pemkey's name: <키 페어>.pem
