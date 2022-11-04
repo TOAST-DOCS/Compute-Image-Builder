@@ -534,13 +534,13 @@ shell> redis-cli
 ### Initial Setup After Creating a Redis Instance
 The default configuration file for a Redis instance is the `/home/centos/redis/redis.conf` file. The description for the parameters to be changed is as follows.
 
-#### bind
+#### Bind
 - Default value: `127.0.0.1 -::1`
 - Changed value: `<private ip> 127.0.0.1 -::1`
 
 Value for an IP used by Redis. To allow access to a Redis instance from outside the server, add a private IP to the parameter. You can check the private IP with the `hostname -I` command.
 
-#### port
+#### Port
 - Default value: `6379`
 
 Port is 6379, a default value for Redis. It is recommended to change the port for security reasons. After changing the port, you can connect to Redis with the following command.
@@ -549,7 +549,7 @@ Port is 6379, a default value for Redis. It is recommended to change the port fo
 shell> redis-cli -p <new port>
 ```
 
-#### requirepass/masterauth
+#### Requirepass/masterauth
 - Default value: `nhncloud`
 
 The default password is `nhncloud`. For security reasons, it is recommended to change the password. If you are using replication connection, you must change the `requirepass` and `masterauth` values at the same time.
