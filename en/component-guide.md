@@ -509,6 +509,149 @@ shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list  [Instance
 
 # Start consumer
 shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [Instance IP]:[Kafka PORT] --from-beginning --topic kafka
+
+```
+## Redis Instance
+
+### Start/Stop Redis
+```
+# Start Redis 
+shell> sudo systemctl start redis
+
+# Stop Redis
+shell> sudo systemctl stop redis
+
+# Restart Redis
+shell> sudo systemctl restart redis
+```
+
+### Connect to Redis
+Connect to a Redis instance by using the `redis-cli` command.
+```
+shell> redis-cli
+```
+
+### Initial Setup After Creating a Redis Instance
+The default configuration file for a Redis instance is the `/home/centos/redis/redis.conf` file. The description for the parameters to be changed is as follows.
+
+#### Bind
+- Default value: `127.0.0.1 -::1`
+- Changed value: `<private ip> 127.0.0.1 -::1`
+
+Value for an IP used by Redis. To allow access to a Redis instance from outside the server, add a private IP to the parameter. You can check the private IP with the `hostname -I` command.
+
+#### Port
+- Default value: `6379`
+
+Port is 6379, a default value for Redis. It is recommended to change the port for security reasons. After changing the port, you can connect to Redis with the following command.
+
+```
+shell> redis-cli -p <new port>
+```
+
+#### Requirepass/masterauth
+- Default value: `nhncloud`
+
+The default password is `nhncloud`. For security reasons, it is recommended to change the password. If you are using replication connection, you must change the `requirepass` and `masterauth` values at the same time.
+
+### Automatic HA Configuration Script
+A Redis instance of NHN Cloud provides a script that automatically configures an HA environment. You can use the script only for **a new instance immediately after installation**, and cannot use after changing the set values from redis.conf.
+
+To use the script, the following settings are required.
+
+##### Copy key pair
+The instance running the installation script must have a key pair (PEM file) required to connect to other instances. The key pair can be copied as follows.
+
+```
+local> scp -i <key pair>.pem <key pair>.pem centos@<floating ip>:/home/centos/
+```
+
+The key pairs for created instances must be the same.
+
+##### Set security group
+You must set a security group (**Network** > **Security Groups**) for communication between Redis instances. Create a security group with the following rules and apply it to a Redis instance.
+
+| Direction | IP protocol | Port range| Ether| Remote|
+| --- | --- | --- | --- | --- |
+| Inbound |TCP | 6379| IPv4| Instance IP(CIDR)|
+| Inbound |TCP | 16379| IPv4| Instance IP(CIDR)|
+| Inbound |TCP | 26379| IPv4| Instance IP(CIDR)|
+
+#### Sentinel Automatic Configuration
+You will need 3 Redis instances to configure Sentinel. After copying the key pair to the instance used as the master, run the script as follows.
+
+```
+shell> sh .make_sentinel.sh
+```
+
+Enter the private IPs of the master and replica in turn. You can check the private IP of each instance with the `hostname -I` command.
+
+```
+shell> sh .make_sentinel.sh
+Enter Master's IP: 192.168.0.33
+Enter Replica-1's IP: 192.168.0.27
+Enter Replica-2's IP: 192.168.0.97
+```
+
+Enter the file name of the copied key pair.
+```
+shell> Enter Pemkey's name: <key pair>.pem
+```
+
+#### Cluster Automatic Configuration
+6 Redis instances are required for Cluster configuration. After copying the key pair to the instance used as the master, run the script as follows.
+
+```
+shell> sh .make_cluster.sh
+```
+
+Enter the private IPs of Redis instances used for a cluster in turn. You can check the private IP of each instance with the `hostname -I` command.
+
+```
+shell> sh .make_cluster.sh
+Enter cluster-1'IP:  192.168.0.79
+Enter cluster-2'IP: 192.168.0.10
+Enter cluster-3'IP: 192.168.0.33
+Enter cluster-4'IP:  192.168.0.116
+Enter cluster-5'IP:  192.168.0.91
+Enter cluster-6'IP:  192.168.0.32
+```
+
+Enter the file name of the copied key pair.
+
+```
+shell> Enter Pemkey's name: <key pair>.pem
+```
+
+Enter `yes` to complete cluster configuration.
+```
+>>> Performing hash slots allocation on 6 nodes...
+Master[0] -> Slots 0 - 5460
+Master[1] -> Slots 5461 - 10922
+Master[2] -> Slots 10923 - 16383
+Adding replica 192.168.0.91:6379 to 192.168.0.79:6379
+Adding replica 192.168.0.32:6379 to 192.168.0.10:6379
+Adding replica 192.168.0.116:6379 to 192.168.0.33:6379
+M: 0a6ee5bf24141f0058c403d8cc42b349cdc09752 192.168.0.79:6379
+   slots:[0-5460] (5461 slots) master
+M: b5d078bd7b30ddef650d9a7fa9735e7648efc86f 192.168.0.10:6379
+   slots:[5461-10922] (5462 slots) master
+M: 0da9b78108b6581bdb90002cbdde3506e9173dd8 192.168.0.33:6379
+   slots:[10923-16383] (5461 slots) master
+S: 078b4ce014a52588e23577b3fc2dabf408723d68 192.168.0.116:6379
+   replicates 0da9b78108b6581bdb90002cbdde3506e9173dd8
+S: caaae4ebd3584c0481205e472d6bd0f9dc5c574e 192.168.0.91:6379
+   replicates 0a6ee5bf24141f0058c403d8cc42b349cdc09752
+S: ab2aa9e37cee48ef8e4237fd63e8301d81193818 192.168.0.32:6379
+   replicates b5d078bd7b30ddef650d9a7fa9735e7648efc86f
+Can I set the above configuration? (type 'yes' to accept):
+```
+
+```
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
 ```
 
 ## JEUS, WebtoB
