@@ -354,19 +354,19 @@ BROKER_PORT             =[変更するportアドレス]
 shell> cubrid broker restart
 ```
 
-## KAFKA
+## Apache Kafka
 > [参考]
 > このガイドはKafka 3.3.1バージョンを基準に作成されました。
 > 他のバージョンを使用する場合は、該当のバージョンに合わせて変更してください。
-### Zookeeper、Kafka起動/停止
+### Zookeeper、Kafka broker起動/停止
 ```
-# Zookeeper、Kafka起動(Zookeeperを先に起動)
+# Zookeeper、Kafka broker起動(Zookeeperを先に起動)
 shell> sudo systemctl start zookeeper.service
 shell> sudo systemctl start kafka.service
-# Zookeeper、Kafka終了(Kafkaを先に終了)
+# Zookeeper、Kafka broker終了(Kafka brokerを先に終了)
 shell> sudo systemctl stop kafka.service
 shell> sudo systemctl stop zookeeper.service
-# Zookeeper, Kafka再起動
+# Zookeeper, Kafka broker再起動
 shell> sudo systemctl restart zookeeper.service
 shell> sudo systemctl restart kafka.service
 ```
@@ -395,7 +395,7 @@ shell> hostname
 ```
 Clusterインストールスクリプト実行例(上で確認したhostname、IPを入力)
 ```
-shell> sh /home/centos/.make_cluster.sh
+shell> sh /home/centos/.kafka_make_cluster.sh
 Enter Cluster Node Count: 3
 ### 3 is odd number.
 Enter Cluster's IP ( Cluster 1 ) : 10.0.0.1
