@@ -1,6 +1,6 @@
 ## Compute > Image Builder > Installation Component Guide
 
-## PostgreSQL 
+## PostgreSQL
 
 > [Note]
 > This guide is based on PostgreSQL version 13.
@@ -291,18 +291,18 @@ You can start or stop the CUBRID service as follows by logging in with the “cu
 ``` sh
 # Start the CUBRID service/server
 shell> sudo su - cubrid
-shell> cubrid service start 
+shell> cubrid service start
 shell> cubrid server start demodb
 
 # Stop the CUBRID service/server
 shell> sudo su - cubrid
 shell> cubrid server stop demodb
-shell> cubrid service stop 
+shell> cubrid service stop
 
 # Restart the CUBRID service/server
 shell> sudo su - cubrid
 shell> cubrid server restart demodb
-shell> cubrid service restart 
+shell> cubrid service restart
 
 # Start/stop/restart the CUBRID broker
 shell> sudo su - cubrid
@@ -354,25 +354,25 @@ BROKER_PORT             =[port address to change]
 ##### 2) Restart the broker
 Restart the broker for the port change to take effect.
 ```
-shell> cubrid broker restart 
+shell> cubrid broker restart
 ```
 
-## KAFKA
+## Apache Kafka
 > [Note]
 > This guide is created based on Kafka version 3.3.1.
 > If you are using a different version, please makes changes accordingly.
 
-### Start and Stop Zookeeper, Kafka
+### Start and Stop Zookeeper, Kafka broker
 ```
-# Start Zookeeper, Kafka (Zookeeper first)
+# Start Zookeeper, Kafka broker (Zookeeper first)
 shell> sudo systemctl start zookeeper.service
 shell> sudo systemctl start kafka.service
 
-# Stop Zookeeper, Kafka (Kafka first)
+# Stop Zookeeper, Kafka broker (Kafka broker first)
 shell> sudo systemctl stop kafka.service
 shell> sudo systemctl stop zookeeper.service
 
-# Restart Zookeeper, Kafka
+# Restart Zookeeper, Kafka broker
 shell> sudo systemctl restart zookeeper.service
 shell> sudo systemctl restart kafka.service
 ```
@@ -401,7 +401,7 @@ or shell> hostname -i
 ```
 Example of executing the cluster installation script (enter the hostname and IP checked above)
 ```
-shell> sh /home/centos/.make_cluster.sh
+shell> sh /home/centos/.kafka_make_cluster.sh
 
 Enter Cluster Node Count: 3
 ### 3 is odd number.
@@ -485,7 +485,7 @@ shell> netstat -ntl | grep [Kafka port]
 shell> netstat -ntl | grep [Zookeeper port]
 ```
 
-### Create and Use Kafka Topic. Data 
+### Create and Use Kafka Topic. Data
 
 Create and query a topic
 ```
@@ -515,7 +515,7 @@ shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [Inst
 
 ### Start/Stop Redis
 ```
-# Start Redis 
+# Start Redis
 shell> sudo systemctl start redis
 
 # Stop Redis
@@ -676,7 +676,7 @@ JEUS is installed in `~/apps/jeus8`.
 
 The following properties are set during installation.
 
-| Property | Default value | 
+| Property | Default value |
 | --- | --- |
 | Domain name | jeus_domain |
 | WebAdmin port | 9736 |
@@ -725,7 +725,7 @@ wscfl -i http.m
 
 Start WebtoB using wsboot.
 ```
-wsboot 
+wsboot
 ```
 
 You can use wsadmin to view or control the status.
@@ -834,7 +834,7 @@ When creating an instance, select the image built and created earlier to create 
 Deep Learning Framework Instance provides the following versions of software:
 
 | Software | Version | Installation method |
-| --- | --- | --- | 
+| --- | --- | --- |
 | TensorFlow | 2.4.1 | pip, [Reference](https://www.tensorflow.org/install/pip) |
 | PyTorch | 1.7.1 | conda, [Reference](https://pytorch.org/get-started/previous-versions/) |
 | Python | 3.8.11 | conda |

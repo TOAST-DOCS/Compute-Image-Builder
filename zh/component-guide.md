@@ -511,6 +511,8 @@ shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list  [Instance
 shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [Instance IP]:[Kafka PORT] --from-beginning --topic kafka
 
 ```
+
+
 ## Redis
 
 ### Start/Stop Redis
@@ -653,6 +655,7 @@ Can I set the above configuration? (type 'yes' to accept):
 >>> Check slots coverage...
 [OK] All 16384 slots covered.
 ```
+
 ## JEUS, WebtoB
 
 > [Note]
