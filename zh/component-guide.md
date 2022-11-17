@@ -511,7 +511,9 @@ shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list  [Instance
 shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [Instance IP]:[Kafka PORT] --from-beginning --topic kafka
 
 ```
-## Redis Instance
+
+
+## Redis
 
 ### Start/Stop Redis
 ```
@@ -581,13 +583,13 @@ You must set a security group (**Network** > **Security Groups**) for communicat
 You will need 3 Redis instances to configure Sentinel. After copying the key pair to the instance used as the master, run the script as follows.
 
 ```
-shell> sh .make_sentinel.sh
+shell> sh .redis_make_sentinel.sh
 ```
 
 Enter the private IPs of the master and replica in turn. You can check the private IP of each instance with the `hostname -I` command.
 
 ```
-shell> sh .make_sentinel.sh
+shell> sh .redis_make_sentinel.sh
 Enter Master's IP: 192.168.0.33
 Enter Replica-1's IP: 192.168.0.27
 Enter Replica-2's IP: 192.168.0.97
@@ -602,13 +604,13 @@ shell> Enter Pemkey's name: <key pair>.pem
 6 Redis instances are required for Cluster configuration. After copying the key pair to the instance used as the master, run the script as follows.
 
 ```
-shell> sh .make_cluster.sh
+shell> sh .redis_make_cluster.sh
 ```
 
 Enter the private IPs of Redis instances used for a cluster in turn. You can check the private IP of each instance with the `hostname -I` command.
 
 ```
-shell> sh .make_cluster.sh
+shell> sh .redis_make_cluster.sh
 Enter cluster-1'IP:  192.168.0.79
 Enter cluster-2'IP: 192.168.0.10
 Enter cluster-3'IP: 192.168.0.33
