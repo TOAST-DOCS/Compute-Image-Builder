@@ -355,7 +355,9 @@ shell> cubrid broker restart
 ```
 
 ```
-## Redis Instance
+
+
+## Redis
 
 ### Redis起動/停止
 ```
@@ -425,13 +427,13 @@ Redisインスタンス間の通信のためにセキュリティグループ(**
 Sentinel構成のために3つのRedisインスタンスが必要です。マスターとして使用するインスタンスにキーペアをコピーし、以下のようにスクリプトを実行してください。
 
 ```
-shell> sh .make_sentinel.sh
+shell> sh .redis_make_sentinel.sh
 ```
 
 その後、マスターとレプリカのprivate IPを順番に入力します。各インスタンスのprivate IPは`hostname -I`コマンドで確認できます。
 
 ```
-shell> sh .make_sentinel.sh
+shell> sh .redis_make_sentinel.sh
 Enter Master's IP: 192.168.0.33
 Enter Replica-1's IP: 192.168.0.27
 Enter Replica-2's IP: 192.168.0.97
@@ -446,13 +448,13 @@ shell> Enter Pemkey's name: <キーペア>.pem
 Cluster構成のために6つのRedisインスタンスが必要です。マスターとして使用するインスタンスにキーペアをコピーし、以下のようにスクリプトを実行してください。
 
 ```
-shell> sh .make_cluster.sh
+shell> sh .redis_make_cluster.sh
 ```
 
 その後、クラスタに使用するRedisインスタンスのprivate IPを順番に入力します。各インスタンスのprivate IPは`hostname -I`コマンドで確認できます。
 
 ```
-shell> sh .make_cluster.sh
+shell> sh .redis_make_cluster.sh
 Enter cluster-1'IP:  192.168.0.79
 Enter cluster-2'IP: 192.168.0.10
 Enter cluster-3'IP: 192.168.0.33

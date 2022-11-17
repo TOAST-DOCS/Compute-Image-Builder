@@ -356,7 +356,162 @@ Restart the broker for the port change to take effect.
 ```
 shell> cubrid broker restart
 ```
-## Redis Instance
+
+## Apache Kafka
+> [Note]
+> This guide is created based on Kafka version 3.3.1.
+> If you are using a different version, please makes changes accordingly.
+
+### Start and Stop Zookeeper, Kafka broker
+```
+# Start Zookeeper, Kafka broker (Zookeeper first)
+shell> sudo systemctl start zookeeper.service
+shell> sudo systemctl start kafka.service
+
+# Stop Zookeeper, Kafka broker (Kafka broker first)
+shell> sudo systemctl stop kafka.service
+shell> sudo systemctl stop zookeeper.service
+
+# Restart Zookeeper, Kafka broker
+shell> sudo systemctl restart zookeeper.service
+shell> sudo systemctl restart kafka.service
+```
+
+### Install Kafka Cluster
+- Must install in a new instance.
+- An odd number of instances (3 or more) are required, and the installation script is executed in the instance.
+- An instance consists of of one kafka broker and one zookeeper node.
+- The key pair (PEM file) required to connect to another instance must be located at the /home/centos/ path of the instance running the installation script. The key pair of cluster instances must be the same.
+- Only default port installation is supported. If you need to change the port, change the port by referring to the initial settings guide after completing cluster installation.
+- For Kafka-related port communication between instances, set security group as follows.
+
+Set security group
+```
+Direction: Inbound
+IP protocol: TCP
+Port: 22, 9092, 2181, 2888, 3888
+```
+How to check Hostname and IP
+```
+# Check Hostname
+shell> hostname
+# Check IP
+Console screen
+or shell> hostname -i
+```
+Example of executing the cluster installation script (enter the hostname and IP checked above)
+```
+shell> sh /home/centos/.kafka_make_cluster.sh
+
+Enter Cluster Node Count: 3
+### 3 is odd number.
+Enter Cluster's IP ( Cluster 1 ) : 10.0.0.1
+Enter Cluster's HOST_NAME ( Cluster 1 ) : kafka1.novalocal
+Enter Cluster's IP ( Cluster 2 ) : 10.0.0.2
+Enter Cluster's HOST_NAME ( Cluster 2 ) : kafka2.novalocal
+Enter Cluster's IP ( Cluster 3 ) : 10.0.0.3
+Enter Cluster's HOST_NAME ( Cluster 3 ) : kafka3.novalocal
+10.0.0.1 kafka1.novalocal
+10.0.0.2 kafka2.novalocal
+10.0.0.3 kafka3.novalocal
+Check Cluster Node Info (y/n) y
+Enter Pemkey's name: kafka.pem
+ls: cannot access /tmp/kafka-logs: No such file or directory
+ls: cannot access /tmp/zookeeper: No such file or directory
+### kafka1.novalocal ( 10.0.0.1 ), Check if kafka is being used
+### kafka1.novalocal ( 10.0.0.1 ), Store node information in the /etc/hosts directory.
+### kafka1.novalocal ( 10.0.0.1 ), Modify zookeeper.properties.
+### kafka1.novalocal ( 10.0.0.1 ), Modify server.properties.
+ls: cannot access /tmp/kafka-logs: No such file or directory
+ls: cannot access /tmp/zookeeper: No such file or directory
+### kafka2.novalocal ( 10.0.0.2 ), Check if kafka is being used
+### kafka2.novalocal ( 10.0.0.2 ), Store node information in the /etc/hosts directory.
+### kafka2.novalocal ( 10.0.0.2 ), Modify zookeeper.properties.
+### kafka2.novalocal ( 10.0.0.2 ), Modify server.properties.
+ls: cannot access /tmp/kafka-logs: No such file or directory
+ls: cannot access /tmp/zookeeper: No such file or directory
+### kafka3.novalocal ( 10.0.0.3 ), Check if kafka is being used
+### kafka3.novalocal ( 10.0.0.3 ), Store node information in the /etc/hosts directory.
+### kafka3.novalocal ( 10.0.0.3 ), Modify zookeeper.properties.
+### kafka3.novalocal ( 10.0.0.3 ), Modify server.properties.
+### kafka1.novalocal ( 10.0.0.1 ), Start Zookeeper, Kafka.
+### Zookeeper, Kafka process is running.
+### kafka2.novalocal ( 10.0.0.2 ), Start Zookeeper, Kafka.
+### Zookeeper, Kafka process is running.
+### kafka3.novalocal ( 10.0.0.3 ), Start Zookeeper, Kafka.
+### Zookeeper, Kafka process is running.
+##### Cluster Installation Complete #####
+```
+
+
+### Initial Setup After Creating a Kafka Instance
+#### Change the Port
+After initial installation, the ports are 9092, which is the Kafka default port, and 2181, which is the Zookeeper default port. It is recommended to change the port for security.
+
+##### 1) Modify the /home/centos/kafka/config/zookeeper.properties file
+Open the /home/centos/kafka/config/zookeeper.properties file and enter the Zookeeper port to change in clientPort.
+```
+shell> vi /home/centos/kafka/config/zookeeper.properties
+
+clientPort=[zookeeper port to change]
+```
+##### 2) Modify the /home/centos/kafka/config/server.properties file
+Open the /home/centos/kafka/config/server.properties file and enter the Kafka port to change in listeners.
+```
+shell> vi /home/centos/kafka/config/server.properties
+
+# Uncomment
+listeners=PLAINTEXT://[Private IP]:[kafka port to change]
+
+# Change Zookeeper port
+zookeeper.connect=Instance IP:[Zookeeper port]
+---> If it is a cluster, change the port of each instance IP
+```
+
+##### 3) Restart Zookeeper, Kafka
+Restart the zookeeper and the kafka for the port change to take effect.
+```
+shell> sudo systemctl stop kafka.service
+shell> sudo systemctl stop zookeeper.service
+
+shell> sudo systemctl start zookeeper.service
+shell> sudo systemctl start kafka.service
+```
+
+##### 4) Check Zookeeper, Kafka Port Change
+Check if the changed port is in use.
+```
+shell> netstat -ntl | grep [Kafka port]
+shell> netstat -ntl | grep [Zookeeper port]
+```
+
+### Create and Use Kafka Topic. Data
+
+Create and query a topic
+```
+# Instance IP = Private IP / Kafka default port = 9092
+# Create a topic
+shell> /home/centos/kafka/bin/kafka-topics.sh --create --bootstrap-server [Instance IP]:[Kafka PORT] --topic kafka
+
+# Query a topic list
+shell> /home/centos/kafka/bin/kafka-topics.sh --list --bootstrap-server [Instance IP]:[Kafka PORT]
+
+# Check the details of the topic
+shell> /home/centos/kafka/bin/kafka-topics.sh --describe --bootstrap-server [Instance IP]:[Kafka PORT] --topic kafka
+
+# Delete a topic
+shell> /home/centos/kafka/bin/kafka-topics.sh --delete --bootstrap-server [Instance IP]:[Kafka PORT] --topic kafka
+```
+Create and use data
+```
+# Start producer
+shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list  [Instance IP]:[Kafka PORT] --topic kafka
+
+# Start consumer
+shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [Instance IP]:[Kafka PORT] --from-beginning --topic kafka
+
+```
+## Redis
 
 ### Start/Stop Redis
 ```
@@ -426,13 +581,13 @@ You must set a security group (**Network** > **Security Groups**) for communicat
 You will need 3 Redis instances to configure Sentinel. After copying the key pair to the instance used as the master, run the script as follows.
 
 ```
-shell> sh .make_sentinel.sh
+shell> sh .redis_make_sentinel.sh
 ```
 
 Enter the private IPs of the master and replica in turn. You can check the private IP of each instance with the `hostname -I` command.
 
 ```
-shell> sh .make_sentinel.sh
+shell> sh .redis_make_sentinel.sh
 Enter Master's IP: 192.168.0.33
 Enter Replica-1's IP: 192.168.0.27
 Enter Replica-2's IP: 192.168.0.97
@@ -447,13 +602,13 @@ shell> Enter Pemkey's name: <key pair>.pem
 6 Redis instances are required for Cluster configuration. After copying the key pair to the instance used as the master, run the script as follows.
 
 ```
-shell> sh .make_cluster.sh
+shell> sh .redis_make_cluster.sh
 ```
 
 Enter the private IPs of Redis instances used for a cluster in turn. You can check the private IP of each instance with the `hostname -I` command.
 
 ```
-shell> sh .make_cluster.sh
+shell> sh .redis_make_cluster.sh
 Enter cluster-1'IP:  192.168.0.79
 Enter cluster-2'IP: 192.168.0.10
 Enter cluster-3'IP: 192.168.0.33

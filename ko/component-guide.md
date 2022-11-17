@@ -511,7 +511,7 @@ shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list [인스턴
 shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [인스턴스IP]:[카프카PORT] --from-beginning --topic kafka
 
 ```
-## Redis Instance
+## Redis
 
 ### Redis 시작/정지
 ```
@@ -581,13 +581,13 @@ Redis 인스턴스간의 통신을 위해 보안 그룹(**Network** > **Security
 Sentinel 구성을 위해 3개의 Redis 인스턴스가 필요합니다. 마스터로 사용할 인스턴스에 키 페어를 복사한 뒤 아래와 같이 스크립트를 수행하세요.
 
 ```
-shell> sh .make_sentinel.sh
+shell> sh .redis_make_sentinel.sh
 ```
 
 이후 마스터와 복제본의 private IP를 차례로 입력합니다. 각 인스턴스의 private IP는 `hostname -I` 커맨드로 확인할 수 있습니다.
 
 ```
-shell> sh .make_sentinel.sh
+shell> sh .redis_make_sentinel.sh
 Enter Master's IP: 192.168.0.33
 Enter Replica-1's IP: 192.168.0.27
 Enter Replica-2's IP: 192.168.0.97
@@ -602,13 +602,13 @@ shell> Enter Pemkey's name: <키 페어>.pem
 Cluster 구성을 위해 6개의 Redis 인스턴스가 필요합니다. 마스터로 사용할 인스턴스에 키 페어를 복사한 뒤 아래와 같이 스크립트를 수행하세요.
 
 ```
-shell> sh .make_cluster.sh
+shell> sh .redis_make_cluster.sh
 ```
 
 이후 클러스터에 사용할 Redis 인스턴스의 private IP를 차례로 입력합니다. 각 인스턴스의 private IP는 `hostname -I` 커맨드로 확인할 수 있습니다.
 
 ```
-shell> sh .make_cluster.sh
+shell> sh .redis_make_cluster.sh
 Enter cluster-1'IP:  192.168.0.79
 Enter cluster-2'IP: 192.168.0.10
 Enter cluster-3'IP: 192.168.0.33
