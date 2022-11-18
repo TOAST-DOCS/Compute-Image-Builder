@@ -454,6 +454,7 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 ```
 shell> vi /home/centos/kafka/config/zookeeper.properties
 
+clientPort=변경할 zookeeper port
 ```
 ##### 2) /home/centos/kafka/config/server.properties 파일 수정
 /home/centos/kafka/config/server.properties 파일을 열어서 listeners에 변경할 Kafka port를 입력합니다.
@@ -470,7 +471,7 @@ shell> vi /home/centos/kafka/config/server.properties
 listeners=PLAINTEXT://인스턴스IP:변경할 kafka port
 
 # Zookeeper 포트 변경
-zookeeper.connect=인스턴스IP:변경할 Zookeeper port
+zookeeper.connect=인스턴스IP:변경할 zookeeper port
 ---> 클러스터인 경우, 각 인스턴스IP 의 Zookeeper port 변경
 ```
 
@@ -490,7 +491,7 @@ shell> netstat -ntl | grep [Kafka port]
 shell> netstat -ntl | grep [Zookeeper port]
 ```
 
-### Kafka 토픽 및 데이터 생성/사용
+### Apache Kafka 토픽 및 데이터 생성/사용
 
 토픽 생성/조회
 ```
@@ -515,6 +516,7 @@ shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list [인스턴
 # consumer 시작
 shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [인스턴스IP]:[카프카PORT] --from-beginning --topic kafka
 ```
+
 ## Redis
 
 ### Redis 시작/정지
