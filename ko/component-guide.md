@@ -468,11 +468,11 @@ clientPort=변경할 zookeeper port
 shell> vi /home/centos/kafka/config/server.properties
 
 # 주석 해제
-listeners=PLAINTEXT://인스턴스IP:변경할 kafka port
+listeners=PLAINTEXT://인스턴스 IP:변경할 kafka port
 
 # Zookeeper 포트 변경
-zookeeper.connect=인스턴스IP:변경할 zookeeper port
----> 클러스터인 경우, 각 인스턴스IP 의 Zookeeper port 변경
+zookeeper.connect=인스턴스 IP:변경할 zookeeper port
+---> 클러스터인 경우, 각 인스턴스 IP의 Zookeeper port 변경
 ```
 
 ##### 3) Zookeeper, Kafka broker 재시작
