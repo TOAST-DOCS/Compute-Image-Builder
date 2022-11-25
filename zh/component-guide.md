@@ -361,7 +361,6 @@ shell> cubrid broker restart
 > [Note]
 > This guide is created based on Kafka version 3.3.1.
 > If you are using a different version, please makes changes accordingly.
-> For the instance flavor, please choose c1m2 (CPU 1core,  Memory 2GB) or higher specifications.
 
 ### Start and Stop Zookeeper, Kafka broker
 ```
@@ -445,7 +444,7 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 ```
 
 
-### Initial Setup After Creating Apache Kafka Instance
+### Initial Setup After Creating a Kafka Instance
 #### Change the Port
 After initial installation, the ports are 9092, which is the Kafka default port, and 2181, which is the Zookeeper default port. It is recommended to change the port for security.
 
@@ -454,28 +453,22 @@ Open the /home/centos/kafka/config/zookeeper.properties file and enter the Zooke
 ```
 shell> vi /home/centos/kafka/config/zookeeper.properties
 
-clientPort=zookeeper port to change
+clientPort=[zookeeper port to change]
 ```
 ##### 2) Modify the /home/centos/kafka/config/server.properties file
 Open the /home/centos/kafka/config/server.properties file and enter the Kafka port to change in listeners.
-
-How to check Instance IP
-```
-Private IP on the console screen
-or shell> hostname -i
-```
 ```
 shell> vi /home/centos/kafka/config/server.properties
 
 # Uncomment
-listeners=PLAINTEXT://Instance IP:kafka port to change
+listeners=PLAINTEXT://[Private IP]:[kafka port to change]
 
 # Change Zookeeper port
-zookeeper.connect=Instance IP:zookeeper port to change
----> If it is a cluster, change Zookeeper port of each instance IP
+zookeeper.connect=Instance IP:[Zookeeper port]
+---> If it is a cluster, change the port of each instance IP
 ```
 
-##### 3) Restart Zookeeper, Kafka broker
+##### 3) Restart Zookeeper, Kafka
 Restart the zookeeper and the kafka for the port change to take effect.
 ```
 shell> sudo systemctl stop kafka.service
@@ -491,7 +484,8 @@ Check if the changed port is in use.
 shell> netstat -ntl | grep [Kafka port]
 shell> netstat -ntl | grep [Zookeeper port]
 ```
-### Create and Use Apache Kafka Topic and Data
+
+### Create and Use Kafka Topic. Data
 
 Create and query a topic
 ```
@@ -515,7 +509,9 @@ shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list  [Instance
 
 # Start consumer
 shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [Instance IP]:[Kafka PORT] --from-beginning --topic kafka
+
 ```
+
 
 ## Redis
 
