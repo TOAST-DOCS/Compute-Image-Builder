@@ -515,9 +515,8 @@ shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list  [Instance
 
 # Start consumer
 shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [Instance IP]:[Kafka PORT] --from-beginning --topic kafka
-
-
 ```
+
 ## Redis
 
 ### Start/Stop Redis
