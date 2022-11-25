@@ -463,7 +463,7 @@ How to check Instance IP
 ```
 Private IP on the console screen
 or shell> hostname -i
-
+```
 ```
 shell> vi /home/centos/kafka/config/server.properties
 
