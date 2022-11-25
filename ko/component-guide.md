@@ -361,6 +361,7 @@ shell> cubrid broker restart
 > [참고]
 > 본 가이드는 Kafka 3.3.1 버전을 기준으로 작성되었습니다.
 > 다른 버전을 사용하시는 경우 해당 버전에 맞게 변경해 주십시오.
+> 인스턴스 타입은 c1m2(CPU 1core, Memory 2GB) 이상 사양으로 생성해 주십시오.
 
 ### Zookeeper, Kafka broker 시작/정지
 ```
@@ -444,7 +445,7 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 ##### Cluster Installation Complete #####
 ```
 
-### Kafka 인스턴스 생성 후 초기 설정
+### Apache Kafka 인스턴스 생성 후 초기 설정
 #### 포트(port) 변경
 최초 설치 후 포트는 Kafka 기본 포트인 9092, Zookeeper 기본 포트인 2181입니다. 보안을 위해 포트를 변경할 것을 권장합니다.
 
@@ -453,23 +454,28 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 ```
 shell> vi /home/centos/kafka/config/zookeeper.properties
 
-clientPort=[변경할 zookeeper port]
+clientPort=변경할 zookeeper port
 ```
 ##### 2) /home/centos/kafka/config/server.properties 파일 수정
 /home/centos/kafka/config/server.properties 파일을 열어서 listeners에 변경할 Kafka port를 입력합니다.
+
+인스턴스 IP 확인 방법
+```
+콘솔 화면의 Private IP
+또는 shell> hostname -i
+```
 ```
 shell> vi /home/centos/kafka/config/server.properties
 
 # 주석 해제
-listeners=PLAINTEXT://[Private IP]:[변경할 kafka port]
+listeners=PLAINTEXT://인스턴스 IP:변경할 kafka port
 
 # Zookeeper 포트 변경
-zookeeper.connect=인스턴스IP:[Zookeeper port]
----> 클러스터인 경우, 각 인스턴스IP 의 port 변경
+zookeeper.connect=인스턴스 IP:변경할 zookeeper port
+---> 클러스터인 경우, 각 인스턴스 IP의 Zookeeper port 변경
 ```
 
-##### 3) Zookeeper, Kafka 재시작
-포트 변경이 적용되도록 Zookeeper, Kafka를 재시작합니다.
+##### 3) Zookeeper, Kafka broker 재시작
 ```
 shell> sudo systemctl stop kafka.service
 shell> sudo systemctl stop zookeeper.service
@@ -485,7 +491,7 @@ shell> netstat -ntl | grep [Kafka port]
 shell> netstat -ntl | grep [Zookeeper port]
 ```
 
-### Kafka 토픽 및 데이터 생성/사용
+### Apache Kafka 토픽 및 데이터 생성/사용
 
 토픽 생성/조회
 ```
@@ -509,8 +515,8 @@ shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list [인스턴
 
 # consumer 시작
 shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [인스턴스IP]:[카프카PORT] --from-beginning --topic kafka
-
 ```
+
 ## Redis
 
 ### Redis 시작/정지
