@@ -131,10 +131,10 @@ shell> vi /var/lib/pgsql/13/data/pg_hba.conf
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 # IPv4 local connections:
 host    all             all             127.0.0.1/32            scram-sha-256
-host   許可DB         許可ユーザー      許可アドレス                scram-sha-256
+host  許可DB        許可ユーザー    許可アドレス               scram-sha-256
 # IPv6 local connections:
 host    all             all             ::1/128                 scram-sha-256
-host   許可DB         許可ユーザー      許可アドレス                scram-sha-256
+host  許可DB        許可ユーザー    許可アドレス               scram-sha-256
 
 
 #postgresqlサービス再起動
@@ -155,7 +155,7 @@ PostgreSQLディレクトリおよびファイルの説明は以下の通りで�
 
 ## MySQL
 
-### MySQL 起動/停止方法
+### MySQL起動/停止方法
 
 ``` sh
 # MySQLサービスの起動
@@ -358,6 +358,8 @@ shell> cubrid broker restart
 > [参考]
 > このガイドはKafka 3.3.1バージョンを基準に作成されました。
 > 他のバージョンを使用する場合は、該当のバージョンに合わせて変更してください。
+> インスタンスタイプはc1m2(CPU 1core、Memory 2GB)以上の仕様で作成してください。
+
 ### Zookeeper、Kafka broker起動/停止
 ```
 # Zookeeper、Kafka broker起動(Zookeeperを先に起動)
@@ -436,7 +438,7 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 ##### Cluster Installation Complete #####
 ```
 
-### Kafkaインスタンス作成後の初期設定
+### Apache Kafkaインスタンス作成後の初期設定
 #### ポート(port)変更
 最初のインストール後、ポートはKafkaデフォルトポート9092、Zookeeperデフォルトポート2181です。セキュリティのためにポートを変更することを推奨します。
 
@@ -444,21 +446,28 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 /home/centos/kafka/config/zookeeper.propertiesファイルを開いてclientPortに変更するZookeeper portを入力します。
 ```
 shell> vi /home/centos/kafka/config/zookeeper.properties
-clientPort=[変更するzookeeper port]
+clientPort=変更するzookeeper port
 ```
 ##### 2) /home/centos/kafka/config/server.propertiesファイル修正
 /home/centos/kafka/config/server.propertiesファイルを開いてlistenersに変更するKafka portを入力します。
+
+インスタンスIPの確認方法
+```
+コンソール画面のPrivate IP
+またはshell> hostname -i
+```
 ```
 shell> vi /home/centos/kafka/config/server.properties
+
 # コメント解除
-listeners=PLAINTEXT://[Private IP]:[変更するkafka port]
+listeners=PLAINTEXT://インスタンスIP：変更するkafka port
+
 # Zookeeperポート変更
-zookeeper.connect=インスタンスIP:[Zookeeper port]
----> クラスタの場合、各インスタンスIPのport変更
+zookeeper.connect=インスタンスIP：変更するzookeeper port
+---> クラスタの場合、各インスタンスIPのZookeeper portを変更
 ```
 
-##### 3) Zookeeper、Kafka再起動
-ポートの変更が適用されるようにZookeeper、Kafkaを再起動します。
+##### 3) Zookeeper、Kafka brokerの再起動
 ```
 shell> sudo systemctl stop kafka.service
 shell> sudo systemctl stop zookeeper.service
@@ -473,7 +482,7 @@ shell> netstat -ntl | grep [Kafka port]
 shell> netstat -ntl | grep [Zookeeper port]
 ```
 
-### Kafkaトピックおよびデータ作成/使用
+### Apache Kafkaトピックおよびデータ作成/使用
 
 トピックの作成/照会
 ```
@@ -494,7 +503,6 @@ shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list [インス
 # consumer起動
 shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [インスタンスIP]:[Kafka PORT] --from-beginning --topic kafka
 ```
-
 
 ## Redis
 
@@ -642,7 +650,7 @@ Can I set the above configuration? (type 'yes' to accept):
 ## JEUS, WebtoB
 
 > [参考]
-> このガイドはJEUS 8 Fxi#1, WebtoB 5 Fix4 バージョンを基準に作成されました。
+> このガイドはJEUS 8 Fxi#1, WebtoB 5 Fix4バージョンを基準に作成されました。
 > 他のバージョンを使用する場合はそのバージョンに合わせて変更してください。
 
 各イメージスクリプトは、JDKのインストール後にDAS、MS、WebtoBをインストールします。
@@ -682,8 +690,8 @@ JEUSを設定または制御するにはノードマネージャーを起動し�
 
 ##### ノードマネージャの起動
 
-シェルに接続してstartNodeManagerコマンドでノード マネージャを実行します。
-ノード マネージャ同士で通信が必要なため、セキュリティグループに基本ポートである7730の許可ルールを追加する必要があります。
+シェルに接続してstartNodeManagerコマンドでノードマネージャを実行します。
+ノードマネージャ同士で通信が必要なため、セキュリティグループに基本ポートである7730の許可ルールを追加する必要があります。
 
 ##### JEUS起動
 
@@ -917,7 +925,7 @@ $ python manin.py --epochs 1
 
 >[参考]
 >
->より詳しい使用方法は[PyTorch チュートリアル](https://pytorch.org/tutorials/)を参照してください。
+>より詳しい使用方法は[PyTorchチュートリアル](https://pytorch.org/tutorials/)を参照してください。
 
 ## Slurm
 
