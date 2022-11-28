@@ -1,6 +1,6 @@
 ## Compute > Image Builder > インストールコンポーネントガイド
 
-## PostgreSQL 
+## PostgreSQL
 
 > [参考]
 > このガイドはPostgreSQL 13バージョンを基準に作成されました。
@@ -131,10 +131,10 @@ shell> vi /var/lib/pgsql/13/data/pg_hba.conf
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 # IPv4 local connections:
 host    all             all             127.0.0.1/32            scram-sha-256
-host   許可DB         許可ユーザー      許可アドレス                scram-sha-256
+host  許可DB        許可ユーザー    許可アドレス               scram-sha-256
 # IPv6 local connections:
 host    all             all             ::1/128                 scram-sha-256
-host   許可DB         許可ユーザー      許可アドレス                scram-sha-256
+host  許可DB        許可ユーザー    許可アドレス               scram-sha-256
 
 
 #postgresqlサービス再起動
@@ -155,7 +155,7 @@ PostgreSQLディレクトリおよびファイルの説明は以下の通りで�
 
 ## MySQL
 
-### MySQL 起動/停止方法
+### MySQL起動/停止方法
 
 ``` sh
 # MySQLサービスの起動
@@ -288,18 +288,18 @@ sudo systemctl restart mariadb.service
 ``` sh
 # CUBRIDサービス/サーバー起動
 shell> sudo su - cubrid
-shell> cubrid service start 
+shell> cubrid service start
 shell> cubrid server start demodb
 
 # CUBRIDサービス/サーバー終了
 shell> sudo su - cubrid
 shell> cubrid server stop demodb
-shell> cubrid service stop 
+shell> cubrid service stop
 
 # CUBRIDサービス/サーバー再起動
 shell> sudo su - cubrid
 shell> cubrid server restart demodb
-shell> cubrid service restart 
+shell> cubrid service restart
 
 # CUBRIDブローカー開始/終了/再起動
 shell> sudo su - cubrid
@@ -351,13 +351,306 @@ BROKER_PORT             =[変更するportアドレス]
 ##### 2) broker再起動
 ポートの変更を適用するためにbrokerを再起動します。
 ```
-shell> cubrid broker restart 
+shell> cubrid broker restart
+```
+
+## Apache Kafka
+> [参考]
+> このガイドはKafka 3.3.1バージョンを基準に作成されました。
+> 他のバージョンを使用する場合は、該当のバージョンに合わせて変更してください。
+> インスタンスタイプはc1m2(CPU 1core、Memory 2GB)以上の仕様で作成してください。
+
+### Zookeeper、Kafka broker起動/停止
+```
+# Zookeeper、Kafka broker起動(Zookeeperを先に起動)
+shell> sudo systemctl start zookeeper.service
+shell> sudo systemctl start kafka.service
+# Zookeeper、Kafka broker終了(Kafka brokerを先に終了)
+shell> sudo systemctl stop kafka.service
+shell> sudo systemctl stop zookeeper.service
+# Zookeeper, Kafka broker再起動
+shell> sudo systemctl restart zookeeper.service
+shell> sudo systemctl restart kafka.service
+```
+
+### Kafka Clusterインストール
+'- 必ず新規インスタンスにインストールします。
+- インスタンスは3台以上、奇数で必要です。インスタンス1台でインストールスクリプトを実行します。
+- インスタンス1台にkafka broker、zookeeper nodeが各1つずつ構成されます。
+- インストールスクリプトを実行するインスタンスの /home/centos/ パスに他のインスタンスに接続する時に必要なキーペア(PEMファイル)が必要です。クラスタインスタンスのキーペアはすべて同じでなければなりません。
+'- デフォルトポートのインストールのみサポートします。ポートの変更が必要な場合はクラスタインストールを完了してから初期設定ガイドのポート変更を参考にして変更します。
+'- インスタンス間のKafka関連ポート通信のために、以下のセキュリティグループ設定を追加します。
+
+セキュリティグループ設定
+```
+方向：受信
+IPプロトコル： TCP
+ポート： 22, 9092, 2181, 2888, 3888
+```
+Hostname、IPの確認方法
+```
+# Hostname確認
+shell> hostname
+# IP確認
+コンソール画面
+またはshell> hostname -i
+```
+Clusterインストールスクリプト実行例(上で確認したhostname、IPを入力)
+```
+shell> sh /home/centos/.kafka_make_cluster.sh
+Enter Cluster Node Count: 3
+### 3 is odd number.
+Enter Cluster's IP ( Cluster 1 ) : 10.0.0.1
+Enter Cluster's HOST_NAME ( Cluster 1 ) : kafka1.novalocal
+Enter Cluster's IP ( Cluster 2 ) : 10.0.0.2
+Enter Cluster's HOST_NAME ( Cluster 2 ) : kafka2.novalocal
+Enter Cluster's IP ( Cluster 3 ) : 10.0.0.3
+Enter Cluster's HOST_NAME ( Cluster 3 ) : kafka3.novalocal
+10.0.0.1 kafka1.novalocal
+10.0.0.2 kafka2.novalocal
+10.0.0.3 kafka3.novalocal
+Check Cluster Node Info (y/n) y
+Enter Pemkey's name: kafka.pem
+ls: cannot access /tmp/kafka-logs: No such file or directory
+ls: cannot access /tmp/zookeeper: No such file or directory
+### kafka1.novalocal ( 10.0.0.1 ), Check if kafka is being used
+### kafka1.novalocal ( 10.0.0.1 ), Store node information in the /etc/hosts directory.
+### kafka1.novalocal ( 10.0.0.1 ), Modify zookeeper.properties.
+### kafka1.novalocal ( 10.0.0.1 ), Modify server.properties.
+ls: cannot access /tmp/kafka-logs: No such file or directory
+ls: cannot access /tmp/zookeeper: No such file or directory
+### kafka2.novalocal ( 10.0.0.2 ), Check if kafka is being used
+### kafka2.novalocal ( 10.0.0.2 ), Store node information in the /etc/hosts directory.
+### kafka2.novalocal ( 10.0.0.2 ), Modify zookeeper.properties.
+### kafka2.novalocal ( 10.0.0.2 ), Modify server.properties.
+ls: cannot access /tmp/kafka-logs: No such file or directory
+ls: cannot access /tmp/zookeeper: No such file or directory
+### kafka3.novalocal ( 10.0.0.3 ), Check if kafka is being used
+### kafka3.novalocal ( 10.0.0.3 ), Store node information in the /etc/hosts directory.
+### kafka3.novalocal ( 10.0.0.3 ), Modify zookeeper.properties.
+### kafka3.novalocal ( 10.0.0.3 ), Modify server.properties.
+### kafka1.novalocal ( 10.0.0.1 ), Start Zookeeper, Kafka.
+### Zookeeper, Kafka process is running.
+### kafka2.novalocal ( 10.0.0.2 ), Start Zookeeper, Kafka.
+### Zookeeper, Kafka process is running.
+### kafka3.novalocal ( 10.0.0.3 ), Start Zookeeper, Kafka.
+### Zookeeper, Kafka process is running.
+##### Cluster Installation Complete #####
+```
+
+### Apache Kafkaインスタンス作成後の初期設定
+#### ポート(port)変更
+最初のインストール後、ポートはKafkaデフォルトポート9092、Zookeeperデフォルトポート2181です。セキュリティのためにポートを変更することを推奨します。
+
+##### 1) /home/centos/kafka/config/zookeeper.propertiesファイル修正
+/home/centos/kafka/config/zookeeper.propertiesファイルを開いてclientPortに変更するZookeeper portを入力します。
+```
+shell> vi /home/centos/kafka/config/zookeeper.properties
+clientPort=変更するzookeeper port
+```
+##### 2) /home/centos/kafka/config/server.propertiesファイル修正
+/home/centos/kafka/config/server.propertiesファイルを開いてlistenersに変更するKafka portを入力します。
+
+インスタンスIPの確認方法
+```
+コンソール画面のPrivate IP
+またはshell> hostname -i
+```
+```
+shell> vi /home/centos/kafka/config/server.properties
+
+# コメント解除
+listeners=PLAINTEXT://インスタンスIP：変更するkafka port
+
+# Zookeeperポート変更
+zookeeper.connect=インスタンスIP：変更するzookeeper port
+---> クラスタの場合、各インスタンスIPのZookeeper portを変更
+```
+
+##### 3) Zookeeper、Kafka brokerの再起動
+```
+shell> sudo systemctl stop kafka.service
+shell> sudo systemctl stop zookeeper.service
+shell> sudo systemctl start zookeeper.service
+shell> sudo systemctl start kafka.service
+```
+
+##### 4) Zookeeper、Kafka port変更確認
+変更されたポートが使用されていることを確認します。
+```
+shell> netstat -ntl | grep [Kafka port]
+shell> netstat -ntl | grep [Zookeeper port]
+```
+
+### Apache Kafkaトピックおよびデータ作成/使用
+
+トピックの作成/照会
+```
+# インスタンスIP = Private IP / Kafka基本port = 9092
+# トピック作成
+shell> /home/centos/kafka/bin/kafka-topics.sh --create --bootstrap-server [インスタンスIP]:[Kafka PORT] --topic kafka
+# トピックリスト照会
+shell> /home/centos/kafka/bin/kafka-topics.sh --list --bootstrap-server [インスタンスIP]:[Kafka PORT]
+# トピック詳細情報確認
+shell> /home/centos/kafka/bin/kafka-topics.sh --describe --bootstrap-server [インスタンスIP]:[Kafka PORT] --topic kafka
+# トピック削除
+shell> /home/centos/kafka/bin/kafka-topics.sh --delete --bootstrap-server [インスタンスIP]:[Kafka PORT] --topic kafka
+```
+データ作成/使用
+```
+# producer起動
+shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list [インスタンスIP]:[Kafka PORT] --topic kafka
+# consumer起動
+shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [インスタンスIP]:[Kafka PORT] --from-beginning --topic kafka
+```
+
+## Redis
+
+### Redis起動/停止
+```
+# Redisサービスの起動
+shell> sudo systemctl start redis
+
+# Redisサービスの停止
+shell> sudo systemctl stop redis
+
+# Redisサービスの再起動
+shell> sudo systemctl restart redis
+```
+
+### Redis接続
+`redis-cli`コマンドを利用してRedisインスタンスに接続できます。
+```
+shell> redis-cli
+```
+
+### Redisインスタンス作成後の初期設定
+Redisインスタンスの基本設定ファイルは`/home/centos/redis/redis.conf`です。変更が必要なパラメータの説明は次のとおりです。
+
+#### bind
+- 基本値：`127.0.0.1 -::1`
+- 変更値：`<private ip> 127.0.0.1 -::1`
+
+Redisが使用するipの値です。サーバー外部からRedisインスタンスへのアクセスを許可するには該当パラメータにprivate ipを追加する必要があります。 private ipは`hostname -I`コマンドで確認できます。
+
+#### port
+- 基本値：`6379`
+
+ポートはRedisデフォルト値である6379です。セキュリティ上、ポートを変更することを推奨します。ポートを変更した後は、以下のコマンドでRedisに接続できます。
+
+```
+shell> redis-cli -p <新しいポート>
+```
+
+#### requirepass/masterauth
+- 基本値：`nhncloud`
+
+基本パスワードは`nhncloud`です。セキュリティ上、パスワードを変更することを推奨します。複製接続を使用する場合、`requirepass`と`masterauth`値を同時に変更する必要があります。
+
+### 自動HA構成スクリプト
+NHN CloudのRedisインスタンスは自動的にHA環境を構成するスクリプトを提供します。スクリプトは必ず**インストール直後の新規インスタンス**でのみ使用することができ、redis.confで設定値を変更した場合には使用できません。
+
+スクリプトを使用するには次の設定が必ず必要です。
+
+##### キーペアコピー
+インストールスクリプトを実行するインスタンスに他のインスタンス接続に必要なキーペア(PEMファイル)が必要です。キーペアは次のようにコピーできます。
+
+```
+local> scp -i <キーペア>.pem <キーペア>.pem centos@<floating ip>:/home/centos/
+```
+
+作成したインスタンスのキーペアは、すべて同じである必要があります。
+
+##### セキュリティグループ設定
+Redisインスタンス間の通信のためにセキュリティグループ(**Network** > **Security Groups**)設定が必要です。以下のルールでセキュリティグループを作成し、Redisインスタンスに適用してください。
+
+| 方向 | IPプロトコル| ポート範囲| Ether| 遠隔|
+| --- | --- | --- | --- | --- |
+| 受信|TCP | 6379| IPv4| インスタンスIP(CIDR)|
+| 受信|TCP | 16379| IPv4| インスタンスIP(CIDR)|
+| 受信|TCP | 26379| IPv4| インスタンスIP(CIDR)|
+
+#### Sentinel自動構成
+Sentinel構成のために3つのRedisインスタンスが必要です。マスターとして使用するインスタンスにキーペアをコピーし、以下のようにスクリプトを実行してください。
+
+```
+shell> sh .redis_make_sentinel.sh
+```
+
+その後、マスターとレプリカのprivate IPを順番に入力します。各インスタンスのprivate IPは`hostname -I`コマンドで確認できます。
+
+```
+shell> sh .redis_make_sentinel.sh
+Enter Master's IP: 192.168.0.33
+Enter Replica-1's IP: 192.168.0.27
+Enter Replica-2's IP: 192.168.0.97
+```
+
+コピーしたキーペアのファイル名を入力します。
+```
+shell> Enter Pemkey's name: <キーペア>.pem
+```
+
+#### Cluster自動構成
+Cluster構成のために6つのRedisインスタンスが必要です。マスターとして使用するインスタンスにキーペアをコピーし、以下のようにスクリプトを実行してください。
+
+```
+shell> sh .redis_make_cluster.sh
+```
+
+その後、クラスタに使用するRedisインスタンスのprivate IPを順番に入力します。各インスタンスのprivate IPは`hostname -I`コマンドで確認できます。
+
+```
+shell> sh .redis_make_cluster.sh
+Enter cluster-1'IP:  192.168.0.79
+Enter cluster-2'IP: 192.168.0.10
+Enter cluster-3'IP: 192.168.0.33
+Enter cluster-4'IP:  192.168.0.116
+Enter cluster-5'IP:  192.168.0.91
+Enter cluster-6'IP:  192.168.0.32
+```
+
+コピーしたキーペアのファイル名を入力します。
+
+```
+shell> Enter Pemkey's name: <キーペア>.pem
+```
+
+`yes`を入力し、クラスタ構成を完了します。
+```
+>>> Performing hash slots allocation on 6 nodes...
+Master[0] -> Slots 0 - 5460
+Master[1] -> Slots 5461 - 10922
+Master[2] -> Slots 10923 - 16383
+Adding replica 192.168.0.91:6379 to 192.168.0.79:6379
+Adding replica 192.168.0.32:6379 to 192.168.0.10:6379
+Adding replica 192.168.0.116:6379 to 192.168.0.33:6379
+M: 0a6ee5bf24141f0058c403d8cc42b349cdc09752 192.168.0.79:6379
+   slots:[0-5460] (5461 slots) master
+M: b5d078bd7b30ddef650d9a7fa9735e7648efc86f 192.168.0.10:6379
+   slots:[5461-10922] (5462 slots) master
+M: 0da9b78108b6581bdb90002cbdde3506e9173dd8 192.168.0.33:6379
+   slots:[10923-16383] (5461 slots) master
+S: 078b4ce014a52588e23577b3fc2dabf408723d68 192.168.0.116:6379
+   replicates 0da9b78108b6581bdb90002cbdde3506e9173dd8
+S: caaae4ebd3584c0481205e472d6bd0f9dc5c574e 192.168.0.91:6379
+   replicates 0a6ee5bf24141f0058c403d8cc42b349cdc09752
+S: ab2aa9e37cee48ef8e4237fd63e8301d81193818 192.168.0.32:6379
+   replicates b5d078bd7b30ddef650d9a7fa9735e7648efc86f
+Can I set the above configuration? (type 'yes' to accept):
+```
+
+```
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
 ```
 
 ## JEUS, WebtoB
 
 > [参考]
-> このガイドはJEUS 8 Fxi#1, WebtoB 5 Fix4 バージョンを基準に作成されました。
+> このガイドはJEUS 8 Fxi#1, WebtoB 5 Fix4バージョンを基準に作成されました。
 > 他のバージョンを使用する場合はそのバージョンに合わせて変更してください。
 
 各イメージスクリプトは、JDKのインストール後にDAS、MS、WebtoBをインストールします。
@@ -376,7 +669,7 @@ JEUSは`~/apps/jeus8`にインストールされます。 (スクリプトなど
 
 インストールする時、以下のプロパティに設定されます。
 
-| 区分 | デフォルト値 | 
+| 区分 | デフォルト値 |
 | --- | --- |
 | ドメイン名 | jeus_domain |
 | WebAdminポート | 9736 |
@@ -397,8 +690,8 @@ JEUSを設定または制御するにはノードマネージャーを起動し�
 
 ##### ノードマネージャの起動
 
-シェルに接続してstartNodeManagerコマンドでノード マネージャを実行します。
-ノード マネージャ同士で通信が必要なため、セキュリティグループに基本ポートである7730の許可ルールを追加する必要があります。
+シェルに接続してstartNodeManagerコマンドでノードマネージャを実行します。
+ノードマネージャ同士で通信が必要なため、セキュリティグループに基本ポートである7730の許可ルールを追加する必要があります。
 
 ##### JEUS起動
 
@@ -425,7 +718,7 @@ wscfl -i http.m
 
 wsbootを利用してWebtoBを起動します。
 ```
-wsboot 
+wsboot
 ```
 
 wsadminを利用して状態の確認と制御を行うことができます。
@@ -534,7 +827,7 @@ Deep Learning Frameworkを使用するには、まずイメージテンプレー
 Deep Learning Framework Instanceでは次のバージョンのソフトウェアが提供されます。
 
 | ソフトウェア | バージョン | インストール方式 |
-| --- | --- | --- | 
+| --- | --- | --- |
 | TensorFlow | 2.4.1 | pip, [参照](https://www.tensorflow.org/install/pip) |
 | PyTorch | 1.7.1 | conda, [参照](https://pytorch.org/get-started/previous-versions/) |
 | Python | 3.8.11 | conda |
@@ -632,7 +925,7 @@ $ python manin.py --epochs 1
 
 >[参考]
 >
->より詳しい使用方法は[PyTorch チュートリアル](https://pytorch.org/tutorials/)を参照してください。
+>より詳しい使用方法は[PyTorchチュートリアル](https://pytorch.org/tutorials/)を参照してください。
 
 ## Slurm
 
