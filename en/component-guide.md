@@ -237,7 +237,7 @@ shell> sudo systemctl restart mariadb.service
 After creating an instance, initially connect as follows.
 
 ``` sh
-shell> mysql -u root
+shell> sudo mysql -u root
 ```
 
 After changing the password, connect as follows.
