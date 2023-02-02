@@ -237,7 +237,7 @@ shell> sudo systemctl restart mariadb.service
 이미지 생성 후 초기에는 아래와 같이 접속합니다.
 
 ``` sh
-shell> mysql -u root
+shell> sudo mysql -u root
 ```
 
 패스워드 변경 후에는 아래와 같이 접속합니다.
