@@ -234,7 +234,7 @@ shell> sudo systemctl restart mariadb.service
 イメージ作成後、最初は以下のように接続します。
 
 ``` sh
-shell> mysql -u root
+shell> sudo mysql -u root
 ```
 
 パスワード変更後は以下のように接続します。
