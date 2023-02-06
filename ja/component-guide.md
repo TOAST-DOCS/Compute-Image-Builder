@@ -377,7 +377,7 @@ shell> sudo systemctl restart kafka.service
 '- 必ず新規インスタンスにインストールします。
 - インスタンスは3台以上、奇数で必要です。インスタンス1台でインストールスクリプトを実行します。
 - インスタンス1台にkafka broker、zookeeper nodeが各1つずつ構成されます。
-- インストールスクリプトを実行するインスタンスの /home/centos/ パスに他のインスタンスに接続する時に必要なキーペア(PEMファイル)が必要です。クラスタインスタンスのキーペアはすべて同じでなければなりません。
+- インストールスクリプトを実行するインスタンスの ~ パスに他のインスタンスに接続する時に必要なキーペア(PEMファイル)が必要です。クラスタインスタンスのキーペアはすべて同じでなければなりません。
 '- デフォルトポートのインストールのみサポートします。ポートの変更が必要な場合はクラスタインストールを完了してから初期設定ガイドのポート変更を参考にして変更します。
 '- インスタンス間のKafka関連ポート通信のために、以下のセキュリティグループ設定を追加します。
 
@@ -397,7 +397,7 @@ shell> hostname
 ```
 Clusterインストールスクリプト実行例(上で確認したhostname、IPを入力)
 ```
-shell> sh /home/centos/.kafka_make_cluster.sh
+shell> sh ~/.kafka_make_cluster.sh
 Enter Cluster Node Count: 3
 ### 3 is odd number.
 Enter Cluster's IP ( Cluster 1 ) : 10.0.0.1
@@ -442,14 +442,14 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 #### ポート(port)変更
 最初のインストール後、ポートはKafkaデフォルトポート9092、Zookeeperデフォルトポート2181です。セキュリティのためにポートを変更することを推奨します。
 
-##### 1) /home/centos/kafka/config/zookeeper.propertiesファイル修正
-/home/centos/kafka/config/zookeeper.propertiesファイルを開いてclientPortに変更するZookeeper portを入力します。
+##### 1) ~/kafka/config/zookeeper.propertiesファイル修正
+~/kafka/config/zookeeper.propertiesファイルを開いてclientPortに変更するZookeeper portを入力します。
 ```
-shell> vi /home/centos/kafka/config/zookeeper.properties
+shell> vi ~/kafka/config/zookeeper.properties
 clientPort=変更するzookeeper port
 ```
-##### 2) /home/centos/kafka/config/server.propertiesファイル修正
-/home/centos/kafka/config/server.propertiesファイルを開いてlistenersに変更するKafka portを入力します。
+##### 2) ~/kafka/config/server.propertiesファイル修正
+~/kafka/config/server.propertiesファイルを開いてlistenersに変更するKafka portを入力します。
 
 インスタンスIPの確認方法
 ```
@@ -457,7 +457,7 @@ clientPort=変更するzookeeper port
 またはshell> hostname -i
 ```
 ```
-shell> vi /home/centos/kafka/config/server.properties
+shell> vi ~/kafka/config/server.properties
 
 # コメント解除
 listeners=PLAINTEXT://インスタンスIP：変更するkafka port
@@ -488,20 +488,20 @@ shell> netstat -ntl | grep [Zookeeper port]
 ```
 # インスタンスIP = Private IP / Kafka基本port = 9092
 # トピック作成
-shell> /home/centos/kafka/bin/kafka-topics.sh --create --bootstrap-server [インスタンスIP]:[Kafka PORT] --topic kafka
+shell> ~/kafka/bin/kafka-topics.sh --create --bootstrap-server [インスタンスIP]:[Kafka PORT] --topic kafka
 # トピックリスト照会
-shell> /home/centos/kafka/bin/kafka-topics.sh --list --bootstrap-server [インスタンスIP]:[Kafka PORT]
+shell> ~/kafka/bin/kafka-topics.sh --list --bootstrap-server [インスタンスIP]:[Kafka PORT]
 # トピック詳細情報確認
-shell> /home/centos/kafka/bin/kafka-topics.sh --describe --bootstrap-server [インスタンスIP]:[Kafka PORT] --topic kafka
+shell> ~/kafka/bin/kafka-topics.sh --describe --bootstrap-server [インスタンスIP]:[Kafka PORT] --topic kafka
 # トピック削除
-shell> /home/centos/kafka/bin/kafka-topics.sh --delete --bootstrap-server [インスタンスIP]:[Kafka PORT] --topic kafka
+shell> ~/kafka/bin/kafka-topics.sh --delete --bootstrap-server [インスタンスIP]:[Kafka PORT] --topic kafka
 ```
 データ作成/使用
 ```
 # producer起動
-shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list [インスタンスIP]:[Kafka PORT] --topic kafka
+shell> ~/kafka/bin/kafka-console-producer.sh --broker-list [インスタンスIP]:[Kafka PORT] --topic kafka
 # consumer起動
-shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [インスタンスIP]:[Kafka PORT] --from-beginning --topic kafka
+shell> ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server [インスタンスIP]:[Kafka PORT] --from-beginning --topic kafka
 ```
 
 ## Redis
