@@ -382,7 +382,7 @@ shell> sudo systemctl restart kafka.service
 - 반드시 신규 인스턴스에 설치합니다.
 - 인스턴스는 3대 이상 홀수로 필요하며, 인스턴스 1대에서 설치 스크립트를 수행합니다.
 - 인스턴스 1대에 kafka broker, zookeeper node 각 1개씩 같이 구성됩니다.
-- 설치 스크립트를 수행하는 인스턴스의 /home/centos/ 경로에 타 인스턴스 접속 시 필요한 키 페어(PEM 파일)가 있어야 합니다. 클러스터 인스턴스들의 키 페어는 모두 동일해야 합니다.
+- 설치 스크립트를 수행하는 인스턴스의 ~ 경로에 타 인스턴스 접속 시 필요한 키 페어(PEM 파일)가 있어야 합니다. 클러스터 인스턴스들의 키 페어는 모두 동일해야 합니다.
 - 기본 포트 설치만 지원합니다. 포트 변경이 필요할 경우 클러스터 설치를 완료한 뒤 초기 설정 가이드의 포트 변경을 참고하여 변경합니다.
 - 인스턴스 간 Kafka 관련 포트 통신을 위해 아래 보안 그룹 설정을 추가합니다.
 
@@ -403,7 +403,7 @@ shell> hostname
 ```
 Cluster 설치 스크립트 수행 예시(위에서 확인한 hostname, IP 입력)
 ```
-shell> sh /home/centos/.kafka_make_cluster.sh
+shell> sh ~/.kafka_make_cluster.sh
 
 Enter Cluster Node Count: 3
 ### 3 is odd number.
@@ -449,15 +449,15 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 #### 포트(port) 변경
 최초 설치 후 포트는 Kafka 기본 포트인 9092, Zookeeper 기본 포트인 2181입니다. 보안을 위해 포트를 변경할 것을 권장합니다.
 
-##### 1) /home/centos/kafka/config/zookeeper.properties 파일 수정
-/home/centos/kafka/config/zookeeper.properties 파일을 열어서 clientPort에 변경할 Zookeeper port를 입력합니다.
+##### 1) ~/kafka/config/zookeeper.properties 파일 수정
+~/kafka/config/zookeeper.properties 파일을 열어서 clientPort에 변경할 Zookeeper port를 입력합니다.
 ```
-shell> vi /home/centos/kafka/config/zookeeper.properties
+shell> vi ~/kafka/config/zookeeper.properties
 
 clientPort=변경할 zookeeper port
 ```
-##### 2) /home/centos/kafka/config/server.properties 파일 수정
-/home/centos/kafka/config/server.properties 파일을 열어서 listeners에 변경할 Kafka port를 입력합니다.
+##### 2) ~/kafka/config/server.properties 파일 수정
+~/kafka/config/server.properties 파일을 열어서 listeners에 변경할 Kafka port를 입력합니다.
 
 인스턴스 IP 확인 방법
 ```
@@ -465,7 +465,7 @@ clientPort=변경할 zookeeper port
 또는 shell> hostname -i
 ```
 ```
-shell> vi /home/centos/kafka/config/server.properties
+shell> vi ~/kafka/config/server.properties
 
 # 주석 해제
 listeners=PLAINTEXT://인스턴스 IP:변경할 kafka port
@@ -497,24 +497,24 @@ shell> netstat -ntl | grep [Zookeeper port]
 ```
 # 인스턴스IP = Private IP / Kafka 기본 port = 9092
 # 토픽 생성
-shell> /home/centos/kafka/bin/kafka-topics.sh --create --bootstrap-server [인스턴스IP]:[카프카PORT] --topic kafka
+shell> ~/kafka/bin/kafka-topics.sh --create --bootstrap-server [인스턴스IP]:[카프카PORT] --topic kafka
 
 # 토픽 리스트 조회
-shell> /home/centos/kafka/bin/kafka-topics.sh --list --bootstrap-server [인스턴스IP]:[카프카PORT]
+shell> ~/kafka/bin/kafka-topics.sh --list --bootstrap-server [인스턴스IP]:[카프카PORT]
 
 # 토픽 상세 정보 확인
-shell> /home/centos/kafka/bin/kafka-topics.sh --describe --bootstrap-server [인스턴스IP]:[카프카PORT] --topic kafka
+shell> ~/kafka/bin/kafka-topics.sh --describe --bootstrap-server [인스턴스IP]:[카프카PORT] --topic kafka
 
 # 토픽 삭제
-shell> /home/centos/kafka/bin/kafka-topics.sh --delete --bootstrap-server [인스턴스IP]:[카프카PORT] --topic kafka
+shell> ~/kafka/bin/kafka-topics.sh --delete --bootstrap-server [인스턴스IP]:[카프카PORT] --topic kafka
 ```
 데이터 생성/사용
 ```
 # producer 시작
-shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list [인스턴스IP]:[카프카PORT] --topic kafka
+shell> ~/kafka/bin/kafka-console-producer.sh --broker-list [인스턴스IP]:[카프카PORT] --topic kafka
 
 # consumer 시작
-shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [인스턴스IP]:[카프카PORT] --from-beginning --topic kafka
+shell> ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server [인스턴스IP]:[카프카PORT] --from-beginning --topic kafka
 ```
 
 ## Redis
