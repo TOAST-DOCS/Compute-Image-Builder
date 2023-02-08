@@ -183,14 +183,18 @@ Enter password:
 
 ### MySQLインスタンス作成後の初期設定
 
-#### 1\. パスワード設定
+#### 1\.パスワード設定
 
-初期インストール後、MySQL rootアカウントパスワードは指定されていません。そのため、インストール後に必ずパスワードを設定する必要があります。
+初期インストール後、MySQL ROOTアカウントパスワードは指定されていません。したがってインストール後、すぐにパスワードを設定する必要があります。
 
 ```
-SET PASSWORD [FOR user] = password_option
-mysql> SET PASSWORD = PASSWORD('パスワード');
+mysql> ALTER USER USER() IDENTIFIED BY '新しいパスワード';
 ```
+
+MySQL基本validate\_password\_policyは下記の通りです。
+
+* validate\_password\_policy=MEDIUM
+* 基本**8文字以上、数字、大文字、小文字、特殊文字**を含める必要がある
 
 #### 2\. ポート\(port\)変更
 
@@ -525,7 +529,7 @@ shell> redis-cli
 ```
 
 ### Redisインスタンス作成後の初期設定
-Redisインスタンスの基本設定ファイルは`/home/centos/redis/redis.conf`です。変更が必要なパラメータの説明は次のとおりです。
+Redisインスタンスの基本設定ファイルは`~/redis/redis.conf`です。変更が必要なパラメータの説明は次のとおりです。
 
 #### bind
 - 基本値：`127.0.0.1 -::1`
@@ -554,11 +558,14 @@ NHN CloudのRedisインスタンスは自動的にHA環境を構成するスク�
 
 ##### キーペアコピー
 インストールスクリプトを実行するインスタンスに他のインスタンス接続に必要なキーペア(PEMファイル)が必要です。キーペアは次のようにコピーできます。
-
+- centos
 ```
 local> scp -i <キーペア>.pem <キーペア>.pem centos@<floating ip>:/home/centos/
 ```
-
+- ubuntu
+```
+local> scp -i <キーペア>.pem <キーペア>.pem ubuntu@<floating ip>:/home/ubuntu/
+```
 作成したインスタンスのキーペアは、すべて同じである必要があります。
 
 ##### セキュリティグループ設定
