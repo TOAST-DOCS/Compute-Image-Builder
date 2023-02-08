@@ -185,15 +185,19 @@ Enter password:
 
 ### Initial Setup After Creating a MySQL Instance
 
-#### 1\. Set the Password
+#### 1\. Setting Password
 
-After initial installation, the MySQL root account password is not set. Therefore, you must set a password after installation.
+There's no password on root user on initial installation. Therefore, it is required to set password as soon as possible.
 
 ```
-SET PASSWORD [FOR user] = password_option
-
-mysql> SET PASSWORD = PASSWORD('password');
+mysql> ALTER USER USER() IDENTIFIED BY 'NEW PASSWORD';
 ```
+
+Default MySQL validate_password_policy is as below:
+
+* validate\_password\_policy=MEDIUM
+* Must be more than 8 characters, and include numbers, lower/upper cases, and special characters.
+
 
 #### 2\. Change the Port
 
@@ -538,7 +542,7 @@ shell> redis-cli
 ```
 
 ### Initial Setup After Creating a Redis Instance
-The default configuration file for a Redis instance is the `/home/centos/redis/redis.conf` file. The description for the parameters to be changed is as follows.
+The default configuration file for a Redis instance is the `~/redis/redis.conf` file. The description for the parameters to be changed is as follows.
 
 #### Bind
 - Default value: `127.0.0.1 -::1`
@@ -567,9 +571,13 @@ To use the script, the following settings are required.
 
 ##### Copy key pair
 The instance running the installation script must have a key pair (PEM file) required to connect to other instances. The key pair can be copied as follows.
-
+- centos
 ```
 local> scp -i <key pair>.pem <key pair>.pem centos@<floating ip>:/home/centos/
+```
+- ubuntu
+```
+local> scp -i <key pair>.pem <key pair>.pem ubuntu@<floating ip>:/home/ubuntu/
 ```
 
 The key pairs for created instances must be the same.
