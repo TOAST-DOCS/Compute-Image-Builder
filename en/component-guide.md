@@ -185,15 +185,19 @@ Enter password:
 
 ### Initial Setup After Creating a MySQL Instance
 
-#### 1\. Set the Password
+#### 1\. Setting Password
 
-After initial installation, the MySQL root account password is not set. Therefore, you must set a password after installation.
+There's no password on root user on initial installation. Therefore, it is required to set password as soon as possible.
 
 ```
-SET PASSWORD [FOR user] = password_option
-
-mysql> SET PASSWORD = PASSWORD('password');
+mysql> ALTER USER USER() IDENTIFIED BY 'NEW PASSWORD';
 ```
+
+Default MySQL validate_password_policy is as below:
+
+* validate\_password\_policy=MEDIUM
+* Must be more than 8 characters, and include numbers, lower/upper cases, and special characters.
+
 
 #### 2\. Change the Port
 
@@ -237,7 +241,7 @@ shell> sudo systemctl restart mariadb.service
 After creating an instance, initially connect as follows.
 
 ``` sh
-shell> mysql -u root
+shell> sudo mysql -u root
 ```
 
 After changing the password, connect as follows.
@@ -382,7 +386,7 @@ shell> sudo systemctl restart kafka.service
 - Must install in a new instance.
 - An odd number of instances (3 or more) are required, and the installation script is executed in the instance.
 - An instance consists of of one kafka broker and one zookeeper node.
-- The key pair (PEM file) required to connect to another instance must be located at the /home/centos/ path of the instance running the installation script. The key pair of cluster instances must be the same.
+- The key pair (PEM file) required to connect to another instance must be located at the ~ path of the instance running the installation script. The key pair of cluster instances must be the same.
 - Only default port installation is supported. If you need to change the port, change the port by referring to the initial settings guide after completing cluster installation.
 - For Kafka-related port communication between instances, set security group as follows.
 
@@ -402,7 +406,7 @@ or shell> hostname -i
 ```
 Example of executing the cluster installation script (enter the hostname and IP checked above)
 ```
-shell> sh /home/centos/.kafka_make_cluster.sh
+shell> sh ~/.kafka_make_cluster.sh
 
 Enter Cluster Node Count: 3
 ### 3 is odd number.
@@ -449,15 +453,15 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 #### Change the Port
 After initial installation, the ports are 9092, which is the Kafka default port, and 2181, which is the Zookeeper default port. It is recommended to change the port for security.
 
-##### 1) Modify the /home/centos/kafka/config/zookeeper.properties file
-Open the /home/centos/kafka/config/zookeeper.properties file and enter the Zookeeper port to change in clientPort.
+##### 1) Modify the ~/kafka/config/zookeeper.properties file
+Open the ~/kafka/config/zookeeper.properties file and enter the Zookeeper port to change in clientPort.
 ```
-shell> vi /home/centos/kafka/config/zookeeper.properties
+shell> vi ~/kafka/config/zookeeper.properties
 
 clientPort=zookeeper port to change
 ```
-##### 2) Modify the /home/centos/kafka/config/server.properties file
-Open the /home/centos/kafka/config/server.properties file and enter the Kafka port to change in listeners.
+##### 2) Modify the ~/kafka/config/server.properties file
+Open the ~/kafka/config/server.properties file and enter the Kafka port to change in listeners.
 
 How to check Instance IP
 ```
@@ -465,7 +469,7 @@ Private IP on the console screen
 or shell> hostname -i
 ```
 ```
-shell> vi /home/centos/kafka/config/server.properties
+shell> vi ~/kafka/config/server.properties
 
 # Uncomment
 listeners=PLAINTEXT://Instance IP:kafka port to change
@@ -497,24 +501,24 @@ Create and query a topic
 ```
 # Instance IP = Private IP / Kafka default port = 9092
 # Create a topic
-shell> /home/centos/kafka/bin/kafka-topics.sh --create --bootstrap-server [Instance IP]:[Kafka PORT] --topic kafka
+shell> ~/kafka/bin/kafka-topics.sh --create --bootstrap-server [Instance IP]:[Kafka PORT] --topic kafka
 
 # Query a topic list
-shell> /home/centos/kafka/bin/kafka-topics.sh --list --bootstrap-server [Instance IP]:[Kafka PORT]
+shell> ~/kafka/bin/kafka-topics.sh --list --bootstrap-server [Instance IP]:[Kafka PORT]
 
 # Check the details of the topic
-shell> /home/centos/kafka/bin/kafka-topics.sh --describe --bootstrap-server [Instance IP]:[Kafka PORT] --topic kafka
+shell> ~/kafka/bin/kafka-topics.sh --describe --bootstrap-server [Instance IP]:[Kafka PORT] --topic kafka
 
 # Delete a topic
-shell> /home/centos/kafka/bin/kafka-topics.sh --delete --bootstrap-server [Instance IP]:[Kafka PORT] --topic kafka
+shell> ~/kafka/bin/kafka-topics.sh --delete --bootstrap-server [Instance IP]:[Kafka PORT] --topic kafka
 ```
 Create and use data
 ```
 # Start producer
-shell> /home/centos/kafka/bin/kafka-console-producer.sh --broker-list  [Instance IP]:[Kafka PORT] --topic kafka
+shell> ~/kafka/bin/kafka-console-producer.sh --broker-list  [Instance IP]:[Kafka PORT] --topic kafka
 
 # Start consumer
-shell> /home/centos/kafka/bin/kafka-console-consumer.sh --bootstrap-server [Instance IP]:[Kafka PORT] --from-beginning --topic kafka
+shell> ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server [Instance IP]:[Kafka PORT] --from-beginning --topic kafka
 ```
 
 ## Redis
@@ -538,7 +542,7 @@ shell> redis-cli
 ```
 
 ### Initial Setup After Creating a Redis Instance
-The default configuration file for a Redis instance is the `/home/centos/redis/redis.conf` file. The description for the parameters to be changed is as follows.
+The default configuration file for a Redis instance is the `~/redis/redis.conf` file. The description for the parameters to be changed is as follows.
 
 #### Bind
 - Default value: `127.0.0.1 -::1`
@@ -567,9 +571,13 @@ To use the script, the following settings are required.
 
 ##### Copy key pair
 The instance running the installation script must have a key pair (PEM file) required to connect to other instances. The key pair can be copied as follows.
-
+- centos
 ```
 local> scp -i <key pair>.pem <key pair>.pem centos@<floating ip>:/home/centos/
+```
+- ubuntu
+```
+local> scp -i <key pair>.pem <key pair>.pem ubuntu@<floating ip>:/home/ubuntu/
 ```
 
 The key pairs for created instances must be the same.
