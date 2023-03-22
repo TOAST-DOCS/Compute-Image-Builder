@@ -1,11 +1,11 @@
 ## Compute > Image Builder > Overview
 
-Image Builder is a service that creates a private image that meets the user's requirements based on the OS image provided by NHN Cloud.
+Image Builder is a service that creates a private image that meets the user's requirements based on the OS image provided by NHN Cloud or private images.
 
 ## Service Features
-* You can easily create a private image by combining the OS image provided by NHN Cloud, application installation components, and user scripts.
+* You can easily create a private image by combining base images, application installation components, and user scripts.
 * By automating the process of creating images from instances, you can minimize errors that can occur during the work process.
-* Because the service uses OS images with basic security configuration, you can create a private image that is safe from security threats.
+* Because the OS images provided by NHN Cloud are applied with basic security configuration, you can create a private image that is safe from security threats.
 * A variety of continuously managed application installation components are available.
 
 > [Note]
