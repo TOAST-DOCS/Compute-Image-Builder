@@ -819,7 +819,7 @@ Deep Learning Frameworkを使用するには、まずイメージテンプレー
 
 サービス選択画面で**Compute > Image Builder > イメージテンプレートの作成**に移動します。
 
-**イメージテンプレート名**を入力し、OSは**linux - Ubuntu - Server 18.04 LTS**を選択して**最小ブロックストレージは70GB以上**を指定します。
+**イメージテンプレート名**を入力し、OSは**linux - Ubuntu - Server xx.xx LTS**を選択して**最小ブロックストレージは70GB以上**を指定します。
 
 このように選択すると、下の画面に**Deep Learning Framework**が表示されます。
 
@@ -831,20 +831,13 @@ Deep Learning Frameworkを使用するには、まずイメージテンプレー
 
 インスタンスの作成時、ビルドして作成したイメージを選択してインスタンスを作成します。
 
-Deep Learning Framework Instanceでは次のバージョンのソフトウェアが提供されます。
+Deep Learning Framework Instanceでは次のソフトウェアが提供されます。
 
-| ソフトウェア | バージョン | インストール方式 |
-| --- | --- | --- |
-| TensorFlow | 2.4.1 | pip, [参照](https://www.tensorflow.org/install/pip) |
-| PyTorch | 1.7.1 | conda, [参照](https://pytorch.org/get-started/previous-versions/) |
-| Python | 3.8.11 | conda |
-| OS | Ubuntu 18.04 LTS | n/a |
-| NVIDIA Driver | 450.102.04 | apt |
-| NVIDIA CUDA | 11.0 | apt |
-| NVIDIA cuDNN | 8.0.4 | apt |
-| NVIDIA NCCL | 2.7.8 | apt |
-| NVIDIA TensorRT | 7.1.3 | apt |
-| Intel oneAPI MKL | 2021.4.0 | apt |
+* TensorFlow、PyTorch
+* NVIDIA CUDA Toolkit、cuDNN、NCCL、TensorRT
+* Intel MKL
+
+NVIDIA cuDNNにはNVIDIA Corporationで提供したソースコードが含まれています。 [License](https://docs.nvidia.com/deeplearning/cudnn/sla/index.html)
 
 設定を完了した後、インスタンスを作成します。インスタンス作成の詳しい内容は[Instance概要](http://docs.toast.com/ko/Compute/Instance/ko/overview/)を参照してください。
 
