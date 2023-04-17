@@ -833,7 +833,7 @@ To use the Deep Learning Framework, you must first create an image template.
 
 From the service selection screen, go to **Compute > Image Builder > Create Image Template**.
 
-Enter **Image Template Name**, select **linux - Ubuntu - Server 18.04 LTS** for OS, and set **Minimum Block Storage** to **70 GB** or more.
+Enter **Image Template Name**, select **linux - Ubuntu - Server xx.xx LTS** for OS, and set **Minimum Block Storage** to **70 GB** or more.
 
 If you select the options, you will see **Deep Learning Framework** in the screen.
 
@@ -845,20 +845,13 @@ After the image build is complete, click the **GPU Instance** button to actually
 
 When creating an instance, select the image built and created earlier to create an instance.
 
-Deep Learning Framework Instance provides the following versions of software:
+Deep Learning Framework Instance provides software as follows.
 
-| Software | Version | Installation method |
-| --- | --- | --- |
-| TensorFlow | 2.4.1 | pip, [Reference](https://www.tensorflow.org/install/pip) |
-| PyTorch | 1.7.1 | conda, [Reference](https://pytorch.org/get-started/previous-versions/) |
-| Python | 3.8.11 | conda |
-| OS | Ubuntu 18.04 LTS | N/A |
-| NVIDIA Driver | 450.102.04 | apt |
-| NVIDIA CUDA | 11.0 | apt |
-| NVIDIA cuDNN | 8.0.4 | apt |
-| NVIDIA NCCL | 2.7.8 | apt |
-| NVIDIA TensorRT | 7.1.3 | apt |
-| Intel oneAPI MKL | 2021.4.0 | apt |
+* TensorFlow, PyTorch
+* NVIDIA CUDA Toolkit, cuDNN, NCCL, TensorRT
+* Intel MKL
+
+NVIDIA cuDNN contains source code provided by NVIDIA Corporation. [License](https://docs.nvidia.com/deeplearning/cudnn/sla/index.html)
 
 After completing the setup, create an instance. For more information on instance creation, see [Instance Overview](http://docs.toast.com/en/Compute/Instance/en/overview/).
 
