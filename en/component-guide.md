@@ -998,4 +998,4 @@ You must configure all of the clusters and set the configuration before running 
 
 ## NHN Kubernetes Service(NKS) Worker Node
 
-You can create images by using NHN Kubernetes Service (NKS) Worker Node. For more information, see [NKS User Guide](https://docs.nhncloud.com/ko/Container/NKS/en/user-guide/#_23).
+You can create an image that can be used as a worker node for NHN Kubernetes Service (NKS). For more information, see [NKS User Guide](https://docs.nhncloud.com/ko/Container/NKS/en/user-guide/#_23).
