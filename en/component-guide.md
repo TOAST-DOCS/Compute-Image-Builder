@@ -157,6 +157,7 @@ PostgreSQL directory and file descriptions are given below.
 
 ### How to Start/Stop MySQL
 
+- centos
 ``` sh
 # Start the MySQL service
 shell> sudo systemctl start mysqld
@@ -166,6 +167,18 @@ shell> sudo systemctl stop mysqld
 
 # Restart the MySQL service
 shell> sudo systemctl restart mysqld
+```
+
+- ubuntu
+``` sh
+# Start the MySQL service
+shell> sudo systemctl start mysql
+
+# Stop the MySQL service
+shell> sudo systemctl stop mysql
+
+# Start the MySQL service
+shell> sudo systemctl restart mysql
 ```
 
 ### Connect to MySQL
@@ -188,16 +201,12 @@ Enter password:
 #### 1\. Setting Password
 
 There's no password on root user on initial installation. Therefore, it is required to set password as soon as possible.
-
 ```
 mysql> ALTER USER USER() IDENTIFIED BY 'NEW PASSWORD';
 ```
-
 Default MySQL validate_password_policy is as below:
-
 * validate\_password\_policy=MEDIUM
 * Must be more than 8 characters, and include numbers, lower/upper cases, and special characters.
-
 
 #### 2\. Change the Port
 
@@ -480,7 +489,6 @@ zookeeper.connect=Instance IP:zookeeper port to change
 ```
 
 ##### 3) Restart Zookeeper, Kafka broker
-Restart the zookeeper and the kafka for the port change to take effect.
 ```
 shell> sudo systemctl stop kafka.service
 shell> sudo systemctl stop zookeeper.service
@@ -495,6 +503,7 @@ Check if the changed port is in use.
 shell> netstat -ntl | grep [Kafka port]
 shell> netstat -ntl | grep [Zookeeper port]
 ```
+
 ### Create and Use Apache Kafka Topic and Data
 
 Create and query a topic
@@ -571,6 +580,7 @@ To use the script, the following settings are required.
 
 ##### Copy key pair
 The instance running the installation script must have a key pair (PEM file) required to connect to other instances. The key pair can be copied as follows.
+
 - centos
 ```
 local> scp -i <key pair>.pem <key pair>.pem centos@<floating ip>:/home/centos/
@@ -984,3 +994,8 @@ The log file path must be specified as a directory under the `/var/log/slurm/` p
 ### Running Slurm
 
 You must configure all of the clusters and set the configuration before running Slurm. For more information, see [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html) and [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html).
+
+
+## NHN Kubernetes Service(NKS) Worker Node
+
+You can create an image that can be used as a worker node for NHN Kubernetes Service (NKS). For more information, see [NKS User Guide](https://docs.nhncloud.com/ko/Container/NKS/en/user-guide/#_23).
