@@ -968,4 +968,4 @@ Slurmインストールコンポーネントは、Mungeパッケージのイン�
 
 ## NHN Kubernetes Service(NKS) Worker Node
 
-NHN Kubernetes Service(NKS)のワーカーノードとして活用可能なイメージを作成できます。詳細は[NKSユーザーガイド](https://docs.nhncloud.com/ko/Container/NKS/ko/user-guide/#_23)を参照してください。
+NHN Kubernetes Service(NKS)のワーカーノードとして活用可能なイメージを作成できます。詳細は[NKSユーザーガイド](https://docs.nhncloud.com/ja/Container/NKS/ja/user-guide/#_24)を参照してください。
