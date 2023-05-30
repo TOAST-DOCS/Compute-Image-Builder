@@ -994,3 +994,8 @@ Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm
 ### Slurm 실행
 
 클러스터를 모두 구성하고 구성 정보를 설정해야 실행할 수 있습니다. [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)와 [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)를 참고하세요.
+
+
+## NHN Kubernetes Service(NKS) Worker Node
+
+NHN Kubernetes Service(NKS)의 워커 노드로 활용 가능한 이미지를 생성할 수 있습니다. 자세한 내용은 [NKS 사용자 가이드](https://docs.nhncloud.com/ko/Container/NKS/ko/user-guide/#_24)를 참고하세요.

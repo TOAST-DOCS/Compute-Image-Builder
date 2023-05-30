@@ -984,3 +984,8 @@ The log file path must be specified as a directory under the `/var/log/slurm/` p
 ### Running Slurm
 
 You must configure all of the clusters and set the configuration before running Slurm. For more information, see [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html) and [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html).
+
+
+## NHN Kubernetes Service(NKS) Worker Node
+
+You can create an image that can be used as a worker node for NHN Kubernetes Service (NKS). For more information, see [NKS User Guide](https://docs.nhncloud.com/en/Container/NKS/en/user-guide/#_24).

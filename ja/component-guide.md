@@ -964,3 +964,8 @@ Slurmインストールコンポーネントは、Mungeパッケージのイン�
 ### Slurm実行
 
 すべてのクラスタを構成し、構成情報を設定すると実行できます。 [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)と[Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)を参照してください。
+
+
+## NHN Kubernetes Service(NKS) Worker Node
+
+NHN Kubernetes Service(NKS)のワーカーノードとして活用可能なイメージを作成できます。詳細は[NKSユーザーガイド](https://docs.nhncloud.com/ja/Container/NKS/ja/user-guide/#_24)を参照してください。
