@@ -2,21 +2,17 @@
 
 ## PostgreSQL
 
-> [참고]
-> 본 가이드는 PostgreSQL 13 버전을 기준으로 작성되었습니다.
-> 다른 버전을 사용하시는 경우 해당 버전에 맞게 변경해 주십시오.
-
 ### PostgreSQL 시작/정지 방법
 
 ```
 #postgresql 서비스 시작
-shell> systemctl start postgresql-13
+shell> systemctl start postgresql-${version}
 
 #postgresql 서비스 중지
-shell> systemctl stop postgresql-13
+shell> systemctl stop postgresql-${version}
 
 #postgresql 서비스 재시작
-shell> systemctl restart postgresql-13
+shell> systemctl restart postgresql-${version}
 ```
 
 ### PostgreSQL 접속
@@ -36,7 +32,7 @@ shell> psql
 제공되는 이미지 포트는 PostgreSQL 기본 포트인 5432입니다. 보안상 포트 변경을 권장합니다.
 <br>
 ```
-shell> vi /var/lib/pgsql/13/data/postgresql.conf
+shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 
 #postgresql.conf 파일에 사용할 포트를 입력합니다.
@@ -49,7 +45,7 @@ port =사용할 포트명
 
 #postgresql 서비스 재시작
 
-shell> systemctl restart postgresql-13
+shell> systemctl restart postgresql-${version}
 
 
 #변경된 포트로 아래와 같이 접속
@@ -62,7 +58,7 @@ shell> psql -p[변경된 포트 번호]
 서버 로그에 기록되는 기본 시간대가 UTC로 설정되어 있습니다. SYSTEM 로컬 시간과 동일하게 변경할 것을 권장합니다.
 <br>
 ```
-shell> vi /var/lib/pgsql/13/data/postgresql.conf
+shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 
 #postgresql.conf 파일에 사용할 타임 존을 입력합니다.
@@ -75,7 +71,7 @@ log_timezone =사용할 타임 존
 
 #postgresql 서비스 재시작
 
-shell> systemctl restart postgresql-13
+shell> systemctl restart postgresql-${version}
 
 
 #postgresql 접속
@@ -108,7 +104,7 @@ postgres=# REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 로컬 호스트 이외의 접속을 허용하려면 listen_addresses 변수와 클라이언트 인증 설정 파일을 변경해야 합니다.
 <br>
 ```
-shell> vi /var/lib/pgsql/13/data/postgresql.conf
+shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 
 #postgresql.conf 파일에 허용할 주소를 명시해 줍니다.
@@ -122,7 +118,7 @@ listen_addresses =허용할 주소
 #vi 편집기 저장
 
 
-shell> vi /var/lib/pgsql/13/data/pg_hba.conf
+shell> vi /var/lib/pgsql/${version}/data/pg_hba.conf
 
 
 #IP 주소 형식별로 클라이언트 인증 제어
@@ -139,7 +135,7 @@ host    허용 DB          허용 유저         허용 주소                  
 
 #postgresql 서비스 재시작
 
-shell> systemctl restart postgresql-13
+shell> systemctl restart postgresql-${version}
 ```
 
 ### PostgreSQL 디렉터리 설명
