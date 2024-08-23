@@ -2,21 +2,17 @@
 
 ## PostgreSQL
 
-> [参考]
-> このガイドはPostgreSQL 13バージョンを基準に作成されました。
-> 異なるバージョンを使用する場合は該当バージョンに合わせて変更してください。
-
 ### PostgreSQL開始/停止方法
 
 ```
 #postgresqlサービス開始
-shell> systemctl start postgresql-13
+shell> systemctl start postgresql-${version}
 
 #postgresqlサービス中止
-shell> systemctl stop postgresql-13
+shell> systemctl stop postgresql-${version}
 
 #postgresqlサービス再起動
-shell> systemctl restart postgresql-13
+shell> systemctl restart postgresql-${version}
 ```
 
 ### PostgreSQL接続
@@ -36,7 +32,7 @@ shell> psql
 提供されるイメージポートはPostgreSQL基本ポートの5432です。セキュリティ上、ポートの変更を推奨します。
 <br>
 ```
-shell> vi /var/lib/pgsql/13/data/postgresql.conf
+shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 
 #postgresql.confファイルに使用するポートを入力します。
@@ -49,7 +45,7 @@ port =使用するポート名
 
 #postgresqlサービス再起動
 
-shell> systemctl restart postgresql-13
+shell> systemctl restart postgresql-${version}
 
 
 #変更されたポートで以下のように接続
@@ -62,7 +58,7 @@ shell> psql -p[変更されたポート番号]
 サーバーログに記録される基本時間帯がUTCに設定されています。 SYSTEMローカル時間と同じに変更することを推奨します。
 <br>
 ```
-shell> vi /var/lib/pgsql/13/data/postgresql.conf
+shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 
 #postgresql.confファイルに使用するタイムゾーンを入力します。
@@ -75,7 +71,7 @@ log_timezone =使用するタイムゾーン
 
 #postgresqlサービス再起動
 
-shell> systemctl restart postgresql-13
+shell> systemctl restart postgresql-${version}
 
 
 #postgresql接続
@@ -108,7 +104,7 @@ postgres=# REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 ローカルホスト以外の接続を許可するにはlisten_addresses変数とクライアント認証設定ファイルを変更する必要があります。
 <br>
 ```
-shell> vi /var/lib/pgsql/13/data/postgresql.conf
+shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 
 #postgresql.confファイルに許可するアドレスを指定してください。
@@ -122,7 +118,7 @@ listen_addresses =許可するアドレス
 #viエディタ保存
 
 
-shell> vi /var/lib/pgsql/13/data/pg_hba.conf
+shell> vi /var/lib/pgsql/${version}/data/pg_hba.conf
 
 
 #IPアドレス形式ごとにクライアント認証制御
@@ -139,7 +135,7 @@ host  許可DB        許可ユーザー    許可アドレス               scr
 
 #postgresqlサービス再起動
 
-shell> systemctl restart postgresql-13
+shell> systemctl restart postgresql-${version}
 ```
 
 ### PostgreSQLディレクトリの説明

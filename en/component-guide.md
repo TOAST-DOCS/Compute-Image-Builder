@@ -2,21 +2,18 @@
 
 ## PostgreSQL
 
-> [Note]
-> This guide is based on PostgreSQL version 13.
-> If you are using a different version, please change the commands accordingly.
 
 ### How to Start/Stop PostgreSQL
 
 ```
 #Start the postgresql service
-shell> systemctl start postgresql-13
+shell> systemctl start postgresql-${version}
 
 #Stop the postgresql service
-shell> systemctl stop postgresql-13
+shell> systemctl stop postgresql-${version}
 
 #Restart the postgresql service
-shell> systemctl restart postgresql-13
+shell> systemctl restart postgresql-${version}
 ```
 
 ### Connect to PostgreSQL
@@ -36,7 +33,7 @@ shell> psql
 The provided image port is 5432, which is the PostgreSQL default port. For security reasons, it is recommended to change the port.
 <br>
 ```
-shell> vi /var/lib/pgsql/13/data/postgresql.conf
+shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 
 #Enter the port to use in the postgresql.conf file.
@@ -49,7 +46,7 @@ port =port name to use
 
 #Restart the postgresql service
 
-shell> systemctl restart postgresql-13
+shell> systemctl restart postgresql-${version}
 
 
 #Connect to the changed port as follows
@@ -62,7 +59,7 @@ shell> psql -p [changed port number]
 The default time zone logged in the server log is set to UTC. It is recommended to change it to be the same as the SYSTEM local time.
 <br>
 ```
-shell> vi /var/lib/pgsql/13/data/postgresql.conf
+shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 
 #Enter the time zone to use in the postgresql.conf file.
@@ -75,7 +72,7 @@ log_timezone =time zone to use
 
 #Restart the postgresql service
 
-shell> systemctl restart postgresql-13
+shell> systemctl restart postgresql-${version}
 
 
 #Connect to postgresql
@@ -108,7 +105,7 @@ postgres=# REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 To allow access from connections other than localhost, you need to change the listen_addresses variable and the client authentication configuration file.
 <br>
 ```
-shell> vi /var/lib/pgsql/13/data/postgresql.conf
+shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 
 #Specify the addresses to allow in the postgresql.conf file.
@@ -122,7 +119,7 @@ listen_addresses =Addresses to allow
 #Save vi editor
 
 
-shell> vi /var/lib/pgsql/13/data/pg_hba.conf
+shell> vi /var/lib/pgsql/${version}/data/pg_hba.conf
 
 
 #Client authentication control by IP address format
@@ -139,7 +136,7 @@ host    Allowed DB          Allowed user         Allowed address                
 
 #Restart the postgresql service
 
-shell> systemctl restart postgresql-13
+shell> systemctl restart postgresql-${version}
 ```
 
 ### PostgreSQL Directory Description
