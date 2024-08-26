@@ -154,19 +154,6 @@ PostgreSQL directory and file descriptions are given below.
 
 ### How to Start/Stop MySQL
 
-- centos
-``` sh
-# Start the MySQL service
-shell> sudo systemctl start mysqld
-
-# Stop the MySQL service
-shell> sudo systemctl stop mysqld
-
-# Restart the MySQL service
-shell> sudo systemctl restart mysqld
-```
-
-- ubuntu
 ``` sh
 # Start the MySQL service
 shell> sudo systemctl start mysql

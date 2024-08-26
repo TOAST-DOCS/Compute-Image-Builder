@@ -153,19 +153,6 @@ PostgreSQL 디렉터리 및 파일 설명은 아래와 같습니다.
 
 ### MySQL 시작/정지 방법
 
-- centos
-``` sh
-# MySQL 서비스 시작
-shell> sudo systemctl start mysqld
-
-# MySQL 서비스 종료
-shell> sudo systemctl stop mysqld
-
-# MySQL 서비스 재시작
-shell> sudo systemctl restart mysqld
-```
-
-- ubuntu
 ``` sh
 # MySQL 서비스 시작
 shell> sudo systemctl start mysql
