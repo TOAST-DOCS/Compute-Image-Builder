@@ -757,7 +757,7 @@ Deep Learning Framework Instanceでは次のソフトウェアが提供されま
 * NVIDIA CUDA Toolkit、cuDNN、NCCL、TensorRT
 * Intel MKL
 
-NVIDIA cuDNNにはNVIDIA Corporationで提供したソースコードが含まれています。 [License](https://docs.nvidia.com/deeplearning/cudnn/sla/index.html)
+NVIDIA cuDNNにはNVIDIA Corporationで提供したソースコードが含まれています。 [License](https://docs.nvidia.com/deeplearning/cudnn/latest/reference/eula.html)
 
 設定を完了した後、インスタンスを作成します。インスタンス作成の詳しい内容は[Instance概要](http://docs.toast.com/ko/Compute/Instance/ko/overview/)を参照してください。
 
