@@ -769,7 +769,7 @@ Deep Learning Framework Instance provides software as follows.
 * NVIDIA CUDA Toolkit, cuDNN, NCCL, TensorRT
 * Intel MKL
 
-NVIDIA cuDNN contains source code provided by NVIDIA Corporation. [License](https://docs.nvidia.com/deeplearning/cudnn/sla/index.html)
+NVIDIA cuDNN contains source code provided by NVIDIA Corporation. [License](https://docs.nvidia.com/deeplearning/cudnn/latest/reference/eula.html)
 
 After completing the setup, create an instance. For more information on instance creation, see [Instance Overview](http://docs.toast.com/en/Compute/Instance/en/overview/).
 
@@ -906,4 +906,4 @@ You must configure all of the clusters and set the configuration before running 
 
 ## NHN Kubernetes Service(NKS) Worker Node
 
-You can create an image that can be used as a worker node for NHN Kubernetes Service (NKS). For more information, see [NKS User Guide](https://docs.nhncloud.com/en/Container/NKS/en/user-guide/#_24).
+You can create an image that can be used as a worker node for NHN Kubernetes Service (NKS). For more information, see [NKS User Guide](https://docs.nhncloud.com/en/Container/NKS/en/user-guide/#_25).

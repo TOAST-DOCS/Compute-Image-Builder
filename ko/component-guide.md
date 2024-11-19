@@ -766,7 +766,7 @@ Deep Learning Framework Instance에서는 다음과 같은 소프트웨어가 �
 * NVIDIA CUDA Toolkit, cuDNN, NCCL, TensorRT
 * Intel MKL
 
-NVIDIA cuDNN에는 NVIDIA Corporation에서 제공한 소스 코드가 포함되어 있습니다. [License](https://docs.nvidia.com/deeplearning/cudnn/sla/index.html)
+NVIDIA cuDNN에는 NVIDIA Corporation에서 제공한 소스 코드가 포함되어 있습니다. [License](https://docs.nvidia.com/deeplearning/cudnn/latest/reference/eula.html)
 
 설정을 완료한 후 인스턴스를 생성합니다. 인스턴스 생성에 대한 자세한 내용은 [Instance 개요](http://docs.toast.com/ko/Compute/Instance/ko/overview/)를 참고하시기 바랍니다.
 
@@ -903,4 +903,4 @@ Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm
 
 ## NHN Kubernetes Service(NKS) Worker Node
 
-NHN Kubernetes Service(NKS)의 워커 노드로 활용 가능한 이미지를 생성할 수 있습니다. 자세한 내용은 [NKS 사용자 가이드](/Container/NKS/ko/user-guide/#_24)를 참고하세요.
+NHN Kubernetes Service(NKS)의 워커 노드로 활용 가능한 이미지를 생성할 수 있습니다. 자세한 내용은 [NKS 사용자 가이드](/Container/NKS/ko/user-guide/#_25)를 참고하세요.
