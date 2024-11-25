@@ -565,10 +565,6 @@ To use the script, the following settings are required.
 ##### Copy key pair
 The instance running the installation script must have a key pair (PEM file) required to connect to other instances. The key pair can be copied as follows.
 
-- centos
-```
-local> scp -i <key pair>.pem <key pair>.pem centos@<floating ip>:/home/centos/
-```
 - ubuntu
 ```
 local> scp -i <key pair>.pem <key pair>.pem ubuntu@<floating ip>:/home/ubuntu/
