@@ -576,7 +576,7 @@ Sentinel構成のために3つのRedisインスタンスが必要です。マス
 shell> sh .redis_make_sentinel.sh
 ```
 
-その後、マスターとレプリカのprivate IPを順番に入力します。各インスタンスのprivate IPは`hostname -I`コマンドで確認できます。
+その後、接続情報で使用するマスター名(Master Name)とマスター及びレプリカのprivate IPを順番に入力します。各インスタンスのprivate IPは`hostname -I`コマンドで確認できます。
 
 ```
 shell> sh .redis_make_sentinel.sh
