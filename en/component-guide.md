@@ -610,7 +610,7 @@ shell> Enter Pemkey's name: <key pair>.pem
 shell> sh .redis_make_cluster.sh
 ```
 
-Enter the private IPs of Redis instances used for a cluster in turn. You can check the private IP of each instance with the `hostname -I` command.
+Enter the master name (= Master Name) to be used in the connection information and the private IP in turn. You can check the private IP of each instance with the `hostname -I` command.
 
 ```
 shell> sh .redis_make_cluster.sh

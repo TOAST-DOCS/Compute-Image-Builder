@@ -590,7 +590,7 @@ You will need 3 Redis instances to configure Sentinel. After copying the key pai
 shell> sh .redis_make_sentinel.sh
 ```
 
-Enter the private IPs of the master and replica in turn. You can check the private IP of each instance with the `hostname -I` command.
+Enter the private IPs of Redis instances used for a cluster in turn. You can check the private IP of each instance with the `hostname -I` command.
 
 ```
 shell> sh .redis_make_sentinel.sh
