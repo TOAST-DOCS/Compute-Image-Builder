@@ -591,6 +591,7 @@ shell> sh .redis_make_sentinel.sh
 
 ```
 shell> sh .redis_make_sentinel.sh
+Enter Master's Name (ex> mymaster) : mymaster
 Enter Master's IP: 192.168.0.33
 Enter Replica-1's IP: 192.168.0.27
 Enter Replica-2's IP: 192.168.0.97
@@ -613,8 +614,8 @@ shell> sh .redis_make_cluster.sh
 ```
 shell> sh .redis_make_cluster.sh
 Enter cluster-1'IP:  192.168.0.79
-Enter cluster-2'IP: 192.168.0.10
-Enter cluster-3'IP: 192.168.0.33
+Enter cluster-2'IP:  192.168.0.10
+Enter cluster-3'IP:  192.168.0.33
 Enter cluster-4'IP:  192.168.0.116
 Enter cluster-5'IP:  192.168.0.91
 Enter cluster-6'IP:  192.168.0.32
