@@ -1,7 +1,10 @@
+<a id="compute-image-builder-installation-component-guide"></a>
 ## Compute > Image Builder > Installation Component Guide
 
+<a id="postgresql"></a>
 ## PostgreSQL
 
+<a id="how-to-startstop-postgresql"></a>
 ### How to Start/Stop PostgreSQL
 
 ```
@@ -15,6 +18,7 @@ shell> systemctl stop postgresql-${version}
 shell> systemctl restart postgresql-${version}
 ```
 
+<a id="connect-to-postgresql"></a>
 ### Connect to PostgreSQL
 
 After creating an instance, initially connect as follows.
@@ -25,6 +29,7 @@ shell> su - postgres
 shell> psql
 ```
 
+<a id="initial-setup-after-creating-a-postgresql-instance"></a>
 ### Initial Setup After Creating a PostgreSQL Instance
 
 #### 1\. Change the Port
@@ -138,6 +143,7 @@ host    Allowed DB          Allowed user         Allowed address                
 shell> systemctl restart postgresql-${version}
 ```
 
+<a id="postgresql-directory-description"></a>
 ### PostgreSQL Directory Description
 
 PostgreSQL directory and file descriptions are given below.
@@ -149,8 +155,10 @@ PostgreSQL directory and file descriptions are given below.
 | DATADIR | PostgreSQL data file path - /var/lib/pgsql/{version}/data/ |
 | LOG | PostgreSQL log file path - /var/lib/pgsql/{version}/data/log/\*.log |
 
+<a id="mysql"></a>
 ## MySQL
 
+<a id="how-to-startstop-mysql"></a>
 ### How to Start/Stop MySQL
 
 ``` sh
@@ -164,6 +172,7 @@ shell> sudo systemctl stop mysqld
 shell> sudo systemctl restart mysqld
 ```
 
+<a id="connect-to-mysql"></a>
 ### Connect to MySQL
 
 After creating an instance, initially connect as follows.
@@ -179,6 +188,7 @@ shell> mysql -u root -p
 Enter password:
 ```
 
+<a id="initial-setup-after-creating-a-mysql-instance"></a>
 ### Initial Setup After Creating a MySQL Instance
 
 #### 1\. Setting Password
@@ -217,8 +227,10 @@ Restart the instance for the port change to take effect.
 sudo systemctl restart mysqld
 ```
 
+<a id="mariadb"></a>
 ## MariaDB
 
+<a id="how-to-startstop-mariadb"></a>
 ### How to Start/Stop MariaDB
 
 ``` sh
@@ -232,6 +244,7 @@ shell> sudo systemctl stop mariadb.service
 shell> sudo systemctl restart mariadb.service
 ```
 
+<a id="connect-to-mariadb"></a>
 ### Connect to MariaDB
 
 After creating an instance, initially connect as follows.
@@ -247,6 +260,7 @@ shell> mysql -u root -p
 Enter password:
 ```
 
+<a id="initial-setup-after-creating-a-mariadb-instance"></a>
 ### Initial Setup After Creating a MariaDB Instance
 
 #### 1\. Set the Password
@@ -282,8 +296,10 @@ Restart the instance for the port change to take effect.
 sudo systemctl restart mariadb.service
 ```
 
+<a id="cubrid"></a>
 ## CUBRID
 
+<a id="how-to-startstop-the-cubrid-service"></a>
 ### How to Start/Stop the CUBRID service
 
 You can start or stop the CUBRID service as follows by logging in with the “cubrid” Linux account.
@@ -311,6 +327,7 @@ shell> cubrid broker stop
 shell> cubrid broker restart
 ```
 
+<a id="connect-to-cubrid"></a>
 ### Connect to CUBRID
 
 After creating an instance, connect as follows.
@@ -320,6 +337,7 @@ shell> sudo su - cubrid
 shell> csql -u dba demodb@localhost
 ```
 
+<a id="initial-setup-after-creating-a-cubrid-instance"></a>
 ### Initial Setup After Creating a CUBRID Instance
 
 #### 1\. Set the Password
@@ -357,12 +375,14 @@ Restart the broker for the port change to take effect.
 shell> cubrid broker restart
 ```
 
+<a id="apache-kafka"></a>
 ## Apache Kafka
 > [Note]
 > This guide is created based on Kafka version 3.3.1.
 > If you are using a different version, please makes changes accordingly.
 > For the instance flavor, please choose c1m2 (CPU 1core,  Memory 2GB) or higher specifications.
 
+<a id="start-and-stop-zookeeper-kafka-broker"></a>
 ### Start and Stop Zookeeper, Kafka broker
 ```
 # Start Zookeeper, Kafka broker (Zookeeper first)
@@ -378,6 +398,7 @@ shell> sudo systemctl restart zookeeper.service
 shell> sudo systemctl restart kafka.service
 ```
 
+<a id="install-kafka-cluster"></a>
 ### Install Kafka Cluster
 - Must install in a new instance.
 - An odd number of instances (3 or more) are required, and the installation script is executed in the instance.
@@ -445,6 +466,7 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 ```
 
 
+<a id="initial-setup-after-creating-apache-kafka-instance"></a>
 ### Initial Setup After Creating Apache Kafka Instance
 #### Change the Port
 After initial installation, the ports are 9092, which is the Kafka default port, and 2181, which is the Zookeeper default port. It is recommended to change the port for security.
@@ -491,6 +513,8 @@ Check if the changed port is in use.
 shell> netstat -ntl | grep [Kafka port]
 shell> netstat -ntl | grep [Zookeeper port]
 ```
+
+<a id="create-and-use-apache-kafka-topic-and-data"></a>
 ### Create and Use Apache Kafka Topic and Data
 
 Create and query a topic
@@ -517,8 +541,10 @@ shell> ~/kafka/bin/kafka-console-producer.sh --broker-list  [Instance IP]:[Kafka
 shell> ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server [Instance IP]:[Kafka PORT] --from-beginning --topic kafka
 ```
 
+<a id="redis"></a>
 ## Redis
 
+<a id="startstop-redis"></a>
 ### Start/Stop Redis
 ```
 # Start Redis
@@ -531,12 +557,14 @@ shell> sudo systemctl stop redis
 shell> sudo systemctl restart redis
 ```
 
+<a id="connect-to-redis"></a>
 ### Connect to Redis
 Connect to a Redis instance by using the `redis-cli` command.
 ```
 shell> redis-cli
 ```
 
+<a id="initial-setup-after-creating-a-redis-instance"></a>
 ### Initial Setup After Creating a Redis Instance
 The default configuration file for a Redis instance is the `~/redis/redis.conf` file. The description for the parameters to be changed is as follows.
 
@@ -560,6 +588,7 @@ shell> redis-cli -p <new port>
 
 The default password is `nhncloud`. For security reasons, it is recommended to change the password. If you are using replication connection, you must change the `requirepass` and `masterauth` values at the same time.
 
+<a id="automatic-ha-configuration-script"></a>
 ### Automatic HA Configuration Script
 A Redis instance of NHN Cloud provides a script that automatically configures an HA environment. You can use the script only for **a new instance immediately after installation**, and cannot use after changing the set values from redis.conf.
 
@@ -661,8 +690,10 @@ Can I set the above configuration? (type 'yes' to accept):
 [OK] All 16384 slots covered.
 ```
 
+<a id="apache-tomcat"></a>
 ## Apache Tomcat
 
+<a id="default-location"></a>
 ### Default Location
 The installation path of Tomcat is as follows.
 
@@ -670,6 +701,7 @@ The installation path of Tomcat is as follows.
 ~/apps/apache-tomcat-{version}/
 ```
 
+<a id="how-to-startstop-tomcat"></a>
 ### How to Start/Stop Tomcat
 
 Tomcat is registered as a service by default during the initial installation process and is automatically started when the instance starts. You can use the command below to manually start or stop Tomcat.
@@ -685,6 +717,7 @@ shell> sudo systemctl stop tomcat
 shell> sudo systemctl restart tomcat
 ```
 
+<a id="access-the-tomcat-default-page"></a>
 ### Access the Tomcat Default Page
 Tomcat runs on port 8080, which is the default from initial installation. You can access the Tomcat default page by running the following command:
 
@@ -695,6 +728,7 @@ Content-Type: text/html;charset=UTF-8
 ...
 ```
 
+<a id="initial-setup-after-creating-a-tomcat-instance"></a>
 ### Initial Setup After Creating a Tomcat Instance
 
 #### 1\. Change the Port
@@ -722,8 +756,10 @@ Restart the Tomcat service for the port change to take effect.
 shell> sudo systemctl restart tomcat
 ```
 
+<a id="nodejs"></a>
 ## Node.js
 
+<a id="default-location-2"></a>
 ### Default Location
 The installation path of Node.js is as follows.
 
@@ -731,6 +767,7 @@ The installation path of Node.js is as follows.
 ~/apps/node-{version}/
 ```
 
+<a id="how-to-run-node"></a>
 ### How to Run Node
 
 ```sh
@@ -742,8 +779,10 @@ shell> node app.js
 Hello World
 ```
 
+<a id="deep-learning-framework"></a>
 ## Deep Learning Framework
 
+<a id="create-a-deep-learning-framework-image-template"></a>
 ### Create a Deep Learning Framework Image Template
 
 To use the Deep Learning Framework, you must first create an image template.
@@ -756,6 +795,7 @@ If you select the options, you will see **Deep Learning Framework** in the scree
 
 After selecting the script, click the **Confirm** button. In the pop-up that appears, click the **Create** button.
 
+<a id="create-a-deep-learning-framework-instance"></a>
 ### Create a Deep Learning Framework Instance
 
 After the image build is complete, click the **GPU Instance** button to actually create a GPU instance, and you will be taken to **Compute > GPU Instance > Create GPU Instance**.
@@ -772,6 +812,7 @@ NVIDIA cuDNN contains source code provided by NVIDIA Corporation. [License](http
 
 After completing the setup, create an instance. For more information on instance creation, see [Instance Overview](http://docs.toast.com/en/Compute/Instance/en/overview/).
 
+<a id="check-installed-development-environment"></a>
 ### Check Installed Development Environment
 
 Use the conda command to check the development environment installed by Miniconda.
@@ -791,6 +832,7 @@ tf2_py38                 /root/miniconda3/envs/tf2_py38
 >
 >For more detailed instructions, refer to [Miniconda documentation](https://docs.conda.io/en/latest/miniconda.html).
 
+<a id="how-to-use-tensorflow"></a>
 ### How to Use TensorFlow
 
 First, activate the TensorFlow environment.
@@ -840,6 +882,7 @@ $ ./train.sh
 >
 >For more detailed instructions, refer to [TensorFlow Tutorial](https://www.tensorflow.org/tutorials).
 
+<a id="how-to-use-pytorch"></a>
 ### How to Use PyTorch
 
 First, activate the PyTorch environment.
@@ -864,6 +907,7 @@ $ python main.py --epochs 1
 >For more detailed instructions, refer to [PyTorch Tutorial](https://pytorch.org/tutorials/).
 
 
+<a id="slurm"></a>
 ## Slurm
 
 This component installs and sets up the MUNGE package, and installs the Slurm package. For details on how to run Slurm, see [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html).
@@ -872,6 +916,7 @@ This component installs and sets up the MUNGE package, and installs the Slurm pa
 >
 >All commands included in this section must be executed with the root privilege.
 
+<a id="preparation"></a>
 ### Preparation
 
 #### 1. Modify the `hosts` file
@@ -891,6 +936,7 @@ Open the `/etc/hostname` file and match the alias of the current node with the a
 ```
 
 
+<a id="cluster-configuration-and-slurm-settings"></a>
 ### Cluster Configuration and Slurm Settings
 
 There is no default configuration applied initially, so you must write a configuration file. Write the configuration by referring to [Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config) and [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html), and save it in `/etc/slurm/slurm.conf` file.
@@ -898,11 +944,13 @@ There is no default configuration applied initially, so you must write a configu
 The log file path must be specified as a directory under the `/var/log/slurm/` path. If you want to specify a different path, you must specify the path in the configuration file and match the owner of the directory with the `SlurmUser` setting value.
 
 
+<a id="running-slurm"></a>
 ### Running Slurm
 
 You must configure all of the clusters and set the configuration before running Slurm. For more information, see [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html) and [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html).
 
 
+<a id="nhn-kubernetes-servicenks-worker-node"></a>
 ## NHN Kubernetes Service(NKS) Worker Node
 
 You can create an image that can be used as a worker node for NHN Kubernetes Service (NKS). For more information, see [NKS User Guide](https://docs.nhncloud.com/en/Container/NKS/en/user-guide/#_25).
