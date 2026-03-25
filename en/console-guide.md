@@ -1,4 +1,7 @@
+<a id="compute-image-builder-console-user-guide"></a>
 ## Compute > Image Builder > Console User Guide
+
+<a id="create-image-template"></a>
 ### Create Image Template
 Create an image template. The image builder creates an image based on the contents of the image template you created in advance.
 
@@ -43,12 +46,15 @@ Create an image template. The image builder creates an image based on the conten
 > The first line of the user script must start with a shebang. In general, `#!/bin/bash -e` is used.
 > An error in the user script can cause the image build to fail. To determine the cause of the error, see the detailed log in the **Build Details** window.
 
+<a id="update-image-template"></a>
 ### Update Image Template
 You can modify the contents of an image template by selecting an image template and clicking the **Update Image Template** button.
 
+<a id="delete-image-template"></a>
 ### Delete Image Template
 You can delete an image template by selecting an image template and clicking the **Delete Image Template** button.
 
+<a id="build-image"></a>
 ### Build Image
 Select an image template and click the **Build Image** button to start the build.
 
@@ -67,14 +73,17 @@ Select an image template and click the **Build Image** button to start the build
   </tr>
 </table>
 
+<a id="image-template-details"></a>
 ### Image Template Details
 If you select an image template, you can check the information of the image template in the bottom tab.
 
+<a id="image-template-build-status"></a>
 ### Image Template Build Status
 Check the list of build tasks for the selected image template. You can select a build task to view details or cancel a build task in progress.
 
 * **Build Details**: View details of an ongoing or finished build task. If the build failed, you can check the cause of the failure through the detailed log.
 * **Cancel Build**: Cancel a build task in progress. If the build task does not end due to an error in a user script, or if the build needs to be restarted for other reasons, you can use Cancel Build to end the task and clean up the resources used in the build.
 
+<a id="image-list"></a>
 ### Image List
 You can see a list of images created with the selected image template.
