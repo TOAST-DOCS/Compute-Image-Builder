@@ -686,6 +686,156 @@ Can I set the above configuration? (type 'yes' to accept):
 [OK] All 16384 slots covered.
 ```
 
+<a id="valkey"></a>
+## Valkey
+
+<a id="startstop-valkey"></a>
+### Valkey 시작/정지
+```
+# Valkey 서비스 시작
+shell> sudo systemctl start valkey
+
+# Valkey 서비스 중지
+shell> sudo systemctl stop valkey
+
+# Valkey 서비스 재시작
+shell> sudo systemctl restart valkey
+```
+
+<a id="connect-to-valkey"></a>
+### Valkey 접속
+`valkey-cli` 커맨드를 이용해 Valkey 인스턴스에 접속할 수 있습니다.
+```
+shell> valkey-cli
+```
+
+<a id="initial-setup-after-creating-a-valkey-instance"></a>
+### Valkey 인스턴스 생성 후 초기 설정
+Valkey 인스턴스의 기본 설정 파일은 `~/valkey/valkey.conf` 입니다. 변경해야 할 파라미터에 대한 설명은 아래와 같습니다.
+
+#### bind
+- 기본 값: `127.0.0.1 -::1`
+- 변경 값: `<private ip> 127.0.0.1 -::1`
+
+Valkey가 사용할 ip에 대한 값입니다. 서버 외부에서 Valkey 인스턴스로의 접근을 허용하려면 해당 파라미터에 private ip를 추가해야 합니다. private ip는 `hostname -I` 커맨드로 확인할 수 있습니다.
+
+#### port
+- 기본 값: `6379`
+
+포트는 Valkey 기본값인 6379입니다. 보안상 포트 변경을 권장합니다. 포트를 변경한 뒤에는 아래 커맨드로 Valkey에 접속할 수 있습니다.
+
+```
+shell> valkey-cli -p <새로운 포트>
+```
+
+#### requirepass/masterauth
+- 기본 값: `nhncloud`
+
+기본 비밀번호는 `nhncloud`입니다. 보안상 비밀번호 변경을 권장합니다. 복제 연결을 사용할 경우 `requirepass`와 `masterauth`값을 동시에 변경해야 합니다.
+
+<a id="automatic-ha-configuration-script"></a>
+### 자동 HA 구성 스크립트
+NHN Cloud의 Valkey 인스턴스는 자동으로 HA 환경을 구성해 주는 스크립트를 제공합니다. 스크립트는 반드시 **설치 직후의 신규 인스턴스**에서만 사용할 수 있으며, valkey.conf에서 설정값을 변경한 경우에는 사용할 수 없습니다.
+
+스크립트를 사용하기 위해서는 다음 설정이 필수적으로 필요합니다.
+
+##### 키 페어 복사
+설치 스크립트를 수행하는 인스턴스에 타 인스턴스 접속에 필요한 키 페어(PEM 파일)가 있어야 합니다. 키 페어는 다음과 같이 복사할 수 있습니다.
+
+- ubuntu
+```
+local> scp -i <키 페어>.pem <키 페어>.pem ubuntu@<floating ip>:/home/ubuntu/
+```
+
+생성한 인스턴스들의 키 페어는 모두 동일해야 합니다.
+
+##### 보안 그룹 설정
+Valkey 인스턴스간의 통신을 위해 보안 그룹(**Network** > **Security Groups**) 설정이 필요합니다. 아래 규칙으로 보안 그룹을 생성한 뒤 Valkey 인스턴스에 적용하세요.
+
+| 방향 | IP 프로토콜| 포트 범위| Ether| 원격|
+| --- | --- | --- | --- | --- |
+| 수신|TCP | 6379| IPv4| 인스턴스 IP(CIDR)|
+| 수신|TCP | 16379| IPv4| 인스턴스 IP(CIDR)|
+| 수신|TCP | 26379| IPv4| 인스턴스 IP(CIDR)|
+
+#### Sentinel 자동구성
+Sentinel 구성을 위해 3개의 Valkey 인스턴스가 필요합니다. 마스터로 사용할 인스턴스에 키 페어를 복사한 뒤 아래와 같이 스크립트를 수행하세요.
+
+```
+shell> sh .valkey_make_sentinel.sh
+```
+
+이후 접속 정보에서 사용할 마스터명(Master Name)과 마스터 및 복제본의 private IP를 차례로 입력합니다. 각 인스턴스의 private IP는 `hostname -I` 커맨드로 확인할 수 있습니다.
+
+```
+shell> sh .valkey_make_sentinel.sh
+Enter Master's Name (ex> mymaster) : mymaster
+Enter Master's IP: 192.168.0.33
+Enter Replica-1's IP: 192.168.0.27
+Enter Replica-2's IP: 192.168.0.97
+```
+
+복사해 온 키 페어의 파일명을 입력합니다.
+```
+shell> Enter Pemkey's name: <키 페어>.pem
+```
+
+#### Cluster 자동 구성
+Cluster 구성을 위해 6개의 Valkey 인스턴스가 필요합니다. 마스터로 사용할 인스턴스에 키 페어를 복사한 뒤 아래와 같이 스크립트를 수행하세요.
+
+```
+shell> sh .valkey_make_cluster.sh
+```
+
+이후 클러스터에 사용할 Valkey 인스턴스의 private IP를 차례로 입력합니다. 각 인스턴스의 private IP는 `hostname -I` 커맨드로 확인할 수 있습니다.
+
+```
+shell> sh .valkey_make_cluster.sh
+Enter cluster-1'IP:  192.168.0.79
+Enter cluster-2'IP:  192.168.0.10
+Enter cluster-3'IP:  192.168.0.33
+Enter cluster-4'IP:  192.168.0.116
+Enter cluster-5'IP:  192.168.0.91
+Enter cluster-6'IP:  192.168.0.32
+```
+
+복사해 온 키 페어의 파일명을 입력합니다.
+
+```
+shell> Enter Pemkey's name: <키 페어>.pem
+```
+
+`yes`를 입력해 클러스터 구성을 완료합니다.
+```
+>>> Performing hash slots allocation on 6 nodes...
+Master[0] -> Slots 0 - 5460
+Master[1] -> Slots 5461 - 10922
+Master[2] -> Slots 10923 - 16383
+Adding replica 192.168.0.91:6379 to 192.168.0.79:6379
+Adding replica 192.168.0.32:6379 to 192.168.0.10:6379
+Adding replica 192.168.0.116:6379 to 192.168.0.33:6379
+M: 0a6ee5bf24141f0058c403d8cc42b349cdc09752 192.168.0.79:6379
+   slots:[0-5460] (5461 slots) master
+M: b5d078bd7b30ddef650d9a7fa9735e7648efc86f 192.168.0.10:6379
+   slots:[5461-10922] (5462 slots) master
+M: 0da9b78108b6581bdb90002cbdde3506e9173dd8 192.168.0.33:6379
+   slots:[10923-16383] (5461 slots) master
+S: 078b4ce014a52588e23577b3fc2dabf408723d68 192.168.0.116:6379
+   replicates 0da9b78108b6581bdb90002cbdde3506e9173dd8
+S: caaae4ebd3584c0481205e472d6bd0f9dc5c574e 192.168.0.91:6379
+   replicates 0a6ee5bf24141f0058c403d8cc42b349cdc09752
+S: ab2aa9e37cee48ef8e4237fd63e8301d81193818 192.168.0.32:6379
+   replicates b5d078bd7b30ddef650d9a7fa9735e7648efc86f
+Can I set the above configuration? (type 'yes' to accept):
+```
+
+```
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+```
+
 
 <a id="apache-tomcat"></a>
 ## Apache Tomcat
