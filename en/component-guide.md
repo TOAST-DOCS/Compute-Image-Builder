@@ -4,7 +4,6 @@
 <a id="postgresql"></a>
 ## PostgreSQL
 
-
 <a id="how-to-startstop-postgresql"></a>
 ### How to Start/Stop PostgreSQL
 
@@ -43,7 +42,7 @@ shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 #Enter the port to use in the postgresql.conf file.
 
-port =port name to use
+port =port number to use
 
 
 #Save vi editor
@@ -107,7 +106,7 @@ postgres=# REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 
 #### 4\. Allow Remote Access
 
-To allow access from connections other than localhost, you need to change the listen_addresses variable and the client authentication configuration file.
+To allow access from connections other than localhost, you need to change the `listen_addresses` variable and the client authentication configuration file.
 <br>
 ```
 shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
@@ -198,9 +197,9 @@ There's no password on root user on initial installation. Therefore, it is requi
 ```
 mysql> ALTER USER USER() IDENTIFIED BY 'NEW PASSWORD';
 ```
-Default MySQL validate_password_policy is as below:
-* validate\_password\_policy=MEDIUM
-* Must be more than 8 characters, and include numbers, lower/upper cases, and special characters.
+Default MySQL `validate_password_policy` is as below:
+- `validate_password_policy`=`MEDIUM`
+- Must be more than 8 characters, and include numbers, lower/upper cases, and special characters.
 
 #### 2\. Change the Port
 
@@ -274,9 +273,9 @@ MariaDB> SET PASSWORD = PASSWORD('password');
 
 After initial installation, the port is 3306, which is MariaDB's default port. For security reasons, it is recommended to change the port.
 
-##### 1) Modify the `/etc/my.cnf.d/servfer.cnf` file
+##### 1) Modify the `/etc/my.cnf.d/server.cnf` file
 
-Open the `/etc/my.cnf.d/server.cnf` file and enter the port address to change under [mariadb] as follows.
+Open the `/etc/my.cnf.d/server.cnf` file and enter the port address to change under `[mariadb]` as follows:
 
 ```
 shell> sudo vi /etc/my.cnf.d/server.cnf
@@ -299,7 +298,7 @@ sudo systemctl restart mariadb.service
 <a id="how-to-startstop-the-cubrid-service"></a>
 ### How to Start/Stop the CUBRID service
 
-You can start or stop the CUBRID service as follows by logging in with the “cubrid” Linux account.
+You can start or stop the CUBRID service as follows by logging in with the `cubrid` Linux account.
 
 ``` sh
 # Start the CUBRID service/server
@@ -347,7 +346,7 @@ shell> csql -u dba -c "ALTER USER dba PASSWORD 'new_password'" demodb@localhost
 
 #### 2\. Change the broker Port
 
-The broker port for **query\_editor** defaults to **30000**, and the broker port for **broker1** defaults to **33000**.
+The broker port for `query_editor` defaults to `30000`, and the broker port for `broker1` defaults to `33000`.
 For security reasons, it is recommended to change the port.
 
 ##### 1) Modify the broker file
@@ -377,7 +376,7 @@ shell> cubrid broker restart
 > [Note]
 > This guide is created based on Kafka version 3.3.1.
 > If you are using a different version, please makes changes accordingly.
-> For the instance flavor, please choose c1m2 (CPU 1core,  Memory 2GB) or higher specifications.
+> For the instance flavor, please choose `c1m2` (CPU 1core,  Memory 2GB) or higher specifications.
 
 <a id="start-and-stop-zookeeper-kafka-broker"></a>
 ### Start and Stop Zookeeper, Kafka broker
@@ -468,15 +467,15 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 #### Change the Port
 After initial installation, the ports are 9092, which is the Kafka default port, and 2181, which is the Zookeeper default port. It is recommended to change the port for security.
 
-##### 1) Modify the ~/kafka/config/zookeeper.properties file
-Open the ~/kafka/config/zookeeper.properties file and enter the Zookeeper port to change in clientPort.
+##### 1) Modify the `~/kafka/config/zookeeper.properties` file
+Open the `~/kafka/config/zookeeper.properties` file and enter the Zookeeper port to change in `clientPort`.
 ```
 shell> vi ~/kafka/config/zookeeper.properties
 
 clientPort=zookeeper port to change
 ```
-##### 2) Modify the ~/kafka/config/server.properties file
-Open the ~/kafka/config/server.properties file and enter the Kafka port to change in listeners.
+##### 2) Modify the `~/kafka/config/server.properties` file
+Open the `~/kafka/config/server.properties` file and enter the Kafka port to change in `listeners`.
 
 How to check Instance IP
 ```
@@ -568,7 +567,7 @@ The default configuration file for a Redis instance is the `~/redis/redis.conf` 
 - Default value: `127.0.0.1 -::1`
 - Changed value: `<private ip> 127.0.0.1 -::1`
 
-Value for an IP used by Redis. To allow access to a Redis instance from outside the server, add a private IP to the parameter. You can check the private IP with the `hostname -I` command.
+IP value for Redis to use. To access to a Redis instance from outside the server, add a private IP to the parameter. You can check the private IP with the `hostname -I` command.
 
 #### Port
 - Default value: `6379`
@@ -586,7 +585,7 @@ The default password is `nhncloud`. For security reasons, it is recommended to c
 
 <a id="automatic-ha-configuration-script"></a>
 ### Automatic HA Configuration Script
-A Redis instance of NHN Cloud provides a script that automatically configures an HA environment. You can use the script only for **a new instance immediately after installation**, and cannot use after changing the set values from redis.conf.
+A Redis instance of NHN Cloud provides a script that automatically configures an HA environment. You can use the script only for a new instance immediately after installation, and cannot use after changing the set values from `redis.conf`.
 
 To use the script, the following settings are required.
 
@@ -687,6 +686,158 @@ Can I set the above configuration? (type 'yes' to accept):
 [OK] All 16384 slots covered.
 ```
 
+<a id="valkey"></a>
+## Valkey
+
+<a id="startstop-valkey"></a>
+### Start/Stop Valkey
+```
+# Start Valkey Service
+shell> sudo systemctl start valkey
+
+# Stop Valkey Service
+shell> sudo systemctl stop valkey
+
+# Restart Valkey Service
+shell> sudo systemctl restart valkey
+```
+
+<a id="connect-to-valkey"></a>
+### Connect to Valkey
+Connect to a Valkey instance by using the `valkey-cli` command.
+```
+shell> valkey-cli
+```
+
+<a id="initial-setup-after-creating-a-valkey-instance"></a>
+### Initial Setup After Creating a Valkey Instance
+The default configuration file for a Valkey instance is the `~/valkey/valkey.conf` file. The description for the parameters to be changed is as follows:
+
+#### bind
+- Default: `127.0.0.1 -::1`
+- Changed value: `<private ip> 127.0.0.1 -::1`
+
+IP value for Valkey to use. To access to a Redis instance from outside the server, add a private IP to the parameter. You can check the private IP with the `hostname -I` command.
+
+#### port
+- Default: `6379`
+
+The port is 6379, the default for Valkey. It is recommended to change the port for security reasons. After changing the port, you can connect to Valkey with the following command.
+
+```
+shell> valkey-cli -p <새로운 포트>
+```
+
+#### requirepass/masterauth
+- Default: `nhncloud`
+
+	
+The default password is `nhncloud`. For security reasons, it is recommended to change the password. If you are using a replication connection, you must change the `requirepass` and `masterauth` values at the same time.
+
+<a id="automatic-ha-configuration-script"></a>
+### Automatic HA Configuration Script
+A Valkey instance of NHN Cloud provides a script that automatically configures an HA environment. You can use the script only for a new instance right immediately after installation, and cannot use it after changing the set values from `valkey.conf`.
+
+To use the script, the following settings are required.
+
+##### Copy Key Pairs
+The instance running the installation script must have a key pair (PEM file) required to connect to other instances. The key pair can be copied as follows:
+
+- ubuntu
+```
+local> scp -i <키 페어>.pem <키 페어>.pem ubuntu@<floating ip>:/home/ubuntu/
+```
+
+The key pairs for created instances must be the same.
+
+##### Set Security Group
+To enable communication between Valkey instances, you must configure a security group (**Network** > **Security Groups**). Create a security group with the rules below and apply it to the Valkey instances.
+
+| Direction | IP protocol | Port range| Ether| Remote|
+| --- | --- | --- | --- | --- |
+| 수신|TCP | 6379| IPv4| Instance IP(CIDR)|
+| 수신|TCP | 16379| IPv4| Instance IP(CIDR)|
+| 수신|TCP | 26379| IPv4| Instance IP(CIDR)|
+
+#### Sentinel Automatic Configuration
+3 Valkey instances are required for Cluster configuration. After copying the key pair to the instance used as the master, run the script as follows:
+
+```
+shell> sh .valkey_make_sentinel.sh
+```
+
+Enter the master name (Master Name) to be used in the connection information, followed by the private IPs of the master and replica. You can check the private IP of each instance with the `hostname -I` command.
+
+```
+shell> sh .valkey_make_sentinel.sh
+Enter Master's Name (ex> mymaster) : mymaster
+Enter Master's IP: 192.168.0.33
+Enter Replica-1's IP: 192.168.0.27
+Enter Replica-2's IP: 192.168.0.97
+```
+
+Enter the file name of the copied key pair.
+```
+shell> Enter Pemkey's name: <키 페어>.pem
+```
+
+#### Cluster Automatic Configuration
+6 Redis instances are required for Valkey configuration. After copying the key pair to the instance used as the master, run the script as follows:
+
+```
+shell> sh .valkey_make_cluster.sh
+```
+
+Enter the private IPs of Valkey instances used for a cluster in turn. You can check the private IP of each instance with the `hostname -I` command.
+
+```
+shell> sh .valkey_make_cluster.sh
+Enter cluster-1'IP:  192.168.0.79
+Enter cluster-2'IP:  192.168.0.10
+Enter cluster-3'IP:  192.168.0.33
+Enter cluster-4'IP:  192.168.0.116
+Enter cluster-5'IP:  192.168.0.91
+Enter cluster-6'IP:  192.168.0.32
+```
+
+Enter the file name of the copied key pair.
+
+```
+shell> Enter Pemkey's name: <키 페어>.pem
+```
+
+Enter `yes` to complete the cluster configuration.
+```
+>>> Performing hash slots allocation on 6 nodes...
+Master[0] -> Slots 0 - 5460
+Master[1] -> Slots 5461 - 10922
+Master[2] -> Slots 10923 - 16383
+Adding replica 192.168.0.91:6379 to 192.168.0.79:6379
+Adding replica 192.168.0.32:6379 to 192.168.0.10:6379
+Adding replica 192.168.0.116:6379 to 192.168.0.33:6379
+M: 0a6ee5bf24141f0058c403d8cc42b349cdc09752 192.168.0.79:6379
+   slots:[0-5460] (5461 slots) master
+M: b5d078bd7b30ddef650d9a7fa9735e7648efc86f 192.168.0.10:6379
+   slots:[5461-10922] (5462 slots) master
+M: 0da9b78108b6581bdb90002cbdde3506e9173dd8 192.168.0.33:6379
+   slots:[10923-16383] (5461 slots) master
+S: 078b4ce014a52588e23577b3fc2dabf408723d68 192.168.0.116:6379
+   replicates 0da9b78108b6581bdb90002cbdde3506e9173dd8
+S: caaae4ebd3584c0481205e472d6bd0f9dc5c574e 192.168.0.91:6379
+   replicates 0a6ee5bf24141f0058c403d8cc42b349cdc09752
+S: ab2aa9e37cee48ef8e4237fd63e8301d81193818 192.168.0.32:6379
+   replicates b5d078bd7b30ddef650d9a7fa9735e7648efc86f
+Can I set the above configuration? (type 'yes' to accept):
+```
+
+```
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+```
+
+
 <a id="apache-tomcat"></a>
 ## Apache Tomcat
 
@@ -733,7 +884,7 @@ It runs with the default settings configured during initial installation. For se
 
 ##### 1) Modify the `server.xml` file
 
-Open the `~/apps/apache-tomcat-{version}/conf/server.xml` file and enter the port address to change in \<Connector\>, as follows:
+Open the `~/apps/apache-tomcat-{version}/conf/server.xml` file and enter the port address to change in `<Connector>`, as follows:
 
 ```sh
 shell> vi ~/apps/apache-tomcat-{version}/conf/server.xml
@@ -807,12 +958,12 @@ Deep Learning Framework Instance provides software as follows.
 
 NVIDIA cuDNN contains source code provided by NVIDIA Corporation. [License](https://docs.nvidia.com/deeplearning/cudnn/latest/reference/eula.html)
 
-After completing the setup, create an instance. For more information on instance creation, see [Instance Overview](http://docs.toast.com/en/Compute/Instance/en/overview/).
+After completing the setup, create an instance. For more information, see [Instance Overview](http://docs.toast.com/en/Compute/Instance/en/overview/).
 
 <a id="check-installed-development-environment"></a>
 ### Check Installed Development Environment
 
-Use the conda command to check the development environment installed by Miniconda.
+Use the `conda` command to check the development environment installed by Miniconda.
 
 ```
 $ conda info --envs
@@ -938,7 +1089,7 @@ Open the `/etc/hostname` file and match the alias of the current node with the a
 
 There is no default configuration applied initially, so you must write a configuration file. Write the configuration by referring to [Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config) and [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html), and save it in `/etc/slurm/slurm.conf` file.
 
-The log file path must be specified as a directory under the `/var/log/slurm/` path. If you want to specify a different path, you must specify the path in the configuration file and match the owner of the directory with the `SlurmUser` setting value.
+The log file path must be specified as a directory under the `/var/log/slurm/`. If you want to specify a different path, you must specify the path in the configuration file and match the owner of the directory with the `SlurmUser` setting value.
 
 
 <a id="running-slurm"></a>
