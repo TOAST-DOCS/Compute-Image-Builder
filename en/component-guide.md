@@ -1,12 +1,13 @@
+<!-- pre-align:aligned sig=6c432dbbed32 -->
+
 <a id="compute-image-builder-installation-component-guide"></a>
-## Compute > Image Builder > Installation Component Guide
+## Compute > Image Builder > Installation Component Guide { #compute-image-builder-installation-component-guide }
 
 <a id="postgresql"></a>
-## PostgreSQL
-
+## PostgreSQL { #postgresql }
 
 <a id="how-to-startstop-postgresql"></a>
-### How to Start/Stop PostgreSQL
+### How to Start/Stop PostgreSQL { #how-to-startstop-postgresql }
 
 ```
 #Start the postgresql service
@@ -20,7 +21,7 @@ shell> systemctl restart postgresql-${version}
 ```
 
 <a id="connect-to-postgresql"></a>
-### Connect to PostgreSQL
+### Connect to PostgreSQL { #connect-to-postgresql }
 
 After creating an instance, initially connect as follows.
 <br>
@@ -31,8 +32,9 @@ shell> psql
 ```
 
 <a id="initial-setup-after-creating-a-postgresql-instance"></a>
-### Initial Setup After Creating a PostgreSQL Instance
+### Initial Setup After Creating a PostgreSQL Instance { #initial-setup-after-creating-a-postgresql-instance }
 
+<a id="initial-setup-after-creating-a-postgresql-instance-1-change-the-port"></a>
 #### 1\. Change the Port
 
 The provided image port is 5432, which is the PostgreSQL default port. For security reasons, it is recommended to change the port.
@@ -43,7 +45,7 @@ shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 #Enter the port to use in the postgresql.conf file.
 
-port =port name to use
+port =port number to use
 
 
 #Save vi editor
@@ -59,6 +61,7 @@ shell> systemctl restart postgresql-${version}
 shell> psql -p [changed port number]
 ```
 
+<a id="initial-setup-after-creating-a-postgresql-instance-2-change-the-server-log-time-zone"></a>
 #### 2\. Change the Server Log Time Zone
 
 The default time zone logged in the server log is set to UTC. It is recommended to change it to be the same as the SYSTEM local time.
@@ -90,6 +93,7 @@ shell> psql
 postgres=# SHOW log_timezone;
 ```
 
+<a id="initial-setup-after-creating-a-postgresql-instance-3-revoke-the-public-schema-privilege"></a>
 #### 3\. Revoke the public Schema Privilege
 
 By default, all users are granted CREATE and USAGE privileges for the public schema, so users who can access the database can create objects in the public schema. It is recommended to revoke the privileges to prevent all users from creating objects in the public schema.
@@ -105,9 +109,10 @@ shell> psql
 postgres=# REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 ```
 
+<a id="initial-setup-after-creating-a-postgresql-instance-4-allow-remote-access"></a>
 #### 4\. Allow Remote Access
 
-To allow access from connections other than localhost, you need to change the listen_addresses variable and the client authentication configuration file.
+To allow access from connections other than localhost, you need to change the `listen_addresses` variable and the client authentication configuration file.
 <br>
 ```
 shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
@@ -145,7 +150,7 @@ shell> systemctl restart postgresql-${version}
 ```
 
 <a id="postgresql-directory-description"></a>
-### PostgreSQL Directory Description
+### PostgreSQL Directory Description { #postgresql-directory-description }
 
 PostgreSQL directory and file descriptions are given below.
 
@@ -157,10 +162,10 @@ PostgreSQL directory and file descriptions are given below.
 | LOG | PostgreSQL log file path - /var/lib/pgsql/{version}/data/log/\*.log |
 
 <a id="mysql"></a>
-## MySQL
+## MySQL { #mysql }
 
 <a id="how-to-startstop-mysql"></a>
-### How to Start/Stop MySQL
+### How to Start/Stop MySQL { #how-to-startstop-mysql }
 
 ``` sh
 # Start the MySQL service
@@ -174,7 +179,7 @@ shell> sudo systemctl restart mysql
 ```
 
 <a id="connect-to-mysql"></a>
-### Connect to MySQL
+### Connect to MySQL { #connect-to-mysql }
 
 After creating an instance, initially connect as follows.
 
@@ -190,18 +195,20 @@ Enter password:
 ```
 
 <a id="initial-setup-after-creating-a-mysql-instance"></a>
-### Initial Setup After Creating a MySQL Instance
+### Initial Setup After Creating a MySQL Instance { #initial-setup-after-creating-a-mysql-instance }
 
+<a id="initial-setup-after-creating-a-mysql-instance-1-setting-password"></a>
 #### 1\. Setting Password
 
 There's no password on root user on initial installation. Therefore, it is required to set password as soon as possible.
 ```
 mysql> ALTER USER USER() IDENTIFIED BY 'NEW PASSWORD';
 ```
-Default MySQL validate_password_policy is as below:
-* validate\_password\_policy=MEDIUM
-* Must be more than 8 characters, and include numbers, lower/upper cases, and special characters.
+Default MySQL `validate_password_policy` is as below:
+- `validate_password_policy`=`MEDIUM`
+- Must be more than 8 characters, and include numbers, lower/upper cases, and special characters.
 
+<a id="initial-setup-after-creating-a-mysql-instance-2-change-the-port"></a>
 #### 2\. Change the Port
 
 After initial installation, the port is 3306, which is MySQL's default port. For security reasons, it is recommended to change the port.
@@ -225,10 +232,10 @@ sudo systemctl restart mysqld
 ```
 
 <a id="mariadb"></a>
-## MariaDB
+## MariaDB { #mariadb }
 
 <a id="how-to-startstop-mariadb"></a>
-### How to Start/Stop MariaDB
+### How to Start/Stop MariaDB { #how-to-startstop-mariadb }
 
 ``` sh
 # Start the MariaDB service
@@ -242,7 +249,7 @@ shell> sudo systemctl restart mariadb.service
 ```
 
 <a id="connect-to-mariadb"></a>
-### Connect to MariaDB
+### Connect to MariaDB { #connect-to-mariadb }
 
 After creating an instance, initially connect as follows.
 
@@ -258,8 +265,9 @@ Enter password:
 ```
 
 <a id="initial-setup-after-creating-a-mariadb-instance"></a>
-### Initial Setup After Creating a MariaDB Instance
+### Initial Setup After Creating a MariaDB Instance { #initial-setup-after-creating-a-mariadb-instance }
 
+<a id="initial-setup-after-creating-a-mariadb-instance-1-set-the-password"></a>
 #### 1\. Set the Password
 
 After initial installation, the MariaDB root account password is not set. Therefore, you must set a password after installation.
@@ -270,13 +278,14 @@ SET PASSWORD [FOR user] = password_option
 MariaDB> SET PASSWORD = PASSWORD('password');
 ```
 
+<a id="initial-setup-after-creating-a-mariadb-instance-2-change-the-port"></a>
 #### 2\. Change the Port
 
 After initial installation, the port is 3306, which is MariaDB's default port. For security reasons, it is recommended to change the port.
 
-##### 1) Modify the `/etc/my.cnf.d/servfer.cnf` file
+##### 1) Modify the `/etc/my.cnf.d/server.cnf` file
 
-Open the `/etc/my.cnf.d/server.cnf` file and enter the port address to change under [mariadb] as follows.
+Open the `/etc/my.cnf.d/server.cnf` file and enter the port address to change under `[mariadb]` as follows:
 
 ```
 shell> sudo vi /etc/my.cnf.d/server.cnf
@@ -294,12 +303,12 @@ sudo systemctl restart mariadb.service
 ```
 
 <a id="cubrid"></a>
-## CUBRID
+## CUBRID { #cubrid }
 
 <a id="how-to-startstop-the-cubrid-service"></a>
-### How to Start/Stop the CUBRID service
+### How to Start/Stop the CUBRID service { #how-to-startstop-the-cubrid-service }
 
-You can start or stop the CUBRID service as follows by logging in with the “cubrid” Linux account.
+You can start or stop the CUBRID service as follows by logging in with the `cubrid` Linux account.
 
 ``` sh
 # Start the CUBRID service/server
@@ -325,7 +334,7 @@ shell> cubrid broker restart
 ```
 
 <a id="connect-to-cubrid"></a>
-### Connect to CUBRID
+### Connect to CUBRID { #connect-to-cubrid }
 
 After creating an instance, connect as follows.
 
@@ -335,8 +344,9 @@ shell> csql -u dba demodb@localhost
 ```
 
 <a id="initial-setup-after-creating-a-cubrid-instance"></a>
-### Initial Setup After Creating a CUBRID Instance
+### Initial Setup After Creating a CUBRID Instance { #initial-setup-after-creating-a-cubrid-instance }
 
+<a id="initial-setup-after-creating-a-cubrid-instance-1-set-the-password"></a>
 #### 1\. Set the Password
 
 After initial installation, the CUBRID dba account password is not set. Therefore, you must set a password after installation.
@@ -345,9 +355,10 @@ After initial installation, the CUBRID dba account password is not set. Therefor
 shell> csql -u dba -c "ALTER USER dba PASSWORD 'new_password'" demodb@localhost
 ```
 
+<a id="initial-setup-after-creating-a-cubrid-instance-2-change-the-broker-port"></a>
 #### 2\. Change the broker Port
 
-The broker port for **query\_editor** defaults to **30000**, and the broker port for **broker1** defaults to **33000**.
+The broker port for `query_editor` defaults to `30000`, and the broker port for `broker1` defaults to `33000`.
 For security reasons, it is recommended to change the port.
 
 ##### 1) Modify the broker file
@@ -373,14 +384,14 @@ shell> cubrid broker restart
 ```
 
 <a id="apache-kafka"></a>
-## Apache Kafka
+## Apache Kafka { #apache-kafka }
 > [Note]
 > This guide is created based on Kafka version 3.3.1.
 > If you are using a different version, please makes changes accordingly.
-> For the instance flavor, please choose c1m2 (CPU 1core,  Memory 2GB) or higher specifications.
+> For the instance flavor, please choose `c1m2` (CPU 1core,  Memory 2GB) or higher specifications.
 
 <a id="start-and-stop-zookeeper-kafka-broker"></a>
-### Start and Stop Zookeeper, Kafka broker
+### Start and Stop Zookeeper, Kafka broker { #start-and-stop-zookeeper-kafka-broker }
 ```
 # Start Zookeeper, Kafka broker (Zookeeper first)
 shell> sudo systemctl start zookeeper.service
@@ -396,7 +407,7 @@ shell> sudo systemctl restart kafka.service
 ```
 
 <a id="install-kafka-cluster"></a>
-### Install Kafka Cluster
+### Install Kafka Cluster { #install-kafka-cluster }
 - Must install in a new instance.
 - An odd number of instances (3 or more) are required, and the installation script is executed in the instance.
 - An instance consists of of one kafka broker and one zookeeper node.
@@ -464,19 +475,20 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 
 
 <a id="initial-setup-after-creating-apache-kafka-instance"></a>
-### Initial Setup After Creating Apache Kafka Instance
+### Initial Setup After Creating Apache Kafka Instance { #initial-setup-after-creating-apache-kafka-instance }
+<a id="initial-setup-after-creating-apache-kafka-instance-change-the-port"></a>
 #### Change the Port
 After initial installation, the ports are 9092, which is the Kafka default port, and 2181, which is the Zookeeper default port. It is recommended to change the port for security.
 
-##### 1) Modify the ~/kafka/config/zookeeper.properties file
-Open the ~/kafka/config/zookeeper.properties file and enter the Zookeeper port to change in clientPort.
+##### 1) Modify the `~/kafka/config/zookeeper.properties` file
+Open the `~/kafka/config/zookeeper.properties` file and enter the Zookeeper port to change in `clientPort`.
 ```
 shell> vi ~/kafka/config/zookeeper.properties
 
 clientPort=zookeeper port to change
 ```
-##### 2) Modify the ~/kafka/config/server.properties file
-Open the ~/kafka/config/server.properties file and enter the Kafka port to change in listeners.
+##### 2) Modify the `~/kafka/config/server.properties` file
+Open the `~/kafka/config/server.properties` file and enter the Kafka port to change in `listeners`.
 
 How to check Instance IP
 ```
@@ -511,7 +523,7 @@ shell> netstat -ntl | grep [Zookeeper port]
 ```
 
 <a id="create-and-use-apache-kafka-topic-and-data"></a>
-### Create and Use Apache Kafka Topic and Data
+### Create and Use Apache Kafka Topic and Data { #create-and-use-apache-kafka-topic-and-data }
 
 Create and query a topic
 ```
@@ -538,10 +550,10 @@ shell> ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server [Instance IP]:[K
 ```
 
 <a id="redis"></a>
-## Redis
+## Redis { #redis }
 
 <a id="startstop-redis"></a>
-### Start/Stop Redis
+### Start/Stop Redis { #startstop-redis }
 ```
 # Start Redis
 shell> sudo systemctl start redis
@@ -554,22 +566,24 @@ shell> sudo systemctl restart redis
 ```
 
 <a id="connect-to-redis"></a>
-### Connect to Redis
+### Connect to Redis { #connect-to-redis }
 Connect to a Redis instance by using the `redis-cli` command.
 ```
 shell> redis-cli
 ```
 
 <a id="initial-setup-after-creating-a-redis-instance"></a>
-### Initial Setup After Creating a Redis Instance
+### Initial Setup After Creating a Redis Instance { #initial-setup-after-creating-a-redis-instance }
 The default configuration file for a Redis instance is the `~/redis/redis.conf` file. The description for the parameters to be changed is as follows.
 
+<a id="initial-setup-after-creating-a-redis-instance-bind"></a>
 #### Bind
 - Default value: `127.0.0.1 -::1`
 - Changed value: `<private ip> 127.0.0.1 -::1`
 
-Value for an IP used by Redis. To allow access to a Redis instance from outside the server, add a private IP to the parameter. You can check the private IP with the `hostname -I` command.
+IP value for Redis to use. To access to a Redis instance from outside the server, add a private IP to the parameter. You can check the private IP with the `hostname -I` command.
 
+<a id="initial-setup-after-creating-a-redis-instance-port"></a>
 #### Port
 - Default value: `6379`
 
@@ -579,14 +593,15 @@ Port is 6379, a default value for Redis. It is recommended to change the port fo
 shell> redis-cli -p <new port>
 ```
 
+<a id="initial-setup-after-creating-a-redis-instance-requirepassmasterauth"></a>
 #### Requirepass/masterauth
 - Default value: `nhncloud`
 
 The default password is `nhncloud`. For security reasons, it is recommended to change the password. If you are using replication connection, you must change the `requirepass` and `masterauth` values at the same time.
 
 <a id="automatic-ha-configuration-script"></a>
-### Automatic HA Configuration Script
-A Redis instance of NHN Cloud provides a script that automatically configures an HA environment. You can use the script only for **a new instance immediately after installation**, and cannot use after changing the set values from redis.conf.
+### Automatic HA Configuration Script { #automatic-ha-configuration-script }
+A Redis instance of NHN Cloud provides a script that automatically configures an HA environment. You can use the script only for a new instance immediately after installation, and cannot use after changing the set values from `redis.conf`.
 
 To use the script, the following settings are required.
 
@@ -609,6 +624,7 @@ You must set a security group (**Network** > **Security Groups**) for communicat
 | Inbound |TCP | 16379| IPv4| Instance IP(CIDR)|
 | Inbound |TCP | 26379| IPv4| Instance IP(CIDR)|
 
+<a id="automatic-ha-configuration-script-sentinel-automatic-configuration"></a>
 #### Sentinel Automatic Configuration
 You will need 3 Redis instances to configure Sentinel. After copying the key pair to the instance used as the master, run the script as follows.
 
@@ -631,6 +647,7 @@ Enter the file name of the copied key pair.
 shell> Enter Pemkey's name: <key pair>.pem
 ```
 
+<a id="automatic-ha-configuration-script-cluster-automatic-configuration"></a>
 #### Cluster Automatic Configuration
 6 Redis instances are required for Cluster configuration. After copying the key pair to the instance used as the master, run the script as follows.
 
@@ -687,11 +704,168 @@ Can I set the above configuration? (type 'yes' to accept):
 [OK] All 16384 slots covered.
 ```
 
+<a id="valkey"></a>
+## Valkey { #valkey }
+
+<a id="startstop-valkey"></a>
+### Start/Stop Valkey { #startstop-valkey }
+```
+# Start Valkey Service
+shell> sudo systemctl start valkey
+
+# Stop Valkey Service
+shell> sudo systemctl stop valkey
+
+# Restart Valkey Service
+shell> sudo systemctl restart valkey
+```
+
+<a id="connect-to-valkey"></a>
+### Connect to Valkey { #connect-to-valkey }
+Connect to a Valkey instance by using the `valkey-cli` command.
+```
+shell> valkey-cli
+```
+
+<a id="initial-setup-after-creating-a-valkey-instance"></a>
+### Initial Setup After Creating a Valkey Instance { #initial-setup-after-creating-a-valkey-instance }
+The default configuration file for a Valkey instance is the `~/valkey/valkey.conf` file. The description for the parameters to be changed is as follows:
+
+<a id="initial-setup-after-creating-a-valkey-instance-bind"></a>
+#### bind
+- Default: `127.0.0.1 -::1`
+- Changed value: `<private ip> 127.0.0.1 -::1`
+
+IP value for Valkey to use. To access to a Redis instance from outside the server, add a private IP to the parameter. You can check the private IP with the `hostname -I` command.
+
+<a id="initial-setup-after-creating-a-valkey-instance-port"></a>
+#### port
+- Default: `6379`
+
+The port is 6379, the default for Valkey. It is recommended to change the port for security reasons. After changing the port, you can connect to Valkey with the following command.
+
+```
+shell> valkey-cli -p <새로운 포트>
+```
+
+<a id="initial-setup-after-creating-a-valkey-instance-requirepassmasterauth"></a>
+#### requirepass/masterauth
+- Default: `nhncloud`
+
+	
+The default password is `nhncloud`. For security reasons, it is recommended to change the password. If you are using a replication connection, you must change the `requirepass` and `masterauth` values at the same time.
+
+<a id="valkey-automatic-ha-configuration-script"></a>
+### Automatic HA Configuration Script { #valkey-automatic-ha-configuration-script }
+A Valkey instance of NHN Cloud provides a script that automatically configures an HA environment. You can use the script only for a new instance right immediately after installation, and cannot use it after changing the set values from `valkey.conf`.
+
+To use the script, the following settings are required.
+
+##### Copy Key Pairs
+The instance running the installation script must have a key pair (PEM file) required to connect to other instances. The key pair can be copied as follows:
+
+- ubuntu
+```
+local> scp -i <키 페어>.pem <키 페어>.pem ubuntu@<floating ip>:/home/ubuntu/
+```
+
+The key pairs for created instances must be the same.
+
+##### Set Security Group
+To enable communication between Valkey instances, you must configure a security group (**Network** > **Security Groups**). Create a security group with the rules below and apply it to the Valkey instances.
+
+| Direction | IP protocol | Port range| Ether| Remote|
+| --- | --- | --- | --- | --- |
+| 수신|TCP | 6379| IPv4| Instance IP(CIDR)|
+| 수신|TCP | 16379| IPv4| Instance IP(CIDR)|
+| 수신|TCP | 26379| IPv4| Instance IP(CIDR)|
+
+<a id="valkey-automatic-ha-configuration-script-sentinel-automatic-configuration"></a>
+#### Sentinel Automatic Configuration
+3 Valkey instances are required for Cluster configuration. After copying the key pair to the instance used as the master, run the script as follows:
+
+```
+shell> sh .valkey_make_sentinel.sh
+```
+
+Enter the master name (Master Name) to be used in the connection information, followed by the private IPs of the master and replica. You can check the private IP of each instance with the `hostname -I` command.
+
+```
+shell> sh .valkey_make_sentinel.sh
+Enter Master's Name (ex> mymaster) : mymaster
+Enter Master's IP: 192.168.0.33
+Enter Replica-1's IP: 192.168.0.27
+Enter Replica-2's IP: 192.168.0.97
+```
+
+Enter the file name of the copied key pair.
+```
+shell> Enter Pemkey's name: <키 페어>.pem
+```
+
+<a id="valkey-automatic-ha-configuration-script-cluster-automatic-configuration"></a>
+#### Cluster Automatic Configuration
+6 Redis instances are required for Valkey configuration. After copying the key pair to the instance used as the master, run the script as follows:
+
+```
+shell> sh .valkey_make_cluster.sh
+```
+
+Enter the private IPs of Valkey instances used for a cluster in turn. You can check the private IP of each instance with the `hostname -I` command.
+
+```
+shell> sh .valkey_make_cluster.sh
+Enter cluster-1'IP:  192.168.0.79
+Enter cluster-2'IP:  192.168.0.10
+Enter cluster-3'IP:  192.168.0.33
+Enter cluster-4'IP:  192.168.0.116
+Enter cluster-5'IP:  192.168.0.91
+Enter cluster-6'IP:  192.168.0.32
+```
+
+Enter the file name of the copied key pair.
+
+```
+shell> Enter Pemkey's name: <키 페어>.pem
+```
+
+Enter `yes` to complete the cluster configuration.
+```
+>>> Performing hash slots allocation on 6 nodes...
+Master[0] -> Slots 0 - 5460
+Master[1] -> Slots 5461 - 10922
+Master[2] -> Slots 10923 - 16383
+Adding replica 192.168.0.91:6379 to 192.168.0.79:6379
+Adding replica 192.168.0.32:6379 to 192.168.0.10:6379
+Adding replica 192.168.0.116:6379 to 192.168.0.33:6379
+M: 0a6ee5bf24141f0058c403d8cc42b349cdc09752 192.168.0.79:6379
+   slots:[0-5460] (5461 slots) master
+M: b5d078bd7b30ddef650d9a7fa9735e7648efc86f 192.168.0.10:6379
+   slots:[5461-10922] (5462 slots) master
+M: 0da9b78108b6581bdb90002cbdde3506e9173dd8 192.168.0.33:6379
+   slots:[10923-16383] (5461 slots) master
+S: 078b4ce014a52588e23577b3fc2dabf408723d68 192.168.0.116:6379
+   replicates 0da9b78108b6581bdb90002cbdde3506e9173dd8
+S: caaae4ebd3584c0481205e472d6bd0f9dc5c574e 192.168.0.91:6379
+   replicates 0a6ee5bf24141f0058c403d8cc42b349cdc09752
+S: ab2aa9e37cee48ef8e4237fd63e8301d81193818 192.168.0.32:6379
+   replicates b5d078bd7b30ddef650d9a7fa9735e7648efc86f
+Can I set the above configuration? (type 'yes' to accept):
+```
+
+```
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+```
+
+
 <a id="apache-tomcat"></a>
-## Apache Tomcat
+## Apache Tomcat { #apache-tomcat }
 
 <a id="default-location"></a>
-### Default Location
+### Default Location { #default-location }
 The installation path of Tomcat is as follows.
 
 ```
@@ -699,7 +873,7 @@ The installation path of Tomcat is as follows.
 ```
 
 <a id="how-to-startstop-tomcat"></a>
-### How to Start/Stop Tomcat
+### How to Start/Stop Tomcat { #how-to-startstop-tomcat }
 
 Tomcat is registered as a service by default during the initial installation process and is automatically started when the instance starts. You can use the command below to manually start or stop Tomcat.
 
@@ -715,7 +889,7 @@ shell> sudo systemctl restart tomcat
 ```
 
 <a id="access-the-tomcat-default-page"></a>
-### Access the Tomcat Default Page
+### Access the Tomcat Default Page { #access-the-tomcat-default-page }
 Tomcat runs on port 8080, which is the default from initial installation. You can access the Tomcat default page by running the following command:
 
 ```sh
@@ -726,14 +900,15 @@ Content-Type: text/html;charset=UTF-8
 ```
 
 <a id="initial-setup-after-creating-a-tomcat-instance"></a>
-### Initial Setup After Creating a Tomcat Instance
+### Initial Setup After Creating a Tomcat Instance { #initial-setup-after-creating-a-tomcat-instance }
 
+<a id="initial-setup-after-creating-a-tomcat-instance-1-change-the-port"></a>
 #### 1\. Change the Port
 It runs with the default settings configured during initial installation. For security reasons, it is recommended to change the port.
 
 ##### 1) Modify the `server.xml` file
 
-Open the `~/apps/apache-tomcat-{version}/conf/server.xml` file and enter the port address to change in \<Connector\>, as follows:
+Open the `~/apps/apache-tomcat-{version}/conf/server.xml` file and enter the port address to change in `<Connector>`, as follows:
 
 ```sh
 shell> vi ~/apps/apache-tomcat-{version}/conf/server.xml
@@ -754,10 +929,10 @@ shell> sudo systemctl restart tomcat
 ```
 
 <a id="nodejs"></a>
-## Node.js
+## Node.js { #nodejs }
 
 <a id="default-location-2"></a>
-### Default Location
+### Default Location { #default-location-2 }
 The installation path of Node.js is as follows.
 
 ```
@@ -765,7 +940,7 @@ The installation path of Node.js is as follows.
 ```
 
 <a id="how-to-run-node"></a>
-### How to Run Node
+### How to Run Node { #how-to-run-node }
 
 ```sh
 # Write the app.js example code
@@ -777,10 +952,10 @@ Hello World
 ```
 
 <a id="deep-learning-framework"></a>
-## Deep Learning Framework
+## Deep Learning Framework { #deep-learning-framework }
 
 <a id="create-a-deep-learning-framework-image-template"></a>
-### Create a Deep Learning Framework Image Template
+### Create a Deep Learning Framework Image Template { #create-a-deep-learning-framework-image-template }
 
 To use the Deep Learning Framework, you must first create an image template.
 
@@ -793,7 +968,7 @@ If you select the options, you will see **Deep Learning Framework** in the scree
 After selecting the script, click the **Confirm** button. In the pop-up that appears, click the **Create** button.
 
 <a id="create-a-deep-learning-framework-instance"></a>
-### Create a Deep Learning Framework Instance
+### Create a Deep Learning Framework Instance { #create-a-deep-learning-framework-instance }
 
 After the image build is complete, click the **GPU Instance** button to actually create a GPU instance, and you will be taken to **Compute > GPU Instance > Create GPU Instance**.
 
@@ -807,12 +982,12 @@ Deep Learning Framework Instance provides software as follows.
 
 NVIDIA cuDNN contains source code provided by NVIDIA Corporation. [License](https://docs.nvidia.com/deeplearning/cudnn/latest/reference/eula.html)
 
-After completing the setup, create an instance. For more information on instance creation, see [Instance Overview](http://docs.toast.com/en/Compute/Instance/en/overview/).
+After completing the setup, create an instance. For more information, see [Instance Overview](http://docs.toast.com/en/Compute/Instance/en/overview/).
 
 <a id="check-installed-development-environment"></a>
-### Check Installed Development Environment
+### Check Installed Development Environment { #check-installed-development-environment }
 
-Use the conda command to check the development environment installed by Miniconda.
+Use the `conda` command to check the development environment installed by Miniconda.
 
 ```
 $ conda info --envs
@@ -830,7 +1005,7 @@ tf2_py38                 /root/miniconda3/envs/tf2_py38
 >For more detailed instructions, refer to [Miniconda documentation](https://docs.conda.io/en/latest/miniconda.html).
 
 <a id="how-to-use-tensorflow"></a>
-### How to Use TensorFlow
+### How to Use TensorFlow { #how-to-use-tensorflow }
 
 First, activate the TensorFlow environment.
 
@@ -880,7 +1055,7 @@ $ ./train.sh
 >For more detailed instructions, refer to [TensorFlow Tutorial](https://www.tensorflow.org/tutorials).
 
 <a id="how-to-use-pytorch"></a>
-### How to Use PyTorch
+### How to Use PyTorch { #how-to-use-pytorch }
 
 First, activate the PyTorch environment.
 
@@ -905,7 +1080,7 @@ $ python main.py --epochs 1
 
 
 <a id="slurm"></a>
-## Slurm
+## Slurm { #slurm }
 
 This component installs and sets up the MUNGE package, and installs the Slurm package. For details on how to run Slurm, see [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html).
 
@@ -914,8 +1089,9 @@ This component installs and sets up the MUNGE package, and installs the Slurm pa
 >All commands included in this section must be executed with the root privilege.
 
 <a id="preparation"></a>
-### Preparation
+### Preparation { #preparation }
 
+<a id="preparation-modify-the-hosts-file"></a>
 #### 1. Modify the `hosts` file
 
 Open the `/etc/hosts` file and enter the IP and alias of the node to be configured in the cluster environment.
@@ -924,6 +1100,7 @@ Open the `/etc/hosts` file and enter the IP and alias of the node to be configur
 # vi /etc/hosts
 ```
 
+<a id="preparation-modify-the-hostname-file"></a>
 #### 2. Modify the `hostname` file
 
 Open the `/etc/hostname` file and match the alias of the current node with the alias in the `hosts` file.
@@ -934,20 +1111,20 @@ Open the `/etc/hostname` file and match the alias of the current node with the a
 
 
 <a id="cluster-configuration-and-slurm-settings"></a>
-### Cluster Configuration and Slurm Settings
+### Cluster Configuration and Slurm Settings { #cluster-configuration-and-slurm-settings }
 
 There is no default configuration applied initially, so you must write a configuration file. Write the configuration by referring to [Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config) and [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html), and save it in `/etc/slurm/slurm.conf` file.
 
-The log file path must be specified as a directory under the `/var/log/slurm/` path. If you want to specify a different path, you must specify the path in the configuration file and match the owner of the directory with the `SlurmUser` setting value.
+The log file path must be specified as a directory under the `/var/log/slurm/`. If you want to specify a different path, you must specify the path in the configuration file and match the owner of the directory with the `SlurmUser` setting value.
 
 
 <a id="running-slurm"></a>
-### Running Slurm
+### Running Slurm { #running-slurm }
 
 You must configure all of the clusters and set the configuration before running Slurm. For more information, see [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html) and [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html).
 
 
 <a id="nhn-kubernetes-servicenks-worker-node"></a>
-## NHN Kubernetes Service(NKS) Worker Node
+## NHN Kubernetes Service(NKS) Worker Node { #nhn-kubernetes-servicenks-worker-node }
 
 You can create an image that can be used as a worker node for NHN Kubernetes Service (NKS). For more information, see [NKS User Guide](https://docs.nhncloud.com/en/Container/NKS/en/user-guide/#_25).

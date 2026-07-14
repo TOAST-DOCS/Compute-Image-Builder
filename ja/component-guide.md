@@ -1,38 +1,41 @@
+<!-- pre-align:aligned sig=6c432dbbed32 -->
+
 <a id="compute-image-builder-installation-component-guide"></a>
-## Compute > Image Builder > インストールコンポーネントガイド
+## Compute > Image Builder > インストールコンポーネントガイド { #compute-image-builder-installation-component-guide }
 
 <a id="postgresql"></a>
-## PostgreSQL
+## PostgreSQL { #postgresql }
 
 <a id="how-to-startstop-postgresql"></a>
-### PostgreSQL開始/停止方法
+### PostgreSQLの起動/停止方法 { #how-to-startstop-postgresql }
 
 ```
-#postgresqlサービス開始
+# postgresqlサービスの起動
 shell> systemctl start postgresql-${version}
 
-#postgresqlサービス中止
+# postgresqlサービスの停止
 shell> systemctl stop postgresql-${version}
 
-#postgresqlサービス再起動
+# postgresqlサービスの再起動
 shell> systemctl restart postgresql-${version}
 ```
 
 <a id="connect-to-postgresql"></a>
-### PostgreSQL接続
+### PostgreSQLへの接続 { #connect-to-postgresql }
 
 インスタンスを作成した後、初めに以下のように接続します。
 <br>
 ```
-#postgresにアカウント切り替え後に接続
+# postgresアカウントに切り替えて接続
 shell> su - postgres
 shell> psql
 ```
 
 <a id="initial-setup-after-creating-a-postgresql-instance"></a>
-### PostgreSQLインスタンス作成後、初期設定
+### PostgreSQLインスタンス作成後の初期設定 { #initial-setup-after-creating-a-postgresql-instance }
 
-#### 1\. ポート\(port\)変更
+<a id="initial-setup-after-creating-a-postgresql-instance-1-change-the-port"></a>
+#### 1\. ポート（port）の変更
 
 提供されるイメージポートはPostgreSQL基本ポートの5432です。セキュリティ上、ポートの変更を推奨します。
 <br>
@@ -40,25 +43,26 @@ shell> psql
 shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 
-#postgresql.confファイルに使用するポートを入力します。
+# postgresql.confファイルに使用するポートを明記します。
 
-port =使用するポート名
-
-
-#viエディタ保存
+port = 使用するポート番号
 
 
-#postgresqlサービス再起動
+# viエディタで保存
+
+
+# postgresqlサービスの再起動
 
 shell> systemctl restart postgresql-${version}
 
 
-#変更されたポートで以下のように接続
+# 変更したポートで以下のように接続
 
 shell> psql -p[変更されたポート番号]
 ```
 
-#### 2\. サーバーログタイムゾーン変更
+<a id="initial-setup-after-creating-a-postgresql-instance-2-change-the-server-log-time-zone"></a>
+#### 2\. サーバーログのタイムゾーンの変更
 
 サーバーログに記録される基本時間帯がUTCに設定されています。 SYSTEMローカル時間と同じに変更することを推奨します。
 <br>
@@ -66,68 +70,70 @@ shell> psql -p[変更されたポート番号]
 shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 
-#postgresql.confファイルに使用するタイムゾーンを入力します。
+# postgresql.confファイルに使用するタイムゾーンを明記します。
 
 log_timezone =使用するタイムゾーン
 
 
-#viエディタ保存
+# viエディタで保存
 
 
-#postgresqlサービス再起動
+# postgresqlサービスの再起動
 
 shell> systemctl restart postgresql-${version}
 
 
-#postgresql接続
+# postgresqlへの接続
 
 shell> psql
 
 
-#変更した設定の確認
+# 変更した設定の確認
 
 postgres=# SHOW log_timezone;
 ```
 
-#### 3\. publicスキーマ権限キャンセル
+<a id="initial-setup-after-creating-a-postgresql-instance-3-revoke-the-public-schema-privilege"></a>
+#### 3\. publicスキーマ権限の取り消し
 
 基本的にすべてのユーザーにpublicスキーマのCREATEおよびUSAGE権限を付与しているため、データベースに接続することができるユーザーはpublicスキーマからオブジェクトを作成できます。すべてのユーザーがpublicスキーマからオブジェクトを作成できないように権限の取り消しを推奨します。
 <br>
 ```
-#postgresql接続
+# postgresqlへの接続
 
 shell> psql
 
 
-#権限取り消しコマンド実行
+# 権限取り消しコマンドの実行
 
 postgres=# REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 ```
 
-#### 4\. 遠隔接続許可
+<a id="initial-setup-after-creating-a-postgresql-instance-4-allow-remote-access"></a>
+#### 4\. リモート接続の許可
 
-ローカルホスト以外の接続を許可するにはlisten_addresses変数とクライアント認証設定ファイルを変更する必要があります。
+ローカルホスト以外の接続を許可するには`listen_addresses`変数とクライアント認証設定ファイルを変更する必要があります。
 <br>
 ```
 shell> vi /var/lib/pgsql/${version}/data/postgresql.conf
 
 
-#postgresql.confファイルに許可するアドレスを指定してください。
-#IPv4アドレスを全て許可する場合0.0.0.0
-#IPv6アドレスを全て許可する場合::
-#すべてのアドレスを許可する場合 *
+# postgresql.confファイルに許可するアドレスを明記します。
+# IPv4アドレスをすべて許可する場合: 0.0.0.0
+# IPv6アドレスをすべて許可する場合: ::
+# すべてのアドレスを許可する場合: *
 
 listen_addresses =許可するアドレス
 
 
-#viエディタ保存
+# viエディタで保存
 
 
 shell> vi /var/lib/pgsql/${version}/data/pg_hba.conf
 
 
-#IPアドレス形式ごとにクライアント認証制御
-#古いクライアントライブラリはscram-sha-256方式をサポートしていないため、md5に変更必要
+# IPアドレス形式ごとのクライアント認証制御
+# 古いクライアントライブラリはscram-sha-256方式をサポートしていないため、md5への変更が必要
 
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 # IPv4 local connections:
@@ -138,40 +144,42 @@ host    all             all             ::1/128                 scram-sha-256
 host  許可DB        許可ユーザー    許可アドレス               scram-sha-256
 
 
-#postgresqlサービス再起動
+# postgresqlサービスの再起動
 
 shell> systemctl restart postgresql-${version}
 ```
 
 <a id="postgresql-directory-description"></a>
-### PostgreSQLディレクトリの説明
+### PostgreSQLディレクトリの説明 { #postgresql-directory-description }
 
 PostgreSQLディレクトリおよびファイルの説明は以下の通りです。
 
 | 名前 | 説明 |
 | --- | --- |
-| postgresql.cnf | /var/lib/pgsql/{version}/data/postgresql.cnf |
-| initdb.log | PostgreSQLデータベースクラスタ作成log - /var/lib/pgsql/{version}/initdb.log |
+| postgresql.conf | /var/lib/pgsql/{version}/data/postgresql.conf |
+| initdb.log | PostgreSQLデータベースクラスター作成ログ - /var/lib/pgsql/{version}/initdb.log |
 | DATADIR | PostgreSQLデータファイルパス - /var/lib/pgsql/{version}/data/ |
-| LOG | PostgreSQL logファイルパス - /var/lib/pgsql/{version}/data/log/\*.log |
+| LOG | PostgreSQLログファイルのパス - /var/lib/pgsql/{version}/data/log/\*.log |
 
 <a id="mysql"></a>
-## MySQL
+## MySQL { #mysql }
 
 <a id="how-to-startstop-mysql"></a>
-### MySQL起動/停止方法
+### MySQLの起動/停止方法 { #how-to-startstop-mysql }
 
 ``` sh
 # MySQLサービスの起動
 shell> sudo systemctl start mysqld
-# MySQLサービスの終了
+
+# MySQLサービスの停止
 shell> sudo systemctl stop mysqld
+
 # MySQLサービスの再起動
 shell> sudo systemctl restart mysqld
 ```
 
 <a id="connect-to-mysql"></a>
-### MySQL接続
+### MySQLへの接続 { #connect-to-mysql }
 
 イメージ作成後、最初は以下のように接続します。
 
@@ -187,9 +195,10 @@ Enter password:
 ```
 
 <a id="initial-setup-after-creating-a-mysql-instance"></a>
-### MySQLインスタンス作成後の初期設定
+### MySQLインスタンス作成後の初期設定 { #initial-setup-after-creating-a-mysql-instance }
 
-#### 1\.パスワード設定
+<a id="initial-setup-after-creating-a-mysql-instance-1-setting-password"></a>
+#### 1\. パスワード設定
 
 初期インストール後、MySQL ROOTアカウントパスワードは指定されていません。したがってインストール後、すぐにパスワードを設定する必要があります。
 
@@ -197,18 +206,18 @@ Enter password:
 mysql> ALTER USER USER() IDENTIFIED BY '新しいパスワード';
 ```
 
-MySQL基本validate\_password\_policyは下記の通りです。
-
-* validate\_password\_policy=MEDIUM
+MySQLのデフォルトの `validate_password_policy` は以下のとおりです。
+- `validate_password_policy`=`MEDIUM`
 * 基本**8文字以上、数字、大文字、小文字、特殊文字**を含める必要がある
 
-#### 2\. ポート\(port\)変更
+<a id="initial-setup-after-creating-a-mysql-instance-2-change-the-port"></a>
+#### 2\. ポート（port）の変更
 
 初期インストール後、ポートはMySQLの基本ポートである3306です。セキュリティ上、ポートを変更することを推奨します。
 
-##### 1) `/etc/my.cnf`ファイルの修正
+##### 1) `/etc/my.cnf`ファイルの編集
 
-`/etc/my.cnf`ファイルに使用するポートを指定します。
+`/etc/my.cnf`ファイルに使用するポートを明記します。
 
 ```
 shell> sudo vi /etc/my.cnf
@@ -218,31 +227,31 @@ shell> sudo vi /etc/my.cnf
 port=[変更するportアドレス]
 ```
 
-##### 2)インスタンスの再起動
+##### 2) インスタンスの再起動
 ポートの変更が適用されるようにインスタンスを再起動します。
 ```
 sudo systemctl restart mysqld
 ```
 
 <a id="mariadb"></a>
-## MariaDB
+## MariaDB { #mariadb }
 
 <a id="how-to-startstop-mariadb"></a>
-### MariaDB起動/停止方法
+### MariaDBの起動/停止方法 { #how-to-startstop-mariadb }
 
 ``` sh
-# MariaDBサービス開始
+# MariaDBサービスの起動
 shell> sudo systemctl start mariadb.service
 
-# MariaDBサービス終了
+# MariaDBサービスの停止
 shell> sudo systemctl stop mariadb.service
 
-# MariaDBサービス再起動
+# MariaDBサービスの再起動
 shell> sudo systemctl restart mariadb.service
 ```
 
 <a id="connect-to-mariadb"></a>
-### MariaDB接続
+### MariaDBへの接続 { #connect-to-mariadb }
 
 イメージ作成後、最初は以下のように接続します。
 
@@ -258,8 +267,9 @@ Enter password:
 ```
 
 <a id="initial-setup-after-creating-a-mariadb-instance"></a>
-### MariaDBインスタンス作成後の初期設定
+### MariaDBインスタンス作成後の初期設定 { #initial-setup-after-creating-a-mariadb-instance }
 
+<a id="initial-setup-after-creating-a-mariadb-instance-1-set-the-password"></a>
 #### 1\. パスワード設定
 
 最初のインストール後、MariaDB rootアカウントパスワードは指定されていません。そのためインストール後に必ずパスワードを設定する必要があります。
@@ -270,13 +280,14 @@ SET PASSWORD [FOR user] = password_option
 MariaDB> SET PASSWORD = PASSWORD('パスワード');
 ```
 
-#### 2\. ポート\(port\)変更
+<a id="initial-setup-after-creating-a-mariadb-instance-2-change-the-port"></a>
+#### 2\. ポート（port）の変更
 
 最初のインストール後のポートはMariaDBの基本ポート3306です。セキュリティ上、ポートの変更を推奨します。
 
-##### 1) `/etc/my.cnf.d/servfer.cnf`ファイル修正
+##### 1) `/etc/my.cnf.d/server.cnf`ファイルの編集
 
-`/etc/my.cnf.d/server.cnf`ファイルを開いて[mariadb]の下に以下のように変更するポートアドレスを入力します。
+`/etc/my.cnf.d/server.cnf`ファイルを開いて`[mariadb]`の下に以下のように変更するポートアドレスを入力します。
 
 ```
 shell> sudo vi /etc/my.cnf.d/server.cnf
@@ -287,37 +298,37 @@ shell> sudo vi /etc/my.cnf.d/server.cnf
 port=[変更するportアドレス]
 ```
 
-##### 2)インスタンス再起動
+##### 2) インスタンスの再起動
 ポートの変更を適用するためにインスタンスを再起動します。
 ```
 sudo systemctl restart mariadb.service
 ```
 
 <a id="cubrid"></a>
-## CUBRID
+## CUBRID { #cubrid }
 
 <a id="how-to-startstop-the-cubrid-service"></a>
-### CUBRIDサービスの開始/停止方法
+### CUBRIDサービスの起動/停止方法 { #how-to-startstop-the-cubrid-service }
 
-“cubrid” LinuxアカウントでログインしてCUBRIDサービスを次のように開始/終了できます。
+`cubrid` Linuxアカウントでログインし、CUBRIDサービスを次のように開始/停止できます。
 
 ``` sh
-# CUBRIDサービス/サーバー起動
+# CUBRIDサービス/サーバーの起動
 shell> sudo su - cubrid
 shell> cubrid service start
 shell> cubrid server start demodb
 
-# CUBRIDサービス/サーバー終了
+# CUBRIDサービス/サーバーの停止
 shell> sudo su - cubrid
 shell> cubrid server stop demodb
 shell> cubrid service stop
 
-# CUBRIDサービス/サーバー再起動
+# CUBRIDサービス/サーバーの再起動
 shell> sudo su - cubrid
 shell> cubrid server restart demodb
 shell> cubrid service restart
 
-# CUBRIDブローカー開始/終了/再起動
+# CUBRIDブローカーの開始/停止/再起動
 shell> sudo su - cubrid
 shell> cubrid broker start
 shell> cubrid broker stop
@@ -325,7 +336,7 @@ shell> cubrid broker restart
 ```
 
 <a id="connect-to-cubrid"></a>
-### CUBRID接続
+### CUBRIDへの接続 { #connect-to-cubrid }
 
 イメージ作成後、次のように接続します。
 
@@ -335,8 +346,9 @@ shell> csql -u dba demodb@localhost
 ```
 
 <a id="initial-setup-after-creating-a-cubrid-instance"></a>
-### CUBRIDインスタンス作成後の初期設定
+### CUBRIDインスタンス作成後の初期設定 { #initial-setup-after-creating-a-cubrid-instance }
 
+<a id="initial-setup-after-creating-a-cubrid-instance-1-set-the-password"></a>
 #### 1\. パスワード設定
 
 最初のインストール後、CUBRID dbaアカウントパスワードは指定されていません。そのためインストール後に必ずパスワードを設定する必要があります。
@@ -345,12 +357,13 @@ shell> csql -u dba demodb@localhost
 shell> csql -u dba -c "ALTER USER dba PASSWORD 'new_password'" demodb@localhost
 ```
 
-#### 2\. brokerポート\(port\)変更
+<a id="initial-setup-after-creating-a-cubrid-instance-2-change-the-broker-port"></a>
+#### 2\. brokerポート（port）の変更
 
-**query\_editor**のブローカーポートはデフォルト値が**30000**に設定されていて、**broker1**のブローカーポートはデフォルト値が**33000**に設定されます。
+`query_editor`のブローカーポートはデフォルトで`30000`に設定され、`broker1`のブローカーポートはデフォルトで`33000`に設定されます。
 セキュリティ上、ポートの変更を推奨します。
 
-##### 1) brokerファイル修正
+##### 1) brokerファイルの編集
 
 `/opt/cubrid/conf/cubrid\_broker.conf`ファイルを開いて以下のように変更するポートアドレスを入力します。
 
@@ -366,39 +379,39 @@ BROKER_PORT             =[変更するportアドレス]
 BROKER_PORT             =[変更するportアドレス]
 ```
 
-##### 2) broker再起動
+##### 2) brokerの再起動
 ポートの変更を適用するためにbrokerを再起動します。
 ```
 shell> cubrid broker restart
 ```
 
 <a id="apache-kafka"></a>
-## Apache Kafka
+## Apache Kafka { #apache-kafka }
 > [参考]
 > このガイドはKafka 3.3.1バージョンを基準に作成されました。
-> 他のバージョンを使用する場合は、該当のバージョンに合わせて変更してください。
-> インスタンスタイプはc1m2(CPU 1core、Memory 2GB)以上の仕様で作成してください。
+> 異なるバージョンを使用する場合は、そのバージョンに合わせて変更してください。
+> インスタンスタイプは`c1m2`(CPU 1core、Memory 2GB)以上のスペックで作成してください。
 
 <a id="start-and-stop-zookeeper-kafka-broker"></a>
-### Zookeeper、Kafka broker起動/停止
+### Zookeeper、Kafka brokerの起動/停止 { #start-and-stop-zookeeper-kafka-broker }
 ```
-# Zookeeper、Kafka broker起動(Zookeeperを先に起動)
+# Zookeeper、Kafka brokerの起動（Zookeeperを先に起動）
 shell> sudo systemctl start zookeeper.service
 shell> sudo systemctl start kafka.service
-# Zookeeper、Kafka broker終了(Kafka brokerを先に終了)
+# Zookeeper、Kafka brokerの停止（Kafka brokerを先に停止）
 shell> sudo systemctl stop kafka.service
 shell> sudo systemctl stop zookeeper.service
-# Zookeeper, Kafka broker再起動
+# Zookeeper、Kafka brokerの再起動
 shell> sudo systemctl restart zookeeper.service
 shell> sudo systemctl restart kafka.service
 ```
 
 <a id="install-kafka-cluster"></a>
-### Kafka Clusterインストール
+### Kafka Clusterのインストール { #install-kafka-cluster }
 '- 必ず新規インスタンスにインストールします。
 - インスタンスは3台以上、奇数で必要です。インスタンス1台でインストールスクリプトを実行します。
 - インスタンス1台にkafka broker、zookeeper nodeが各1つずつ構成されます。
-- インストールスクリプトを実行するインスタンスの ~ パスに他のインスタンスに接続する時に必要なキーペア(PEMファイル)が必要です。クラスタインスタンスのキーペアはすべて同じでなければなりません。
+- インストールスクリプトを実行するインスタンスの ~/ パスに、他のインスタンスへの接続に必要なキーペア（PEMファイル）が配置されている必要があります。クラスターインスタンスのキーペアはすべて同一である必要があります。
 '- デフォルトポートのインストールのみサポートします。ポートの変更が必要な場合はクラスタインストールを完了してから初期設定ガイドのポート変更を参考にして変更します。
 '- インスタンス間のKafka関連ポート通信のために、以下のセキュリティグループ設定を追加します。
 
@@ -410,9 +423,9 @@ IPプロトコル： TCP
 ```
 Hostname、IPの確認方法
 ```
-# Hostname確認
+# Hostnameの確認
 shell> hostname
-# IP確認
+# IPの確認
 コンソール画面
 またはshell> hostname -i
 ```
@@ -460,18 +473,19 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 ```
 
 <a id="initial-setup-after-creating-apache-kafka-instance"></a>
-### Apache Kafkaインスタンス作成後の初期設定
-#### ポート(port)変更
+### Apache Kafkaインスタンス作成後の初期設定 { #initial-setup-after-creating-apache-kafka-instance }
+<a id="initial-setup-after-creating-apache-kafka-instance-change-the-port"></a>
+#### ポート（port）の変更
 最初のインストール後、ポートはKafkaデフォルトポート9092、Zookeeperデフォルトポート2181です。セキュリティのためにポートを変更することを推奨します。
 
-##### 1) ~/kafka/config/zookeeper.propertiesファイル修正
-~/kafka/config/zookeeper.propertiesファイルを開いてclientPortに変更するZookeeper portを入力します。
+##### 1) `~/kafka/config/zookeeper.properties`ファイルの編集
+`~/kafka/config/zookeeper.properties`ファイルを開き、`clientPort`に変更後のZookeeperポートを入力します。
 ```
 shell> vi ~/kafka/config/zookeeper.properties
 clientPort=変更するzookeeper port
 ```
-##### 2) ~/kafka/config/server.propertiesファイル修正
-~/kafka/config/server.propertiesファイルを開いてlistenersに変更するKafka portを入力します。
+##### 2) `~/kafka/config/server.properties`ファイルの編集
+`~/kafka/config/server.properties`ファイルを開き、`listeners`に変更後のKafkaポートを入力します。
 
 インスタンスIPの確認方法
 ```
@@ -481,10 +495,10 @@ clientPort=変更するzookeeper port
 ```
 shell> vi ~/kafka/config/server.properties
 
-# コメント解除
+# コメントの解除
 listeners=PLAINTEXT://インスタンスIP：変更するkafka port
 
-# Zookeeperポート変更
+# Zookeeperポートの変更
 zookeeper.connect=インスタンスIP：変更するzookeeper port
 ---> クラスタの場合、各インスタンスIPのZookeeper portを変更
 ```
@@ -497,7 +511,7 @@ shell> sudo systemctl start zookeeper.service
 shell> sudo systemctl start kafka.service
 ```
 
-##### 4) Zookeeper、Kafka port変更確認
+##### 4) Zookeeper、Kafkaポートの変更確認
 変更されたポートが使用されていることを確認します。
 ```
 shell> netstat -ntl | grep [Kafka port]
@@ -505,33 +519,33 @@ shell> netstat -ntl | grep [Zookeeper port]
 ```
 
 <a id="create-and-use-apache-kafka-topic-and-data"></a>
-### Apache Kafkaトピックおよびデータ作成/使用
+### Apache Kafkaトピックおよびデータの作成/使用 { #create-and-use-apache-kafka-topic-and-data }
 
 トピックの作成/照会
 ```
-# インスタンスIP = Private IP / Kafka基本port = 9092
-# トピック作成
+# インスタンスIP = Private IP / Kafka基本ポート = 9092
+# トピックの作成
 shell> ~/kafka/bin/kafka-topics.sh --create --bootstrap-server [インスタンスIP]:[Kafka PORT] --topic kafka
-# トピックリスト照会
+# トピック一覧の照会
 shell> ~/kafka/bin/kafka-topics.sh --list --bootstrap-server [インスタンスIP]:[Kafka PORT]
-# トピック詳細情報確認
+# トピック詳細情報の確認
 shell> ~/kafka/bin/kafka-topics.sh --describe --bootstrap-server [インスタンスIP]:[Kafka PORT] --topic kafka
-# トピック削除
+# トピックの削除
 shell> ~/kafka/bin/kafka-topics.sh --delete --bootstrap-server [インスタンスIP]:[Kafka PORT] --topic kafka
 ```
 データ作成/使用
 ```
-# producer起動
+# producerの起動
 shell> ~/kafka/bin/kafka-console-producer.sh --broker-list [インスタンスIP]:[Kafka PORT] --topic kafka
-# consumer起動
+# consumerの起動
 shell> ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server [インスタンスIP]:[Kafka PORT] --from-beginning --topic kafka
 ```
 
 <a id="redis"></a>
-## Redis
+## Redis { #redis }
 
 <a id="startstop-redis"></a>
-### Redis起動/停止
+### Redisの起動/停止 { #startstop-redis }
 ```
 # Redisサービスの起動
 shell> sudo systemctl start redis
@@ -544,22 +558,24 @@ shell> sudo systemctl restart redis
 ```
 
 <a id="connect-to-redis"></a>
-### Redis接続
+### Redisへの接続 { #connect-to-redis }
 `redis-cli`コマンドを利用してRedisインスタンスに接続できます。
 ```
 shell> redis-cli
 ```
 
 <a id="initial-setup-after-creating-a-redis-instance"></a>
-### Redisインスタンス作成後の初期設定
-Redisインスタンスの基本設定ファイルは`~/redis/redis.conf`です。変更が必要なパラメータの説明は次のとおりです。
+### Redisインスタンス作成後の初期設定 { #initial-setup-after-creating-a-redis-instance }
+Redisインスタンスのデフォルト設定ファイルは `~/redis/redis.conf` です。変更が必要なパラメーターについての説明は以下のとおりです。
 
+<a id="initial-setup-after-creating-a-redis-instance-bind"></a>
 #### bind
 - 基本値：`127.0.0.1 -::1`
 - 変更値：`<private ip> 127.0.0.1 -::1`
 
-Redisが使用するipの値です。サーバー外部からRedisインスタンスへのアクセスを許可するには該当パラメータにprivate ipを追加する必要があります。 private ipは`hostname -I`コマンドで確認できます。
+Redisが使用するIPアドレスです。サーバーの外部からRedisインスタンスにアクセスするには、このパラメータにプライベートIPを追加する必要があります。プライベートIPは`hostname -I`コマンドで確認できます。
 
+<a id="initial-setup-after-creating-a-redis-instance-port"></a>
 #### port
 - 基本値：`6379`
 
@@ -569,18 +585,19 @@ Redisが使用するipの値です。サーバー外部からRedisインスタ�
 shell> redis-cli -p <新しいポート>
 ```
 
+<a id="initial-setup-after-creating-a-redis-instance-requirepassmasterauth"></a>
 #### requirepass/masterauth
 - 基本値：`nhncloud`
 
 基本パスワードは`nhncloud`です。セキュリティ上、パスワードを変更することを推奨します。複製接続を使用する場合、`requirepass`と`masterauth`値を同時に変更する必要があります。
 
 <a id="automatic-ha-configuration-script"></a>
-### 自動HA構成スクリプト
-NHN CloudのRedisインスタンスは自動的にHA環境を構成するスクリプトを提供します。スクリプトは必ず**インストール直後の新規インスタンス**でのみ使用することができ、redis.confで設定値を変更した場合には使用できません。
+### 自動HA構成スクリプト { #automatic-ha-configuration-script }
+NHN CloudのRedisインスタンスでは、HA環境を自動で構成するスクリプトを提供しています。このスクリプトはインストール直後の新規インスタンスでのみ使用でき、`redis.conf`の設定値を変更した場合は使用できません。
 
 スクリプトを使用するには次の設定が必ず必要です。
 
-##### キーペアコピー
+##### キーペアのコピー
 インストールスクリプトを実行するインスタンスに他のインスタンス接続に必要なキーペア(PEMファイル)が必要です。キーペアは次のようにコピーできます。
 - ubuntu
 ```
@@ -588,7 +605,7 @@ local> scp -i <キーペア>.pem <キーペア>.pem ubuntu@<floating ip>:/home/u
 ```
 作成したインスタンスのキーペアは、すべて同じである必要があります。
 
-##### セキュリティグループ設定
+##### セキュリティグループの設定
 Redisインスタンス間の通信のためにセキュリティグループ(**Network** > **Security Groups**)設定が必要です。以下のルールでセキュリティグループを作成し、Redisインスタンスに適用してください。
 
 | 方向 | IPプロトコル| ポート範囲| Ether| 遠隔|
@@ -597,7 +614,8 @@ Redisインスタンス間の通信のためにセキュリティグループ(**
 | 受信|TCP | 16379| IPv4| インスタンスIP(CIDR)|
 | 受信|TCP | 26379| IPv4| インスタンスIP(CIDR)|
 
-#### Sentinel自動構成
+<a id="automatic-ha-configuration-script-sentinel-automatic-configuration"></a>
+#### Sentinelの自動構成
 Sentinel構成のために3つのRedisインスタンスが必要です。マスターとして使用するインスタンスにキーペアをコピーし、以下のようにスクリプトを実行してください。
 
 ```
@@ -619,7 +637,8 @@ Enter Replica-2's IP: 192.168.0.97
 shell> Enter Pemkey's name: <キーペア>.pem
 ```
 
-#### Cluster自動構成
+<a id="automatic-ha-configuration-script-cluster-automatic-configuration"></a>
+#### Clusterの自動構成
 Cluster構成のために6つのRedisインスタンスが必要です。マスターとして使用するインスタンスにキーペアをコピーし、以下のようにスクリプトを実行してください。
 
 ```
@@ -675,11 +694,166 @@ Can I set the above configuration? (type 'yes' to accept):
 [OK] All 16384 slots covered.
 ```
 
+<a id="valkey"></a>
+## Valkey { #valkey }
+
+<a id="startstop-valkey"></a>
+### Valkeyの起動/停止 { #startstop-valkey }
+```
+# Valkeyサービスの起動
+shell> sudo systemctl start valkey
+
+# Valkeyサービスの停止
+shell> sudo systemctl stop valkey
+
+# Valkeyサービスの再起動
+shell> sudo systemctl restart valkey
+```
+
+<a id="connect-to-valkey"></a>
+### Valkeyへの接続 { #connect-to-valkey }
+`valkey-cli`コマンドを使用してValkeyインスタンスに接続できます。
+```
+shell> valkey-cli
+```
+
+<a id="initial-setup-after-creating-a-valkey-instance"></a>
+### Valkeyインスタンス作成後の初期設定 { #initial-setup-after-creating-a-valkey-instance }
+Valkeyインスタンスのデフォルト設定ファイルは `~/valkey/valkey.conf` です。変更が必要なパラメータについての説明は以下のとおりです。
+
+<a id="initial-setup-after-creating-a-valkey-instance-bind"></a>
+#### bind
+- デフォルト値：`127.0.0.1 -::1`
+- 変更値：`<private ip> 127.0.0.1 -::1`
+
+Valkeyが使用するIPアドレスです。サーバーの外部からValkeyインスタンスにアクセスするには、このパラメータにプライベートIPを追加する必要があります。プライベートIPは`hostname -I`コマンドで確認できます。
+
+<a id="initial-setup-after-creating-a-valkey-instance-port"></a>
+#### port
+- デフォルト値：`6379`
+
+ポートはValkeyのデフォルト値である6379です。セキュリティ上、ポートの変更を推奨します。ポートを変更した後は、以下のコマンドでValkeyに接続できます。
+
+```
+shell> valkey-cli -p <新しいポート>
+```
+
+<a id="initial-setup-after-creating-a-valkey-instance-requirepassmasterauth"></a>
+#### requirepass/masterauth
+- デフォルト値：`nhncloud`
+
+デフォルトのパスワードは`nhncloud`です。セキュリティ上、パスワードの変更を推奨します。レプリケーション接続を使用する場合は、`requirepass`と`masterauth`の値を同時に変更する必要があります。
+
+<a id="valkey-automatic-ha-configuration-script"></a>
+### 自動HA構成スクリプト { #valkey-automatic-ha-configuration-script }
+NHN CloudのValkeyインスタンスでは、HA環境を自動で構成するスクリプトを提供しています。このスクリプトはインストール直後の新規インスタンスでのみ使用でき、`valkey.conf`の設定値を変更した場合は使用できません。
+
+スクリプトを使用するには、以下の設定が必須となります。
+
+##### キーペアのコピー
+インストールスクリプトを実行するインスタンスには、他のインスタンスへの接続に必要なキーペア(PEMファイル)が配置されている必要があります。キーペアは次のようにコピーできます。
+
+- ubuntu
+```
+local> scp -i <キーペア>.pem <キーペア>.pem ubuntu@<floating ip>:/home/ubuntu/
+```
+
+作成したインスタンスのキーペアは、全て同一である必要があります。
+
+##### セキュリティグループの設定
+Valkeyインスタンス間で通信を行うには、セキュリティグループ(**Network** > **Security Groups**)の設定が必要です。以下のルールでセキュリティグループを作成し、Valkeyインスタンスに適用してください。
+
+| 方向 | IPプロトコル | ポート範囲 | Ether | リモート |
+| --- | --- | --- | --- | --- |
+| 受信 | TCP | 6379 | IPv4 | インスタンスIP(CIDR) |
+| 受信 | TCP | 16379 | IPv4 | インスタンスIP(CIDR) |
+| 受信 | TCP | 26379 | IPv4 | インスタンスIP(CIDR) |
+
+<a id="valkey-automatic-ha-configuration-script-sentinel-automatic-configuration"></a>
+#### Sentinelの自動構成
+Sentinel構成には、3つのValkeyインスタンスが必要です。マスターとして使用するインスタンスにキーペアをコピーした後、次のようにスクリプトを実行してください。
+
+```
+shell> sh .valkey_make_sentinel.sh
+```
+
+続いて、接続情報で使用するマスター名(Master Name)と、マスター及びレプリカのプライベートIPを順に入力します。各インスタンスのプライベートIPは`hostname -I`コマンドで確認できます。
+
+```
+shell> sh .valkey_make_sentinel.sh
+Enter Master's Name (ex> mymaster) : mymaster
+Enter Master's IP: 192.168.0.33
+Enter Replica-1's IP: 192.168.0.27
+Enter Replica-2's IP: 192.168.0.97
+```
+
+コピーしたキーペアのファイル名を入力します。
+```
+shell> Enter Pemkey's name: <キーペア>.pem
+```
+
+<a id="valkey-automatic-ha-configuration-script-cluster-automatic-configuration"></a>
+#### Clusterの自動構成
+Cluster構成には、6つのValkeyインスタンスが必要です。マスターとして使用するインスタンスにキーペアをコピーした後、次のようにスクリプトを実行してください。
+
+```
+shell> sh .valkey_make_cluster.sh
+```
+
+続いて、クラスターで使用するValkeyインスタンスのプライベートIPを順に入力します。各インスタンスのプライベートIPは`hostname -I`コマンドで確認できます。
+
+```
+shell> sh .valkey_make_cluster.sh
+Enter cluster-1'IP:  192.168.0.79
+Enter cluster-2'IP:  192.168.0.10
+Enter cluster-3'IP:  192.168.0.33
+Enter cluster-4'IP:  192.168.0.116
+Enter cluster-5'IP:  192.168.0.91
+Enter cluster-6'IP:  192.168.0.32
+```
+
+コピーしたキーペアのファイル名を入力します。
+
+```
+shell> Enter Pemkey's name: <キーペア>.pem
+```
+
+`yes`を入力してクラスター構成を完了します。
+```
+>>> Performing hash slots allocation on 6 nodes...
+Master[0] -> Slots 0 - 5460
+Master[1] -> Slots 5461 - 10922
+Master[2] -> Slots 10923 - 16383
+Adding replica 192.168.0.91:6379 to 192.168.0.79:6379
+Adding replica 192.168.0.32:6379 to 192.168.0.10:6379
+Adding replica 192.168.0.116:6379 to 192.168.0.33:6379
+M: 0a6ee5bf24141f0058c403d8cc42b349cdc09752 192.168.0.79:6379
+   slots:[0-5460] (5461 slots) master
+M: b5d078bd7b30ddef650d9a7fa9735e7648efc86f 192.168.0.10:6379
+   slots:[5461-10922] (5462 slots) master
+M: 0da9b78108b6581bdb90002cbdde3506e9173dd8 192.168.0.33:6379
+   slots:[10923-16383] (5461 slots) master
+S: 078b4ce014a52588e23577b3fc2dabf408723d68 192.168.0.116:6379
+   replicates 0da9b78108b6581bdb90002cbdde3506e9173dd8
+S: caaae4ebd3584c0481205e472d6bd0f9dc5c574e 192.168.0.91:6379
+   replicates 0a6ee5bf24141f0058c403d8cc42b349cdc09752
+S: ab2aa9e37cee48ef8e4237fd63e8301d81193818 192.168.0.32:6379
+   replicates b5d078bd7b30ddef650d9a7fa9735e7648efc86f
+Can I set the above configuration? (type 'yes' to accept):
+```
+
+```
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+```
+
 <a id="apache-tomcat"></a>
-## Apache Tomcat
+## Apache Tomcat { #apache-tomcat }
 
 <a id="default-location"></a>
-### デフォルトの場所
+### デフォルトの場所 { #default-location }
 Tomcatのインストールパスは以下の通りです。
 
 ```
@@ -687,23 +861,23 @@ Tomcatのインストールパスは以下の通りです。
 ```
 
 <a id="how-to-startstop-tomcat"></a>
-### Tomcatの起動/停止方法
+### Tomcatの起動/停止方法 { #how-to-startstop-tomcat }
 
 Tomcatは初期インストール中にデフォルトでサービスとして登録され、インスタンス起動時に自動的に実行されます。 Tomcatを手動で起動または停止するには、以下のコマンドを使用できます。
 
 ``` sh
-#tomcatサービスの開始
+# tomcatサービスの起動
 shell> sudo systemctl start tomcat
 
-#tomcatサービスの停止
+# tomcatサービスの停止
 shell> sudo systemctl stop tomcat
 
-#tomcatサービスの再起動
+# tomcatサービスの再起動
 shell> sudo systemctl restart tomcat
 ```
 
 <a id="access-the-tomcat-default-page"></a>
-### Tomcat基本ページ接続
+### Tomcat基本ページへの接続 { #access-the-tomcat-default-page }
 Tomcatは最初のインストール時にデフォルトのポート8080で実行されます。次のコマンドを実行するとTomcat基本ページにアクセスできます。
 
 ```sh
@@ -714,14 +888,15 @@ Content-Type: text/html;charset=UTF-8
 ```
 
 <a id="initial-setup-after-creating-a-tomcat-instance"></a>
-### Tomcatインスタンス作成後の初期設定
+### Tomcatインスタンス作成後の初期設定 { #initial-setup-after-creating-a-tomcat-instance }
 
-#### 1\. ポート\(port\)変更
+<a id="initial-setup-after-creating-a-tomcat-instance-1-change-the-port"></a>
+#### 1\. ポート（port）の変更
 最初のインストール時にデフォルト設定で実行されます。セキュリティ上、ポートの変更を推奨します。
 
-##### 1) `server.xml`ファイルの修正
+##### 1) `server.xml`ファイルの編集
 
-`~/apps/apache-tomcat-{バージョン}/conf/server.xml`ファイルを開き\<Connector\> 部分に以下のように変更するポートアドレスを入力します。
+`~/apps/apache-tomcat-{バージョン}/conf/server.xml`ファイルを開き、`<Connector>`部分に以下のように変更するポートを入力します。
 
 ```sh
 shell> vi ~/apps/apache-tomcat-{バージョン}/conf/server.xml
@@ -735,17 +910,17 @@ shell> vi ~/apps/apache-tomcat-{バージョン}/conf/server.xml
 ...
 ```
 
-##### 2)サービス再起動
+##### 2) サービスの再起動
 ポートの変更が適用されるようにTomcatサービスを再起動します。
 ```
 shell> sudo systemctl restart tomcat
 ```
 
 <a id="nodejs"></a>
-## Node.js
+## Node.js { #nodejs }
 
 <a id="default-location-2"></a>
-### デフォルトの場所
+### デフォルトの場所 { #default-location-2 }
 Node.jsのインストールパスは以下の通りです。
 
 ```
@@ -753,22 +928,22 @@ Node.jsのインストールパスは以下の通りです。
 ```
 
 <a id="how-to-run-node"></a>
-### Node実行方法
+### Nodeの実行方法 { #how-to-run-node }
 
 ```sh
 # app.jsサンプルコードの作成
 shell> echo "console.log('Hello World')" > app.js
 
-# node実行
+# nodeの実行
 shell> node app.js
 Hello World
 ```
 
 <a id="deep-learning-framework"></a>
-## Deep Learning Framework
+## Deep Learning Framework { #deep-learning-framework }
 
 <a id="create-a-deep-learning-framework-image-template"></a>
-### Deep Learning Frameworkイメージテンプレートの作成
+### Deep Learning Frameworkイメージテンプレートの作成 { #create-a-deep-learning-framework-image-template }
 
 Deep Learning Frameworkを使用するには、まずイメージテンプレートを作成する必要があります。
 
@@ -781,7 +956,7 @@ Deep Learning Frameworkを使用するには、まずイメージテンプレー
 該当スクリプトを選択した後、 **確認**ボタンをクリックします。ポップアップが表示されたら**作成**ボタンをクリックします。
 
 <a id="create-a-deep-learning-framework-instance"></a>
-### Deep Learning Framework Instance作成
+### Deep Learning Framework Instanceの作成 { #create-a-deep-learning-framework-instance }
 
 イメージビルドが完了した後、実際にGPU Instanceを作成するために**GPU Instance**ボタンをクリックすると**Compute > GPU Instance > GPU Instanceの作成**に移動します。
 
@@ -795,12 +970,12 @@ Deep Learning Framework Instanceでは次のソフトウェアが提供されま
 
 NVIDIA cuDNNにはNVIDIA Corporationで提供したソースコードが含まれています。 [License](https://docs.nvidia.com/deeplearning/cudnn/latest/reference/eula.html)
 
-設定を完了した後、インスタンスを作成します。インスタンス作成の詳しい内容は[Instance概要](http://docs.toast.com/ko/Compute/Instance/ko/overview/)を参照してください。
+設定完了後、インスタンスを作成します。詳細は[Instance 概要](http://docs.toast.com/ja/Compute/Instance/ja/overview/)をご参照ください。
 
 <a id="check-installed-development-environment"></a>
-### インストールされた開発環境の確認
+### インストールされた開発環境の確認 { #check-installed-development-environment }
 
-condaコマンドを使用してMinicondaにインストールされた開発環境を確認します。
+`conda` コマンドを使用してMinicondaにインストールされた開発環境を確認します。
 
 ```
 $ conda info --envs
@@ -818,7 +993,7 @@ tf2_py38                 /root/miniconda3/envs/tf2_py38
 >より詳しい使用方法は[Miniconda文書](https://docs.conda.io/en/latest/miniconda.html)を参照してください。
 
 <a id="how-to-use-tensorflow"></a>
-### TensorFlowの使用方法
+### TensorFlowの使用方法 { #how-to-use-tensorflow }
 
 TensorFlow環境を有効にします。
 
@@ -863,7 +1038,7 @@ $ python ./train.sh
 >より詳しい使用方法は[TensorFlowチュートリアル](https://www.tensorflow.org/tutorials)を参考してください。
 
 <a id="how-to-use-pytorch"></a>
-### PyTorch使用方法
+### PyTorchの使用方法 { #how-to-use-pytorch }
 
 PyTorch環境を有効にします。
 
@@ -887,7 +1062,7 @@ $ python manin.py --epochs 1
 >より詳しい使用方法は[PyTorchチュートリアル](https://pytorch.org/tutorials/)を参照してください。
 
 <a id="slurm"></a>
-## Slurm
+## Slurm { #slurm }
 
 Slurmインストールコンポーネントは、Mungeパッケージのインストールと設定、そしてSlurmパッケージのインストールまで行います。実行方法の詳細については[Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)を参照してください。
 
@@ -896,9 +1071,10 @@ Slurmインストールコンポーネントは、Mungeパッケージのイン�
 >Slurmガイドにあるコマンドはすべてroot権限で実行する必要があります。
 
 <a id="preparation"></a>
-### 準備
+### 準備 { #preparation }
 
-#### 1. `hosts`ファイルの修正
+<a id="preparation-modify-the-hosts-file"></a>
+#### 1. `hosts`ファイルの編集
 
 `/etc/hosts`ファイルを開き、クラスタ環境に構成するnodeのIPとエイリアスを入力します。
 
@@ -906,7 +1082,8 @@ Slurmインストールコンポーネントは、Mungeパッケージのイン�
 # vi /etc/hosts
 ```
 
-#### 2. `hostname`ファイルの修正
+<a id="preparation-modify-the-hostname-file"></a>
+#### 2. `hostname`ファイルの編集
 
 `/etc/hostname`ファイルを開き、現在nodeのエイリアスを`hosts`ファイルと一致させます。
 
@@ -916,20 +1093,20 @@ Slurmインストールコンポーネントは、Mungeパッケージのイン�
 
 
 <a id="cluster-configuration-and-slurm-settings"></a>
-### クラスタの構成とSlurm設定
+### クラスタの構成とSlurmの設定 { #cluster-configuration-and-slurm-settings }
 
-初期に適用された基本設定がないため、直接設定ファイルを作成する必要があります。 [Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config)と[Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)を参考にして作成した後、 `/etc/slurm/slurm.conf`ファイルに保存します。
+初期に適用された基本設定がないため、ご自身で設定ファイルを作成する必要があります。[Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config)と[Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)を参考にして作成した後、 `/etc/slurm/slurm.conf`ファイルに保存します。
 
-ログファイルのパスは`/var/log/slurm/`パスの下に指定する必要があります。他のパスを指定したい場合は、 configurationファイルにパスを明記し、そのdirectoryの所有者を`SlurmUser`設定値と一致させる必要があります。
+ログファイルのパスは `/var/log/slurm/` 配下に指定する必要があります。他のパスを指定する場合は、設定ファイルにパスを明記し、対象ディレクトリの所有者を `SlurmUser` の設定値と同一にする必要があります。
 
 
 <a id="running-slurm"></a>
-### Slurm実行
+### Slurmの実行 { #running-slurm }
 
 すべてのクラスタを構成し、構成情報を設定すると実行できます。 [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)と[Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)を参照してください。
 
 
 <a id="nhn-kubernetes-servicenks-worker-node"></a>
-## NHN Kubernetes Service(NKS) Worker Node
+## NHN Kubernetes Service（NKS）Worker Node { #nhn-kubernetes-servicenks-worker-node }
 
 NHN Kubernetes Service(NKS)のワーカーノードとして活用可能なイメージを作成できます。詳細は[NKSユーザーガイド](https://docs.nhncloud.com/ja/Container/NKS/ja/user-guide/#_25)を参照してください。
