@@ -1,13 +1,11 @@
-<!-- pre-align:aligned sig=6c432dbbed32 -->
-
 <a id="compute-image-builder-installation-component-guide"></a>
-## Compute > Image Builder > インストールコンポーネントガイド { #compute-image-builder-installation-component-guide }
+## Compute > Image Builder > インストールコンポーネントガイド
 
 <a id="postgresql"></a>
-## PostgreSQL { #postgresql }
+## PostgreSQL
 
 <a id="how-to-startstop-postgresql"></a>
-### PostgreSQLの起動/停止方法 { #how-to-startstop-postgresql }
+### PostgreSQLの起動/停止方法
 
 ```
 # postgresqlサービスの起動
@@ -21,7 +19,7 @@ shell> systemctl restart postgresql-${version}
 ```
 
 <a id="connect-to-postgresql"></a>
-### PostgreSQLへの接続 { #connect-to-postgresql }
+### PostgreSQLへの接続
 
 インスタンスを作成した後、初めに以下のように接続します。
 <br>
@@ -32,7 +30,7 @@ shell> psql
 ```
 
 <a id="initial-setup-after-creating-a-postgresql-instance"></a>
-### PostgreSQLインスタンス作成後の初期設定 { #initial-setup-after-creating-a-postgresql-instance }
+### PostgreSQLインスタンス作成後の初期設定
 
 <a id="initial-setup-after-creating-a-postgresql-instance-1-change-the-port"></a>
 #### 1\. ポート（port）の変更
@@ -150,7 +148,7 @@ shell> systemctl restart postgresql-${version}
 ```
 
 <a id="postgresql-directory-description"></a>
-### PostgreSQLディレクトリの説明 { #postgresql-directory-description }
+### PostgreSQLディレクトリの説明
 
 PostgreSQLディレクトリおよびファイルの説明は以下の通りです。
 
@@ -162,10 +160,10 @@ PostgreSQLディレクトリおよびファイルの説明は以下の通りで�
 | LOG | PostgreSQLログファイルのパス - /var/lib/pgsql/{version}/data/log/\*.log |
 
 <a id="mysql"></a>
-## MySQL { #mysql }
+## MySQL
 
 <a id="how-to-startstop-mysql"></a>
-### MySQLの起動/停止方法 { #how-to-startstop-mysql }
+### MySQLの起動/停止方法
 
 ``` sh
 # MySQLサービスの起動
@@ -179,7 +177,7 @@ shell> sudo systemctl restart mysqld
 ```
 
 <a id="connect-to-mysql"></a>
-### MySQLへの接続 { #connect-to-mysql }
+### MySQLへの接続
 
 イメージ作成後、最初は以下のように接続します。
 
@@ -195,7 +193,7 @@ Enter password:
 ```
 
 <a id="initial-setup-after-creating-a-mysql-instance"></a>
-### MySQLインスタンス作成後の初期設定 { #initial-setup-after-creating-a-mysql-instance }
+### MySQLインスタンス作成後の初期設定
 
 <a id="initial-setup-after-creating-a-mysql-instance-1-setting-password"></a>
 #### 1\. パスワード設定
@@ -234,10 +232,10 @@ sudo systemctl restart mysqld
 ```
 
 <a id="mariadb"></a>
-## MariaDB { #mariadb }
+## MariaDB
 
 <a id="how-to-startstop-mariadb"></a>
-### MariaDBの起動/停止方法 { #how-to-startstop-mariadb }
+### MariaDBの起動/停止方法
 
 ``` sh
 # MariaDBサービスの起動
@@ -251,7 +249,7 @@ shell> sudo systemctl restart mariadb.service
 ```
 
 <a id="connect-to-mariadb"></a>
-### MariaDBへの接続 { #connect-to-mariadb }
+### MariaDBへの接続
 
 イメージ作成後、最初は以下のように接続します。
 
@@ -267,7 +265,7 @@ Enter password:
 ```
 
 <a id="initial-setup-after-creating-a-mariadb-instance"></a>
-### MariaDBインスタンス作成後の初期設定 { #initial-setup-after-creating-a-mariadb-instance }
+### MariaDBインスタンス作成後の初期設定
 
 <a id="initial-setup-after-creating-a-mariadb-instance-1-set-the-password"></a>
 #### 1\. パスワード設定
@@ -305,10 +303,10 @@ sudo systemctl restart mariadb.service
 ```
 
 <a id="cubrid"></a>
-## CUBRID { #cubrid }
+## CUBRID
 
 <a id="how-to-startstop-the-cubrid-service"></a>
-### CUBRIDサービスの起動/停止方法 { #how-to-startstop-the-cubrid-service }
+### CUBRIDサービスの起動/停止方法
 
 `cubrid` Linuxアカウントでログインし、CUBRIDサービスを次のように開始/停止できます。
 
@@ -336,7 +334,7 @@ shell> cubrid broker restart
 ```
 
 <a id="connect-to-cubrid"></a>
-### CUBRIDへの接続 { #connect-to-cubrid }
+### CUBRIDへの接続
 
 イメージ作成後、次のように接続します。
 
@@ -346,7 +344,7 @@ shell> csql -u dba demodb@localhost
 ```
 
 <a id="initial-setup-after-creating-a-cubrid-instance"></a>
-### CUBRIDインスタンス作成後の初期設定 { #initial-setup-after-creating-a-cubrid-instance }
+### CUBRIDインスタンス作成後の初期設定
 
 <a id="initial-setup-after-creating-a-cubrid-instance-1-set-the-password"></a>
 #### 1\. パスワード設定
@@ -386,14 +384,14 @@ shell> cubrid broker restart
 ```
 
 <a id="apache-kafka"></a>
-## Apache Kafka { #apache-kafka }
+## Apache Kafka
 > [参考]
 > このガイドはKafka 3.3.1バージョンを基準に作成されました。
 > 異なるバージョンを使用する場合は、そのバージョンに合わせて変更してください。
 > インスタンスタイプは`c1m2`(CPU 1core、Memory 2GB)以上のスペックで作成してください。
 
 <a id="start-and-stop-zookeeper-kafka-broker"></a>
-### Zookeeper、Kafka brokerの起動/停止 { #start-and-stop-zookeeper-kafka-broker }
+### Zookeeper、Kafka brokerの起動/停止
 ```
 # Zookeeper、Kafka brokerの起動（Zookeeperを先に起動）
 shell> sudo systemctl start zookeeper.service
@@ -407,7 +405,7 @@ shell> sudo systemctl restart kafka.service
 ```
 
 <a id="install-kafka-cluster"></a>
-### Kafka Clusterのインストール { #install-kafka-cluster }
+### Kafka Clusterのインストール
 '- 必ず新規インスタンスにインストールします。
 - インスタンスは3台以上、奇数で必要です。インスタンス1台でインストールスクリプトを実行します。
 - インスタンス1台にkafka broker、zookeeper nodeが各1つずつ構成されます。
@@ -473,7 +471,7 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 ```
 
 <a id="initial-setup-after-creating-apache-kafka-instance"></a>
-### Apache Kafkaインスタンス作成後の初期設定 { #initial-setup-after-creating-apache-kafka-instance }
+### Apache Kafkaインスタンス作成後の初期設定
 <a id="initial-setup-after-creating-apache-kafka-instance-change-the-port"></a>
 #### ポート（port）の変更
 最初のインストール後、ポートはKafkaデフォルトポート9092、Zookeeperデフォルトポート2181です。セキュリティのためにポートを変更することを推奨します。
@@ -519,7 +517,7 @@ shell> netstat -ntl | grep [Zookeeper port]
 ```
 
 <a id="create-and-use-apache-kafka-topic-and-data"></a>
-### Apache Kafkaトピックおよびデータの作成/使用 { #create-and-use-apache-kafka-topic-and-data }
+### Apache Kafkaトピックおよびデータの作成/使用
 
 トピックの作成/照会
 ```
@@ -542,10 +540,10 @@ shell> ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server [インスタン
 ```
 
 <a id="redis"></a>
-## Redis { #redis }
+## Redis
 
 <a id="startstop-redis"></a>
-### Redisの起動/停止 { #startstop-redis }
+### Redisの起動/停止
 ```
 # Redisサービスの起動
 shell> sudo systemctl start redis
@@ -558,14 +556,14 @@ shell> sudo systemctl restart redis
 ```
 
 <a id="connect-to-redis"></a>
-### Redisへの接続 { #connect-to-redis }
+### Redisへの接続
 `redis-cli`コマンドを利用してRedisインスタンスに接続できます。
 ```
 shell> redis-cli
 ```
 
 <a id="initial-setup-after-creating-a-redis-instance"></a>
-### Redisインスタンス作成後の初期設定 { #initial-setup-after-creating-a-redis-instance }
+### Redisインスタンス作成後の初期設定
 Redisインスタンスのデフォルト設定ファイルは `~/redis/redis.conf` です。変更が必要なパラメーターについての説明は以下のとおりです。
 
 <a id="initial-setup-after-creating-a-redis-instance-bind"></a>
@@ -592,7 +590,7 @@ shell> redis-cli -p <新しいポート>
 基本パスワードは`nhncloud`です。セキュリティ上、パスワードを変更することを推奨します。複製接続を使用する場合、`requirepass`と`masterauth`値を同時に変更する必要があります。
 
 <a id="automatic-ha-configuration-script"></a>
-### 自動HA構成スクリプト { #automatic-ha-configuration-script }
+### 自動HA構成スクリプト
 NHN CloudのRedisインスタンスでは、HA環境を自動で構成するスクリプトを提供しています。このスクリプトはインストール直後の新規インスタンスでのみ使用でき、`redis.conf`の設定値を変更した場合は使用できません。
 
 スクリプトを使用するには次の設定が必ず必要です。
@@ -695,10 +693,10 @@ Can I set the above configuration? (type 'yes' to accept):
 ```
 
 <a id="valkey"></a>
-## Valkey { #valkey }
+## Valkey
 
 <a id="startstop-valkey"></a>
-### Valkeyの起動/停止 { #startstop-valkey }
+### Valkeyの起動/停止
 ```
 # Valkeyサービスの起動
 shell> sudo systemctl start valkey
@@ -711,14 +709,14 @@ shell> sudo systemctl restart valkey
 ```
 
 <a id="connect-to-valkey"></a>
-### Valkeyへの接続 { #connect-to-valkey }
+### Valkeyへの接続
 `valkey-cli`コマンドを使用してValkeyインスタンスに接続できます。
 ```
 shell> valkey-cli
 ```
 
 <a id="initial-setup-after-creating-a-valkey-instance"></a>
-### Valkeyインスタンス作成後の初期設定 { #initial-setup-after-creating-a-valkey-instance }
+### Valkeyインスタンス作成後の初期設定
 Valkeyインスタンスのデフォルト設定ファイルは `~/valkey/valkey.conf` です。変更が必要なパラメータについての説明は以下のとおりです。
 
 <a id="initial-setup-after-creating-a-valkey-instance-bind"></a>
@@ -745,7 +743,7 @@ shell> valkey-cli -p <新しいポート>
 デフォルトのパスワードは`nhncloud`です。セキュリティ上、パスワードの変更を推奨します。レプリケーション接続を使用する場合は、`requirepass`と`masterauth`の値を同時に変更する必要があります。
 
 <a id="valkey-automatic-ha-configuration-script"></a>
-### 自動HA構成スクリプト { #valkey-automatic-ha-configuration-script }
+### 自動HA構成スクリプト
 NHN CloudのValkeyインスタンスでは、HA環境を自動で構成するスクリプトを提供しています。このスクリプトはインストール直後の新規インスタンスでのみ使用でき、`valkey.conf`の設定値を変更した場合は使用できません。
 
 スクリプトを使用するには、以下の設定が必須となります。
@@ -850,10 +848,10 @@ Can I set the above configuration? (type 'yes' to accept):
 ```
 
 <a id="apache-tomcat"></a>
-## Apache Tomcat { #apache-tomcat }
+## Apache Tomcat
 
 <a id="default-location"></a>
-### デフォルトの場所 { #default-location }
+### デフォルトの場所
 Tomcatのインストールパスは以下の通りです。
 
 ```
@@ -861,7 +859,7 @@ Tomcatのインストールパスは以下の通りです。
 ```
 
 <a id="how-to-startstop-tomcat"></a>
-### Tomcatの起動/停止方法 { #how-to-startstop-tomcat }
+### Tomcatの起動/停止方法
 
 Tomcatは初期インストール中にデフォルトでサービスとして登録され、インスタンス起動時に自動的に実行されます。 Tomcatを手動で起動または停止するには、以下のコマンドを使用できます。
 
@@ -877,7 +875,7 @@ shell> sudo systemctl restart tomcat
 ```
 
 <a id="access-the-tomcat-default-page"></a>
-### Tomcat基本ページへの接続 { #access-the-tomcat-default-page }
+### Tomcat基本ページへの接続
 Tomcatは最初のインストール時にデフォルトのポート8080で実行されます。次のコマンドを実行するとTomcat基本ページにアクセスできます。
 
 ```sh
@@ -888,7 +886,7 @@ Content-Type: text/html;charset=UTF-8
 ```
 
 <a id="initial-setup-after-creating-a-tomcat-instance"></a>
-### Tomcatインスタンス作成後の初期設定 { #initial-setup-after-creating-a-tomcat-instance }
+### Tomcatインスタンス作成後の初期設定
 
 <a id="initial-setup-after-creating-a-tomcat-instance-1-change-the-port"></a>
 #### 1\. ポート（port）の変更
@@ -917,10 +915,10 @@ shell> sudo systemctl restart tomcat
 ```
 
 <a id="nodejs"></a>
-## Node.js { #nodejs }
+## Node.js
 
 <a id="default-location-2"></a>
-### デフォルトの場所 { #default-location-2 }
+### デフォルトの場所
 Node.jsのインストールパスは以下の通りです。
 
 ```
@@ -928,7 +926,7 @@ Node.jsのインストールパスは以下の通りです。
 ```
 
 <a id="how-to-run-node"></a>
-### Nodeの実行方法 { #how-to-run-node }
+### Nodeの実行方法
 
 ```sh
 # app.jsサンプルコードの作成
@@ -940,10 +938,10 @@ Hello World
 ```
 
 <a id="deep-learning-framework"></a>
-## Deep Learning Framework { #deep-learning-framework }
+## Deep Learning Framework
 
 <a id="create-a-deep-learning-framework-image-template"></a>
-### Deep Learning Frameworkイメージテンプレートの作成 { #create-a-deep-learning-framework-image-template }
+### Deep Learning Frameworkイメージテンプレートの作成
 
 Deep Learning Frameworkを使用するには、まずイメージテンプレートを作成する必要があります。
 
@@ -956,7 +954,7 @@ Deep Learning Frameworkを使用するには、まずイメージテンプレー
 該当スクリプトを選択した後、 **確認**ボタンをクリックします。ポップアップが表示されたら**作成**ボタンをクリックします。
 
 <a id="create-a-deep-learning-framework-instance"></a>
-### Deep Learning Framework Instanceの作成 { #create-a-deep-learning-framework-instance }
+### Deep Learning Framework Instanceの作成
 
 イメージビルドが完了した後、実際にGPU Instanceを作成するために**GPU Instance**ボタンをクリックすると**Compute > GPU Instance > GPU Instanceの作成**に移動します。
 
@@ -973,7 +971,7 @@ NVIDIA cuDNNにはNVIDIA Corporationで提供したソースコードが含ま�
 設定完了後、インスタンスを作成します。詳細は[Instance 概要](http://docs.toast.com/ja/Compute/Instance/ja/overview/)をご参照ください。
 
 <a id="check-installed-development-environment"></a>
-### インストールされた開発環境の確認 { #check-installed-development-environment }
+### インストールされた開発環境の確認
 
 `conda` コマンドを使用してMinicondaにインストールされた開発環境を確認します。
 
@@ -993,7 +991,7 @@ tf2_py38                 /root/miniconda3/envs/tf2_py38
 >より詳しい使用方法は[Miniconda文書](https://docs.conda.io/en/latest/miniconda.html)を参照してください。
 
 <a id="how-to-use-tensorflow"></a>
-### TensorFlowの使用方法 { #how-to-use-tensorflow }
+### TensorFlowの使用方法
 
 TensorFlow環境を有効にします。
 
@@ -1038,7 +1036,7 @@ $ python ./train.sh
 >より詳しい使用方法は[TensorFlowチュートリアル](https://www.tensorflow.org/tutorials)を参考してください。
 
 <a id="how-to-use-pytorch"></a>
-### PyTorchの使用方法 { #how-to-use-pytorch }
+### PyTorchの使用方法
 
 PyTorch環境を有効にします。
 
@@ -1062,7 +1060,7 @@ $ python manin.py --epochs 1
 >より詳しい使用方法は[PyTorchチュートリアル](https://pytorch.org/tutorials/)を参照してください。
 
 <a id="slurm"></a>
-## Slurm { #slurm }
+## Slurm
 
 Slurmインストールコンポーネントは、Mungeパッケージのインストールと設定、そしてSlurmパッケージのインストールまで行います。実行方法の詳細については[Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)を参照してください。
 
@@ -1071,7 +1069,7 @@ Slurmインストールコンポーネントは、Mungeパッケージのイン�
 >Slurmガイドにあるコマンドはすべてroot権限で実行する必要があります。
 
 <a id="preparation"></a>
-### 準備 { #preparation }
+### 準備
 
 <a id="preparation-modify-the-hosts-file"></a>
 #### 1. `hosts`ファイルの編集
@@ -1093,7 +1091,7 @@ Slurmインストールコンポーネントは、Mungeパッケージのイン�
 
 
 <a id="cluster-configuration-and-slurm-settings"></a>
-### クラスタの構成とSlurmの設定 { #cluster-configuration-and-slurm-settings }
+### クラスタの構成とSlurmの設定
 
 初期に適用された基本設定がないため、ご自身で設定ファイルを作成する必要があります。[Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config)と[Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)を参考にして作成した後、 `/etc/slurm/slurm.conf`ファイルに保存します。
 
@@ -1101,12 +1099,12 @@ Slurmインストールコンポーネントは、Mungeパッケージのイン�
 
 
 <a id="running-slurm"></a>
-### Slurmの実行 { #running-slurm }
+### Slurmの実行
 
 すべてのクラスタを構成し、構成情報を設定すると実行できます。 [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)と[Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)を参照してください。
 
 
 <a id="nhn-kubernetes-servicenks-worker-node"></a>
-## NHN Kubernetes Service（NKS）Worker Node { #nhn-kubernetes-servicenks-worker-node }
+## NHN Kubernetes Service（NKS）Worker Node
 
 NHN Kubernetes Service(NKS)のワーカーノードとして活用可能なイメージを作成できます。詳細は[NKSユーザーガイド](https://docs.nhncloud.com/ja/Container/NKS/ja/user-guide/#_25)を参照してください。

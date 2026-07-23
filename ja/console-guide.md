@@ -1,10 +1,8 @@
-<!-- pre-align:aligned sig=159bcd0f921f -->
-
 <a id="compute-image-builder-console-user-guide"></a>
-## Compute > Image Builder > コンソール使用ガイド { #compute-image-builder-console-user-guide }
+## Compute > Image Builder > コンソール使用ガイド
 
 <a id="create-image-template"></a>
-### イメージテンプレート作成 { #create-image-template }
+### イメージテンプレート作成
 イメージテンプレートを作成します。イメージビルダーは、あらかじめ作成したイメージテンプレートの内容どおりにイメージを作成します。
 
 <table class="it" style="padding-top: 15px; padding-bottom: 10px;">
@@ -48,15 +46,15 @@
 > ユーザースクリプトのエラーによりイメージビルドが失敗することがあります。エラーの原因を把握するには**ビルド詳細情報**ウィンドウの詳細ログを参照してください。
 
 <a id="update-image-template"></a>
-### イメージテンプレート修正 { #update-image-template }
+### イメージテンプレート修正
 イメージテンプレートを選択し、**イメージテンプレート修正** ボタンをクリックしてイメージテンプレートの内容を修正できます。
 
 <a id="delete-image-template"></a>
-### イメージテンプレート削除 { #delete-image-template }
+### イメージテンプレート削除
 イメージテンプレートを選択し、**イメージテンプレート削除** ボタンをクリックしてイメージテンプレートを削除できます。
 
 <a id="build-image"></a>
-### イメージビルド { #build-image }
+### イメージビルド
 イメージテンプレートを選択し、**イメージビルド**ボタンをクリックしてビルドを開始します。
 
 <table class="it" style="padding-top: 15px; padding-bottom: 10px;">
@@ -75,16 +73,16 @@
 </table>
 
 <a id="image-template-details"></a>
-### イメージテンプレートの詳細情報 { #image-template-details }
+### イメージテンプレートの詳細情報
 イメージテンプレートを選択すると、下のタブでイメージテンプレートの情報を確認できます。
 
 <a id="image-template-build-status"></a>
-### イメージテンプレートのビルド状態 { #image-template-build-status }
+### イメージテンプレートのビルド状態
 選択したイメージテンプレートのビルド作業リストを確認します。ビルド作業を選択して詳細情報を確認したり、進行中のビルド作業をキャンセルできます。
 
 * **ビルド詳細情報**：進行中または終了したビルド作業の詳細情報を確認します。ビルドが失敗した場合、詳細ログから失敗の原因を確認できます。
 * **ビルドキャンセル**：進行中のビルド作業をキャンセルします。ユーザースクリプトのエラーによりビルド作業が終わっていないか他の理由でビルドを再度進行しなければいけない場合、ビルドキャンセルを利用して作業を終了し、ビルドに使用されたリソースを整理できます。
 
 <a id="image-list"></a>
-### イメージリスト { #image-list }
+### イメージリスト
 選択したイメージテンプレートで作成したイメージリストを確認できます。
