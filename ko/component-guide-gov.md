@@ -32,6 +32,7 @@ shell> psql
 <a id="initial-setup-after-creating-a-postgresql-instance"></a>
 ### PostgreSQL 인스턴스 생성 후 초기 설정
 
+<a id="initial-setup-after-creating-a-postgresql-instance-1-change-the-port"></a>
 #### 1\. 포트\(port\) 변경
 
 제공되는 이미지 포트는 PostgreSQL 기본 포트인 5432입니다. 보안상 포트 변경을 권장합니다.
@@ -58,6 +59,7 @@ shell> systemctl restart postgresql-${version}
 shell> psql -p[변경된 포트 번호]
 ```
 
+<a id="initial-setup-after-creating-a-postgresql-instance-2-change-the-server-log-time-zone"></a>
 #### 2\. 서버 로그 타임 존 변경
 
 서버 로그에 기록되는 기본 시간대가 UTC로 설정되어 있습니다. SYSTEM 로컬 시간과 동일하게 변경할 것을 권장합니다.
@@ -89,6 +91,7 @@ shell> psql
 postgres=# SHOW log_timezone;
 ```
 
+<a id="initial-setup-after-creating-a-postgresql-instance-3-revoke-the-public-schema-privilege"></a>
 #### 3\. public 스키마 권한 취소
 
 기본적으로 모든 사용자에게 public 스키마에 대한 CREATE 및 USAGE 권한을 부여하고 있으므로 데이터베이스에 접속할 수 있는 사용자는 public 스키마에서 객체를 생성할 수 있습니다. 모든 사용자가 public 스키마에서 객체를 생성하지 못하도록 권한 취소를 권장합니다.
@@ -104,6 +107,7 @@ shell> psql
 postgres=# REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 ```
 
+<a id="initial-setup-after-creating-a-postgresql-instance-4-allow-remote-access"></a>
 #### 4\. 원격 접속 허용
 
 로컬 호스트 이외의 접속을 허용하려면 `listen_addresses` 변수와 클라이언트 인증 설정 파일을 변경해야 합니다.
@@ -191,6 +195,7 @@ Enter password:
 <a id="initial-setup-after-creating-a-mysql-instance"></a>
 ### MySQL 인스턴스 생성 후 초기 설정
 
+<a id="initial-setup-after-creating-a-mysql-instance-1-setting-password"></a>
 #### 1\. 비밀번호 설정
 
 초기 설치 후 MySQL ROOT 계정 비밀번호는 지정되어 있지 않습니다. 그러므로 설치 후 반드시 바로 비밀번호를 설정해야 합니다. 비밀번호는 아래와 같이 변경할 수 있습니다.
@@ -201,6 +206,7 @@ MySQL의 기본 `validate_password_policy`는 아래와 같습니다.
 - `validate_password_policy`=`MEDIUM`
 - 기본 8자 이상, 숫자, 소문자, 대문자, 특수문자를 포함해야 함
 
+<a id="initial-setup-after-creating-a-mysql-instance-2-change-the-port"></a>
 #### 2\. 포트\(port\) 변경
 
 초기 설치 후 포트는 MySQL의 기본 포트인 3306입니다. 보안상 포트 변경을 권장합니다.
@@ -259,6 +265,7 @@ Enter password:
 <a id="initial-setup-after-creating-a-mariadb-instance"></a>
 ### MariaDB 인스턴스 생성 후 초기 설정
 
+<a id="initial-setup-after-creating-a-mariadb-instance-1-set-the-password"></a>
 #### 1\. 비밀번호 설정
 
 초기 설치 후 MariaDB root 계정 비밀번호는 지정되어 있지 않습니다. 그러므로 설치 후 반드시 비밀번호를 설정해야 합니다.
@@ -269,6 +276,7 @@ SET PASSWORD [FOR user] = password_option
 MariaDB> SET PASSWORD = PASSWORD('비밀번호');
 ```
 
+<a id="initial-setup-after-creating-a-mariadb-instance-2-change-the-port"></a>
 #### 2\. 포트\(port\) 변경
 
 초기 설치 후 포트는 MariaDB의 기본 포트인 3306입니다. 보안상 포트 변경을 권장합니다.
@@ -336,6 +344,7 @@ shell> csql -u dba demodb@localhost
 <a id="initial-setup-after-creating-a-cubrid-instance"></a>
 ### CUBRID 인스턴스 생성 후 초기 설정
 
+<a id="initial-setup-after-creating-a-cubrid-instance-1-set-the-password"></a>
 #### 1\. 비밀번호 설정
 
 초기 설치 후 CUBRID dba 계정 비밀번호는 지정되어 있지 않습니다. 그러므로 설치 후 반드시 비밀번호를 설정해야 합니다.
@@ -344,6 +353,7 @@ shell> csql -u dba demodb@localhost
 shell> csql -u dba -c "ALTER USER dba PASSWORD 'new_password'" demodb@localhost
 ```
 
+<a id="initial-setup-after-creating-a-cubrid-instance-2-change-the-broker-port"></a>
 #### 2\. broker 포트\(port\) 변경
 
 `query_editor`의 브로커 포트는 기본값이 `30000`으로 설정되며, `broker1`의 브로커 포트는 기본값이 `33000`으로 설정됩니다.
@@ -464,6 +474,7 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 
 <a id="initial-setup-after-creating-apache-kafka-instance"></a>
 ### Apache Kafka 인스턴스 생성 후 초기 설정
+<a id="initial-setup-after-creating-apache-kafka-instance-change-the-port"></a>
 #### 포트(port) 변경
 최초 설치 후 포트는 Kafka 기본 포트인 9092, Zookeeper 기본 포트인 2181입니다. 보안을 위해 포트를 변경할 것을 권장합니다.
 
@@ -563,12 +574,14 @@ shell> redis-cli
 ### Redis 인스턴스 생성 후 초기 설정
 Redis 인스턴스의 기본 설정 파일은 `~/redis/redis.conf` 입니다. 변경해야 할 파라미터에 대한 설명은 아래와 같습니다.
 
+<a id="initial-setup-after-creating-a-redis-instance-bind"></a>
 #### bind
 - 기본 값: `127.0.0.1 -::1`
 - 변경 값: `<private ip> 127.0.0.1 -::1`
 
 Redis가 사용할 IP 값입니다. 서버 외부에서 Redis 인스턴스에 접근하려면 해당 파라미터에 private IP를 추가해야 합니다. private IP는 `hostname -I` 커맨드로 확인할 수 있습니다.
 
+<a id="initial-setup-after-creating-a-redis-instance-port"></a>
 #### port
 - 기본 값: `6379`
 
@@ -578,6 +591,7 @@ Redis가 사용할 IP 값입니다. 서버 외부에서 Redis 인스턴스에 �
 shell> redis-cli -p <새로운 포트>
 ```
 
+<a id="initial-setup-after-creating-a-redis-instance-requirepassmasterauth"></a>
 #### requirepass/masterauth
 - 기본 값: `nhncloud`
 
@@ -608,6 +622,7 @@ Redis 인스턴스 간의 통신을 위해 보안 그룹(**Network** > **Securit
 | 수신|TCP | 16379| IPv4| 인스턴스 IP(CIDR)|
 | 수신|TCP | 26379| IPv4| 인스턴스 IP(CIDR)|
 
+<a id="automatic-ha-configuration-script-sentinel-automatic-configuration"></a>
 #### Sentinel 자동구성
 Sentinel 구성을 위해 3개의 Redis 인스턴스가 필요합니다. 마스터로 사용할 인스턴스에 키 페어를 복사한 뒤 아래와 같이 스크립트를 수행하세요.
 
@@ -630,6 +645,7 @@ Enter Replica-2's IP: 192.168.0.97
 shell> Enter Pemkey's name: <키 페어>.pem
 ```
 
+<a id="automatic-ha-configuration-script-cluster-automatic-configuration"></a>
 #### Cluster 자동 구성
 Cluster 구성을 위해 6개의 Redis 인스턴스가 필요합니다. 마스터로 사용할 인스턴스에 키 페어를 복사한 뒤 아래와 같이 스크립트를 수행하세요.
 
@@ -714,12 +730,14 @@ shell> valkey-cli
 ### Valkey 인스턴스 생성 후 초기 설정
 Valkey 인스턴스의 기본 설정 파일은 `~/valkey/valkey.conf` 입니다. 변경해야 할 파라미터에 대한 설명은 아래와 같습니다.
 
+<a id="initial-setup-after-creating-a-valkey-instance-bind"></a>
 #### bind
 - 기본 값: `127.0.0.1 -::1`
 - 변경 값: `<private ip> 127.0.0.1 -::1`
 
 Valkey가 사용할 IP 값입니다. 서버 외부에서 Valkey 인스턴스에 접근하려면 해당 파라미터에 private IP를 추가해야 합니다. private IP는 `hostname -I` 커맨드로 확인할 수 있습니다.
 
+<a id="initial-setup-after-creating-a-valkey-instance-port"></a>
 #### port
 - 기본 값: `6379`
 
@@ -729,12 +747,13 @@ Valkey가 사용할 IP 값입니다. 서버 외부에서 Valkey 인스턴스에 
 shell> valkey-cli -p <새로운 포트>
 ```
 
+<a id="initial-setup-after-creating-a-valkey-instance-requirepassmasterauth"></a>
 #### requirepass/masterauth
 - 기본 값: `nhncloud`
 
 기본 비밀번호는 `nhncloud`입니다. 보안상 비밀번호 변경을 권장합니다. 복제 연결을 사용할 경우 `requirepass`와 `masterauth`값을 동시에 변경해야 합니다.
 
-<a id="automatic-ha-configuration-script"></a>
+<a id="valkey-automatic-ha-configuration-script"></a>
 ### 자동 HA 구성 스크립트
 NHN Cloud의 Valkey 인스턴스는 자동으로 HA 환경을 구성하는 스크립트를 제공합니다. 스크립트는 반드시 설치 직후의 신규 인스턴스에서만 사용할 수 있으며, `valkey.conf`에서 설정값을 변경한 경우에는 사용할 수 없습니다.
 
@@ -759,6 +778,7 @@ Valkey 인스턴스 간의 통신을 위해 보안 그룹(**Network** > **Securi
 | 수신|TCP | 16379| IPv4| 인스턴스 IP(CIDR)|
 | 수신|TCP | 26379| IPv4| 인스턴스 IP(CIDR)|
 
+<a id="valkey-automatic-ha-configuration-script-sentinel-automatic-configuration"></a>
 #### Sentinel 자동구성
 Sentinel 구성을 위해 3개의 Valkey 인스턴스가 필요합니다. 마스터로 사용할 인스턴스에 키 페어를 복사한 뒤 아래와 같이 스크립트를 수행하세요.
 
@@ -781,6 +801,7 @@ Enter Replica-2's IP: 192.168.0.97
 shell> Enter Pemkey's name: <키 페어>.pem
 ```
 
+<a id="valkey-automatic-ha-configuration-script-cluster-automatic-configuration"></a>
 #### Cluster 자동 구성
 Cluster 구성을 위해 6개의 Valkey 인스턴스가 필요합니다. 마스터로 사용할 인스턴스에 키 페어를 복사한 뒤 아래와 같이 스크립트를 수행하세요.
 
@@ -878,6 +899,7 @@ Content-Type: text/html;charset=UTF-8
 <a id="initial-setup-after-creating-a-tomcat-instance"></a>
 ### Tomcat 인스턴스 생성 후 초기 설정
 
+<a id="initial-setup-after-creating-a-tomcat-instance-1-change-the-port"></a>
 #### 1\. 포트\(port\) 변경
 초기 설치 시 기본 설정으로 실행됩니다. 보안상 포트 변경을 권장합니다.
 
@@ -938,6 +960,7 @@ Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm
 <a id="preparation"></a>
 ### 준비
 
+<a id="preparation-modify-the-hosts-file"></a>
 #### 1. `hosts` 파일 수정
 
 `/etc/hosts` 파일을 열어서 클러스터 환경에 구성할 node의 IP와 별칭을 입력합니다.
@@ -946,6 +969,7 @@ Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm
 # vi /etc/hosts
 ```
 
+<a id="preparation-modify-the-hostname-file"></a>
 #### 2. `hostname` 파일 수정
 
 `/etc/hostname` 파일을 열어서 현재 node의 별칭을 `hosts` 파일과 일치시킵니다.
@@ -969,6 +993,7 @@ Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm
 클러스터를 모두 구성하고 구성 정보를 설정해야 실행할 수 있습니다. [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)와 [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)를 참고하세요.
 
 
+<a id="nhn-kubernetes-servicenks-worker-node"></a>
 ## NHN Kubernetes Service(NKS) Worker Node
 
 NHN Kubernetes Service(NKS)의 워커 노드로 활용 가능한 이미지를 생성할 수 있습니다. 자세한 내용은 [NKS 사용자 가이드](/Container/NKS/ko/gov-user-guide/#_25)를 참고하세요.
