@@ -1,11 +1,11 @@
 <a id="compute-image-builder-installation-component-guide"></a>
-## Compute > Image Builder > 설치 구성 요소 가이드
+## Compute > Image Builder > 설치 구성 요소 가이드 { #compute-image-builder-installation-component-guide }
 
 <a id="postgresql"></a>
-## PostgreSQL
+## PostgreSQL { #postgresql }
 
 <a id="how-to-startstop-postgresql"></a>
-### PostgreSQL 시작/정지 방법
+### PostgreSQL 시작/정지 방법 { #how-to-startstop-postgresql }
 
 ```
 #postgresql 서비스 시작
@@ -19,7 +19,7 @@ shell> systemctl restart postgresql-${version}
 ```
 
 <a id="connect-to-postgresql"></a>
-### PostgreSQL 접속
+### PostgreSQL 접속 { #connect-to-postgresql }
 
 인스턴스를 생성한 후 초기에는 아래와 같이 접속합니다.
 <br>
@@ -30,7 +30,7 @@ shell> psql
 ```
 
 <a id="initial-setup-after-creating-a-postgresql-instance"></a>
-### PostgreSQL 인스턴스 생성 후 초기 설정
+### PostgreSQL 인스턴스 생성 후 초기 설정 { #initial-setup-after-creating-a-postgresql-instance }
 
 <a id="initial-setup-after-creating-a-postgresql-instance-1-change-the-port"></a>
 #### 1\. 포트\(port\) 변경
@@ -148,7 +148,7 @@ shell> systemctl restart postgresql-${version}
 ```
 
 <a id="postgresql-directory-description"></a>
-### PostgreSQL 디렉터리 설명
+### PostgreSQL 디렉터리 설명 { #postgresql-directory-description }
 
 PostgreSQL 디렉터리 및 파일 설명은 아래와 같습니다.
 
@@ -160,10 +160,10 @@ PostgreSQL 디렉터리 및 파일 설명은 아래와 같습니다.
 | LOG | PostgreSQL 로그 파일 경로 - /var/lib/pgsql/{version}/data/log/\*.log |
 
 <a id="mysql"></a>
-## MySQL
+## MySQL { #mysql }
 
 <a id="how-to-startstop-mysql"></a>
-### MySQL 시작/정지 방법
+### MySQL 시작/정지 방법 { #how-to-startstop-mysql }
 
 ``` sh
 # MySQL 서비스 시작
@@ -177,7 +177,7 @@ shell> sudo systemctl restart mysql
 ```
 
 <a id="connect-to-mysql"></a>
-### MySQL 접속
+### MySQL 접속 { #connect-to-mysql }
 
 이미지 생성 후 초기에는 아래와 같이 접속합니다.
 
@@ -193,7 +193,7 @@ Enter password:
 ```
 
 <a id="initial-setup-after-creating-a-mysql-instance"></a>
-### MySQL 인스턴스 생성 후 초기 설정
+### MySQL 인스턴스 생성 후 초기 설정 { #initial-setup-after-creating-a-mysql-instance }
 
 <a id="initial-setup-after-creating-a-mysql-instance-1-setting-password"></a>
 #### 1\. 비밀번호 설정
@@ -230,10 +230,10 @@ sudo systemctl restart mysqld
 ```
 
 <a id="mariadb"></a>
-## MariaDB
+## MariaDB { #mariadb }
 
 <a id="how-to-startstop-mariadb"></a>
-### MariaDB 시작/정지 방법
+### MariaDB 시작/정지 방법 { #how-to-startstop-mariadb }
 
 ``` sh
 # MariaDB 서비스 시작
@@ -247,7 +247,7 @@ shell> sudo systemctl restart mariadb.service
 ```
 
 <a id="connect-to-mariadb"></a>
-### MariaDB 접속
+### MariaDB 접속 { #connect-to-mariadb }
 
 이미지 생성 후 초기에는 아래와 같이 접속합니다.
 
@@ -263,7 +263,7 @@ Enter password:
 ```
 
 <a id="initial-setup-after-creating-a-mariadb-instance"></a>
-### MariaDB 인스턴스 생성 후 초기 설정
+### MariaDB 인스턴스 생성 후 초기 설정 { #initial-setup-after-creating-a-mariadb-instance }
 
 <a id="initial-setup-after-creating-a-mariadb-instance-1-set-the-password"></a>
 #### 1\. 비밀번호 설정
@@ -301,10 +301,10 @@ sudo systemctl restart mariadb.service
 ```
 
 <a id="cubrid"></a>
-## CUBRID
+## CUBRID { #cubrid }
 
 <a id="how-to-startstop-the-cubrid-service"></a>
-### CUBRID 서비스 시작/정지 방법
+### CUBRID 서비스 시작/정지 방법 { #how-to-startstop-the-cubrid-service }
 
 `cubrid` Linux 계정으로 로그인하여 CUBRID 서비스를 다음과 같이 시작하거나 정지할 수 있습니다.
 
@@ -332,7 +332,7 @@ shell> cubrid broker restart
 ```
 
 <a id="connect-to-cubrid"></a>
-### CUBRID 접속
+### CUBRID 접속 { #connect-to-cubrid }
 
 이미지 생성 후 아래와 같이 접속합니다.
 
@@ -342,7 +342,7 @@ shell> csql -u dba demodb@localhost
 ```
 
 <a id="initial-setup-after-creating-a-cubrid-instance"></a>
-### CUBRID 인스턴스 생성 후 초기 설정
+### CUBRID 인스턴스 생성 후 초기 설정 { #initial-setup-after-creating-a-cubrid-instance }
 
 <a id="initial-setup-after-creating-a-cubrid-instance-1-set-the-password"></a>
 #### 1\. 비밀번호 설정
@@ -382,14 +382,14 @@ shell> cubrid broker restart
 ```
 
 <a id="apache-kafka"></a>
-## Apache Kafka
+## Apache Kafka { #apache-kafka }
 > [참고]
 > 본 가이드는 Kafka 3.3.1 버전을 기준으로 작성되었습니다.
 > 다른 버전을 사용하는 경우 해당 버전에 맞게 변경하세요.
 > 인스턴스 타입은 `c1m2`(CPU 1core, Memory 2GB) 이상 사양으로 생성하세요.
 
 <a id="start-and-stop-zookeeper-kafka-broker"></a>
-### Zookeeper, Kafka broker 시작/정지
+### Zookeeper, Kafka broker 시작/정지 { #start-and-stop-zookeeper-kafka-broker }
 ```
 # Zookeeper, Kafka broker 시작(Zookeeper 먼저 시작)
 shell> sudo systemctl start zookeeper.service
@@ -405,7 +405,7 @@ shell> sudo systemctl restart kafka.service
 ```
 
 <a id="install-kafka-cluster"></a>
-### Kafka Cluster 설치
+### Kafka Cluster 설치 { #install-kafka-cluster }
 - 반드시 신규 인스턴스에 설치합니다.
 - 인스턴스는 3대 이상 홀수로 필요하며, 인스턴스 1대에서 설치 스크립트를 수행합니다.
 - 인스턴스 1대에 kafka broker, zookeeper node 각 1개씩 같이 구성됩니다.
@@ -473,7 +473,7 @@ ls: cannot access /tmp/zookeeper: No such file or directory
 ```
 
 <a id="initial-setup-after-creating-apache-kafka-instance"></a>
-### Apache Kafka 인스턴스 생성 후 초기 설정
+### Apache Kafka 인스턴스 생성 후 초기 설정 { #initial-setup-after-creating-apache-kafka-instance }
 <a id="initial-setup-after-creating-apache-kafka-instance-change-the-port"></a>
 #### 포트(port) 변경
 최초 설치 후 포트는 Kafka 기본 포트인 9092, Zookeeper 기본 포트인 2181입니다. 보안을 위해 포트를 변경할 것을 권장합니다.
@@ -521,7 +521,7 @@ shell> netstat -ntl | grep [Zookeeper port]
 ```
 
 <a id="create-and-use-apache-kafka-topic-and-data"></a>
-### Apache Kafka 토픽 및 데이터 생성/사용
+### Apache Kafka 토픽 및 데이터 생성/사용 { #create-and-use-apache-kafka-topic-and-data }
 
 토픽 생성/조회
 ```
@@ -548,10 +548,10 @@ shell> ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server [인스턴스IP]
 ```
 
 <a id="redis"></a>
-## Redis
+## Redis { #redis }
 
 <a id="startstop-redis"></a>
-### Redis 시작/정지
+### Redis 시작/정지 { #startstop-redis }
 ```
 # Redis 서비스 시작
 shell> sudo systemctl start redis
@@ -564,14 +564,14 @@ shell> sudo systemctl restart redis
 ```
 
 <a id="connect-to-redis"></a>
-### Redis 접속
+### Redis 접속 { #connect-to-redis }
 `redis-cli` 커맨드를 이용해 Redis 인스턴스에 접속할 수 있습니다.
 ```
 shell> redis-cli
 ```
 
 <a id="initial-setup-after-creating-a-redis-instance"></a>
-### Redis 인스턴스 생성 후 초기 설정
+### Redis 인스턴스 생성 후 초기 설정 { #initial-setup-after-creating-a-redis-instance }
 Redis 인스턴스의 기본 설정 파일은 `~/redis/redis.conf` 입니다. 변경해야 할 파라미터에 대한 설명은 아래와 같습니다.
 
 <a id="initial-setup-after-creating-a-redis-instance-bind"></a>
@@ -598,7 +598,7 @@ shell> redis-cli -p <새로운 포트>
 기본 비밀번호는 `nhncloud`입니다. 보안상 비밀번호 변경을 권장합니다. 복제 연결을 사용할 경우 `requirepass`와 `masterauth`값을 동시에 변경해야 합니다.
 
 <a id="automatic-ha-configuration-script"></a>
-### 자동 HA 구성 스크립트
+### 자동 HA 구성 스크립트 { #automatic-ha-configuration-script }
 NHN Cloud의 Redis 인스턴스는 자동으로 HA 환경을 구성하는 스크립트를 제공합니다. 스크립트는 반드시 설치 직후의 신규 인스턴스에서만 사용할 수 있으며, `redis.conf`에서 설정값을 변경한 경우에는 사용할 수 없습니다.
 
 스크립트를 사용하기 위해서는 다음 설정이 필수적으로 필요합니다.
@@ -704,10 +704,10 @@ Can I set the above configuration? (type 'yes' to accept):
 
 
 <a id="valkey"></a>
-## Valkey
+## Valkey { #valkey }
 
 <a id="startstop-valkey"></a>
-### Valkey 시작/정지
+### Valkey 시작/정지 { #startstop-valkey }
 ```
 # Valkey 서비스 시작
 shell> sudo systemctl start valkey
@@ -720,14 +720,14 @@ shell> sudo systemctl restart valkey
 ```
 
 <a id="connect-to-valkey"></a>
-### Valkey 접속
+### Valkey 접속 { #connect-to-valkey }
 `valkey-cli` 커맨드를 이용해 Valkey 인스턴스에 접속할 수 있습니다.
 ```
 shell> valkey-cli
 ```
 
 <a id="initial-setup-after-creating-a-valkey-instance"></a>
-### Valkey 인스턴스 생성 후 초기 설정
+### Valkey 인스턴스 생성 후 초기 설정 { #initial-setup-after-creating-a-valkey-instance }
 Valkey 인스턴스의 기본 설정 파일은 `~/valkey/valkey.conf` 입니다. 변경해야 할 파라미터에 대한 설명은 아래와 같습니다.
 
 <a id="initial-setup-after-creating-a-valkey-instance-bind"></a>
@@ -754,7 +754,7 @@ shell> valkey-cli -p <새로운 포트>
 기본 비밀번호는 `nhncloud`입니다. 보안상 비밀번호 변경을 권장합니다. 복제 연결을 사용할 경우 `requirepass`와 `masterauth`값을 동시에 변경해야 합니다.
 
 <a id="valkey-automatic-ha-configuration-script"></a>
-### 자동 HA 구성 스크립트
+### 자동 HA 구성 스크립트 { #valkey-automatic-ha-configuration-script }
 NHN Cloud의 Valkey 인스턴스는 자동으로 HA 환경을 구성하는 스크립트를 제공합니다. 스크립트는 반드시 설치 직후의 신규 인스턴스에서만 사용할 수 있으며, `valkey.conf`에서 설정값을 변경한 경우에는 사용할 수 없습니다.
 
 스크립트를 사용하기 위해서는 다음 설정이 필수적으로 필요합니다.
@@ -859,10 +859,10 @@ Can I set the above configuration? (type 'yes' to accept):
 ```
 
 <a id="apache-tomcat"></a>
-## Apache Tomcat
+## Apache Tomcat { #apache-tomcat }
 
 <a id="default-location"></a>
-### 기본 위치
+### 기본 위치 { #default-location }
 Tomcat의 설치 경로는 아래와 같습니다.
 
 ```
@@ -870,7 +870,7 @@ Tomcat의 설치 경로는 아래와 같습니다.
 ```
 
 <a id="how-to-startstop-tomcat"></a>
-### Tomcat 시작/정지 방법
+### Tomcat 시작/정지 방법 { #how-to-startstop-tomcat }
 
 Tomcat은 초기 설치 과정에서 기본적으로 서비스로 등록되어, 인스턴스 시작 시 자동으로 실행됩니다. Tomcat을 수동으로 시작하거나 정지하기 위해 아래 명령어를 사용할 수 있습니다.
 
@@ -886,7 +886,7 @@ shell> sudo systemctl restart tomcat
 ```
 
 <a id="access-the-tomcat-default-page"></a>
-### Tomcat 기본 페이지 접속
+### Tomcat 기본 페이지 접속 { #access-the-tomcat-default-page }
 Tomcat은 초기 설치 시 기본 포트인 8080으로 실행됩니다. 다음 명령어를 실행하면 Tomcat 기본 페이지에 접근할 수 있습니다.
 
 ```sh
@@ -897,7 +897,7 @@ Content-Type: text/html;charset=UTF-8
 ```
 
 <a id="initial-setup-after-creating-a-tomcat-instance"></a>
-### Tomcat 인스턴스 생성 후 초기 설정
+### Tomcat 인스턴스 생성 후 초기 설정 { #initial-setup-after-creating-a-tomcat-instance }
 
 <a id="initial-setup-after-creating-a-tomcat-instance-1-change-the-port"></a>
 #### 1\. 포트\(port\) 변경
@@ -926,10 +926,10 @@ shell> sudo systemctl restart tomcat
 ```
 
 <a id="nodejs"></a>
-## Node.js
+## Node.js { #nodejs }
 
 <a id="default-location-2"></a>
-### 기본 위치
+### 기본 위치 { #default-location-2 }
 Node.js의 설치 경로는 아래와 같습니다.
 
 ```
@@ -937,7 +937,7 @@ Node.js의 설치 경로는 아래와 같습니다.
 ```
 
 <a id="how-to-run-node"></a>
-### Node 실행 방법
+### Node 실행 방법 { #how-to-run-node }
 
 ```sh
 # app.js 예제 코드 작성
@@ -949,7 +949,7 @@ Hello World
 ```
 
 <a id="slurm"></a>
-## Slurm
+## Slurm { #slurm }
 
 Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm 패키지 설치까지 진행합니다. 실행을 위한 자세한 방법은 [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)를 참고하세요.
 
@@ -958,7 +958,7 @@ Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm
 >Slurm 가이드에 있는 명령어는 모두 root 권한으로 실행해야 합니다.
 
 <a id="preparation"></a>
-### 준비
+### 준비 { #preparation }
 
 <a id="preparation-modify-the-hosts-file"></a>
 #### 1. `hosts` 파일 수정
@@ -980,7 +980,7 @@ Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm
 
 
 <a id="cluster-configuration-and-slurm-settings"></a>
-### 클러스터 구성 및 Slurm 설정
+### 클러스터 구성 및 Slurm 설정 { #cluster-configuration-and-slurm-settings }
 
 초기에 적용된 기본 설정이 없으므로, 직접 설정 파일을 작성해야 합니다. [Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config)와 [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)을 참고하여 작성 후, `/etc/slurm/slurm.conf` 파일에 저장합니다.
 
@@ -988,12 +988,12 @@ Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm
 
 
 <a id="running-slurm"></a>
-### Slurm 실행
+### Slurm 실행 { #running-slurm }
 
 클러스터를 모두 구성하고 구성 정보를 설정해야 실행할 수 있습니다. [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)와 [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)를 참고하세요.
 
 
 <a id="nhn-kubernetes-servicenks-worker-node"></a>
-## NHN Kubernetes Service(NKS) Worker Node
+## NHN Kubernetes Service(NKS) Worker Node { #nhn-kubernetes-servicenks-worker-node }
 
 NHN Kubernetes Service(NKS)의 워커 노드로 활용 가능한 이미지를 생성할 수 있습니다. 자세한 내용은 [NKS 사용자 가이드](/Container/NKS/ko/gov-user-guide/#_25)를 참고하세요.
