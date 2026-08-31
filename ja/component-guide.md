@@ -1061,51 +1061,6 @@ $ python manin.py --epochs 1
 >
 >より詳しい使用方法は[PyTorchチュートリアル](https://pytorch.org/tutorials/)を参照してください。
 
-<a id="slurm"></a>
-## Slurm { #slurm }
-
-Slurmインストールコンポーネントは、Mungeパッケージのインストールと設定、そしてSlurmパッケージのインストールまで行います。実行方法の詳細については[Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)を参照してください。
-
->[参考]
->
->Slurmガイドにあるコマンドはすべてroot権限で実行する必要があります。
-
-<a id="preparation"></a>
-### 準備 { #preparation }
-
-<a id="preparation-modify-the-hosts-file"></a>
-#### 1. `hosts`ファイルの編集
-
-`/etc/hosts`ファイルを開き、クラスタ環境に構成するnodeのIPとエイリアスを入力します。
-
-``` console
-# vi /etc/hosts
-```
-
-<a id="preparation-modify-the-hostname-file"></a>
-#### 2. `hostname`ファイルの編集
-
-`/etc/hostname`ファイルを開き、現在nodeのエイリアスを`hosts`ファイルと一致させます。
-
-``` console
-# vi /etc/hostname
-```
-
-
-<a id="cluster-configuration-and-slurm-settings"></a>
-### クラスタの構成とSlurmの設定 { #cluster-configuration-and-slurm-settings }
-
-初期に適用された基本設定がないため、ご自身で設定ファイルを作成する必要があります。[Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config)と[Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)を参考にして作成した後、 `/etc/slurm/slurm.conf`ファイルに保存します。
-
-ログファイルのパスは `/var/log/slurm/` 配下に指定する必要があります。他のパスを指定する場合は、設定ファイルにパスを明記し、対象ディレクトリの所有者を `SlurmUser` の設定値と同一にする必要があります。
-
-
-<a id="running-slurm"></a>
-### Slurmの実行 { #running-slurm }
-
-すべてのクラスタを構成し、構成情報を設定すると実行できます。 [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)と[Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)を参照してください。
-
-
 <a id="nhn-kubernetes-servicenks-worker-node"></a>
 ## NHN Kubernetes Service（NKS）Worker Node { #nhn-kubernetes-servicenks-worker-node }
 
