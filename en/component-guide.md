@@ -1079,51 +1079,6 @@ $ python main.py --epochs 1
 >For more detailed instructions, refer to [PyTorch Tutorial](https://pytorch.org/tutorials/).
 
 
-<a id="slurm"></a>
-## Slurm { #slurm }
-
-This component installs and sets up the MUNGE package, and installs the Slurm package. For details on how to run Slurm, see [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html).
-
->[Note]
->
->All commands included in this section must be executed with the root privilege.
-
-<a id="preparation"></a>
-### Preparation { #preparation }
-
-<a id="preparation-modify-the-hosts-file"></a>
-#### 1. Modify the `hosts` file
-
-Open the `/etc/hosts` file and enter the IP and alias of the node to be configured in the cluster environment.
-
-``` console
-# vi /etc/hosts
-```
-
-<a id="preparation-modify-the-hostname-file"></a>
-#### 2. Modify the `hostname` file
-
-Open the `/etc/hostname` file and match the alias of the current node with the alias in the `hosts` file.
-
-``` console
-# vi /etc/hostname
-```
-
-
-<a id="cluster-configuration-and-slurm-settings"></a>
-### Cluster Configuration and Slurm Settings { #cluster-configuration-and-slurm-settings }
-
-There is no default configuration applied initially, so you must write a configuration file. Write the configuration by referring to [Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config) and [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html), and save it in `/etc/slurm/slurm.conf` file.
-
-The log file path must be specified as a directory under the `/var/log/slurm/`. If you want to specify a different path, you must specify the path in the configuration file and match the owner of the directory with the `SlurmUser` setting value.
-
-
-<a id="running-slurm"></a>
-### Running Slurm { #running-slurm }
-
-You must configure all of the clusters and set the configuration before running Slurm. For more information, see [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html) and [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html).
-
-
 <a id="nhn-kubernetes-servicenks-worker-node"></a>
 ## NHN Kubernetes Service(NKS) Worker Node { #nhn-kubernetes-servicenks-worker-node }
 

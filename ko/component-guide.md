@@ -1078,51 +1078,6 @@ $ python main.py --epochs 1
 >더 자세한 사용법은 [PyTorch 튜토리얼](https://pytorch.org/tutorials/)을 참고하세요.
 
 
-<a id="slurm"></a>
-## Slurm { #slurm }
-
-Slurm 설치 구성 요소는 Munge 패키지 설치 및 설정, 그리고 Slurm 패키지 설치까지 진행합니다. 실행을 위한 자세한 방법은 [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)를 참고하세요.
-
->[참고]
->
->Slurm 가이드에 있는 명령어는 모두 root 권한으로 실행해야 합니다.
-
-<a id="preparation"></a>
-### 준비 { #preparation }
-
-<a id="preparation-modify-the-hosts-file"></a>
-#### 1. `hosts` 파일 수정
-
-`/etc/hosts` 파일을 열어서 클러스터 환경에 구성할 node의 IP와 별칭을 입력합니다.
-
-``` console
-# vi /etc/hosts
-```
-
-<a id="preparation-modify-the-hostname-file"></a>
-#### 2. `hostname` 파일 수정
-
-`/etc/hostname` 파일을 열어서 현재 node의 별칭을 `hosts` 파일과 일치시킵니다.
-
-``` console
-# vi /etc/hostname
-```
-
-
-<a id="cluster-configuration-and-slurm-settings"></a>
-### 클러스터 구성 및 Slurm 설정 { #cluster-configuration-and-slurm-settings }
-
-초기에 적용된 기본 설정이 없으므로, 직접 설정 파일을 작성해야 합니다. [Slurm Configuration Guide](https://slurm.schedmd.com/quickstart_admin.html#Config)와 [Slurm Configuration Tool](https://slurm.schedmd.com/configurator.html)을 참고하여 작성 후, `/etc/slurm/slurm.conf` 파일에 저장합니다.
-
-로그 파일의 경로는 `/var/log/slurm/` 아래로 지정해야 합니다. 다른 경로를 지정하려면 설정 파일에 경로를 명시하고 해당 디렉터리의 소유자를 `SlurmUser` 설정값과 동일하게 설정해야 합니다.
-
-
-<a id="running-slurm"></a>
-### Slurm 실행 { #running-slurm }
-
-클러스터를 모두 구성하고 구성 정보를 설정해야 실행할 수 있습니다. [Slurm Installation Guide](https://slurm.schedmd.com/quickstart_admin.html)와 [Slurm Quick Start Guide](https://slurm.schedmd.com/quickstart.html)를 참고하세요.
-
-
 <a id="nhn-kubernetes-servicenks-worker-node"></a>
 ## NHN Kubernetes Service(NKS) Worker Node { #nhn-kubernetes-servicenks-worker-node }
 
