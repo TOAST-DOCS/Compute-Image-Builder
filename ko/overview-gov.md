@@ -20,4 +20,4 @@
 
 <a id="private-image"></a>
 ## 개인 이미지 { #private-image }
-이미지 빌더를 이용해 만든 개인 이미지는 이미지 서비스(**Compute > Image**)에서 관리할 수 있습니다. 자세한 내용은 [이미지 서비스 사용자 가이드](/Compute/Image/ko/overview/)를 참고하세요.
+이미지 빌더를 이용해 만든 개인 이미지는 이미지 서비스(**Compute > Image**)에서 관리할 수 있습니다. 자세한 내용은 [이미지 서비스 사용자 가이드](/Compute/Image/ko/overview-gov/)를 참고하세요.
