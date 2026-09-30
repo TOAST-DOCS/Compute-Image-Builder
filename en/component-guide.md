@@ -776,9 +776,9 @@ To enable communication between Valkey instances, you must configure a security 
 
 | Direction | IP protocol | Port range| Ether| Remote|
 | --- | --- | --- | --- | --- |
-| 수신|TCP | 6379| IPv4| Instance IP(CIDR)|
-| 수신|TCP | 16379| IPv4| Instance IP(CIDR)|
-| 수신|TCP | 26379| IPv4| Instance IP(CIDR)|
+| Inbound |TCP | 6379| IPv4| Instance IP(CIDR)|
+| Inbound|TCP | 16379| IPv4| Instance IP(CIDR)|
+| Inbound |TCP | 26379| IPv4| Instance IP(CIDR)|
 
 <a id="valkey-automatic-ha-configuration-script-sentinel-automatic-configuration"></a>
 #### Sentinel Automatic Configuration
