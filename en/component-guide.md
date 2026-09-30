@@ -156,7 +156,7 @@ PostgreSQL directory and file descriptions are given below.
 
 | Name | Description |
 | --- | --- |
-| postgresql.cnf | /var/lib/pgsql/{version}/data/postgresql.cnf |
+| postgresql.conf | /var/lib/pgsql/{version}/data/postgresql.conf |
 | initdb.log | PostgreSQL database cluster creation log - /var/lib/pgsql/{version}/initdb.log |
 | DATADIR | PostgreSQL data file path - /var/lib/pgsql/{version}/data/ |
 | LOG | PostgreSQL log file path - /var/lib/pgsql/{version}/data/log/\*.log |
