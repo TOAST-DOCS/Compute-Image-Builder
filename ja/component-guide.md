@@ -1,4 +1,6 @@
-<!-- pre-align:aligned sig=6c432dbbed32 -->
+<!-- machine_translated: true -->
+
+<!-- pre-align:aligned sig=93dd85cdc37d -->
 
 <a id="compute-image-builder-installation-component-guide"></a>
 ## Compute > Image Builder > インストールコンポーネントガイド { #compute-image-builder-installation-component-guide }
@@ -939,6 +941,8 @@ shell> node app.js
 Hello World
 ```
 
+{% if "gov" not in build_flags %}
+
 <a id="deep-learning-framework"></a>
 ## Deep Learning Framework { #deep-learning-framework }
 
@@ -1061,7 +1065,9 @@ $ python manin.py --epochs 1
 >
 >より詳しい使用方法は[PyTorchチュートリアル](https://pytorch.org/tutorials/)を参照してください。
 
+{% endif %}
+
 <a id="nhn-kubernetes-servicenks-worker-node"></a>
 ## NHN Kubernetes Service（NKS）Worker Node { #nhn-kubernetes-servicenks-worker-node }
 
-NHN Kubernetes Service(NKS)のワーカーノードとして活用可能なイメージを作成できます。詳細は[NKSユーザーガイド](/Container/NKS/ja/user-guide/#container-nhn-kubernetes-service-nks-user-guide)を参照してください。
+NHN Kubernetes Service(NKS)のワーカーノードとして活用可能なイメージを作成できます。詳細は[NKSユーザーガイド](/Container/NKS/ja/user-guide{% if "gov" in build_flags %}-gov{% endif %}/#container-nhn-kubernetes-service-nks-user-guide)を参照してください。
