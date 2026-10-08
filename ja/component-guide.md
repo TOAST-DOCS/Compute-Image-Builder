@@ -1,6 +1,6 @@
 <!-- machine_translated: true -->
 
-<!-- pre-align:aligned sig=6c432dbbed32 -->
+<!-- pre-align:aligned sig=93dd85cdc37d -->
 
 <a id="compute-image-builder-installation-component-guide"></a>
 ## Compute > Image Builder > インストールコンポーネントガイド { #compute-image-builder-installation-component-guide }
