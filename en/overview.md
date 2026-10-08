@@ -19,6 +19,7 @@ Image Builder is a service that creates a private image that meets the user's re
 
 {% endif %}<a id="image-template"></a>
 
+<a id="image-template"></a>
 ## Image Template { #image-template }
 An image template is a document that includes information for creating an image. You can keep your private image up to date by writing application installation components and user scripts and only changing the OS image that is updated periodically.
 
