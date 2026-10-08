@@ -1083,4 +1083,4 @@ $ python main.py --epochs 1
 <a id="nhn-kubernetes-servicenks-worker-node"></a>
 ## NHN Kubernetes Service(NKS) Worker Node { #nhn-kubernetes-servicenks-worker-node }
 
-NHN Kubernetes Service(NKS)의 워커 노드로 활용 가능한 이미지를 생성할 수 있습니다. 자세한 내용은 [NKS 사용자 가이드](/Container/NKS/ko/user-guide{% if "gov" in build_flags %}-gov{% endif %}/#_25)를 참고하세요.
+NHN Kubernetes Service(NKS)의 워커 노드로 활용 가능한 이미지를 생성할 수 있습니다. 자세한 내용은 [NKS 사용자 가이드](/Container/NKS/ko/user-guide{% if "gov" in build_flags %}-gov{% endif %}/#container-nhn-kubernetes-service-nks-user-guide)를 참고하세요.

@@ -156,7 +156,7 @@ PostgreSQL directory and file descriptions are given below.
 
 | Name | Description |
 | --- | --- |
-| postgresql.cnf | /var/lib/pgsql/{version}/data/postgresql.cnf |
+| postgresql.conf | /var/lib/pgsql/{version}/data/postgresql.conf |
 | initdb.log | PostgreSQL database cluster creation log - /var/lib/pgsql/{version}/initdb.log |
 | DATADIR | PostgreSQL data file path - /var/lib/pgsql/{version}/data/ |
 | LOG | PostgreSQL log file path - /var/lib/pgsql/{version}/data/log/\*.log |
@@ -776,9 +776,9 @@ To enable communication between Valkey instances, you must configure a security 
 
 | Direction | IP protocol | Port range| Ether| Remote|
 | --- | --- | --- | --- | --- |
-| 수신|TCP | 6379| IPv4| Instance IP(CIDR)|
-| 수신|TCP | 16379| IPv4| Instance IP(CIDR)|
-| 수신|TCP | 26379| IPv4| Instance IP(CIDR)|
+| Inbound |TCP | 6379| IPv4| Instance IP(CIDR)|
+| Inbound|TCP | 16379| IPv4| Instance IP(CIDR)|
+| Inbound |TCP | 26379| IPv4| Instance IP(CIDR)|
 
 <a id="valkey-automatic-ha-configuration-script-sentinel-automatic-configuration"></a>
 #### Sentinel Automatic Configuration
@@ -1082,4 +1082,4 @@ $ python main.py --epochs 1
 <a id="nhn-kubernetes-servicenks-worker-node"></a>
 ## NHN Kubernetes Service(NKS) Worker Node { #nhn-kubernetes-servicenks-worker-node }
 
-You can create an image that can be used as a worker node for NHN Kubernetes Service (NKS). For more information, see [NKS User Guide](https://docs.nhncloud.com/en/Container/NKS/en/user-guide/#_25).
+You can create an image that can be used as a worker node for NHN Kubernetes Service (NKS). For more information, see [NKS User Guide](/Container/NKS/en/user-guide/#container-nhn-kubernetes-service-nks-user-guide).
