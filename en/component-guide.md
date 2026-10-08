@@ -1,3 +1,5 @@
+<!-- machine_translated: true -->
+
 <!-- pre-align:aligned sig=6c432dbbed32 -->
 
 <a id="compute-image-builder-installation-component-guide"></a>
@@ -951,6 +953,8 @@ shell> node app.js
 Hello World
 ```
 
+{% if "gov" not in build_flags %}
+
 <a id="deep-learning-framework"></a>
 ## Deep Learning Framework { #deep-learning-framework }
 
@@ -1079,7 +1083,9 @@ $ python main.py --epochs 1
 >For more detailed instructions, refer to [PyTorch Tutorial](https://pytorch.org/tutorials/).
 
 
+{% endif %}
+
 <a id="nhn-kubernetes-servicenks-worker-node"></a>
 ## NHN Kubernetes Service(NKS) Worker Node { #nhn-kubernetes-servicenks-worker-node }
 
-You can create an image that can be used as a worker node for NHN Kubernetes Service (NKS). For more information, see [NKS User Guide](/Container/NKS/en/user-guide/#container-nhn-kubernetes-service-nks-user-guide).
+You can create an image that can be used as a worker node for NHN Kubernetes Service (NKS). For more information, see [NKS User Guide](/Container/NKS/en/user-guide{% if "gov" in build_flags %}-gov{% endif %}/#container-nhn-kubernetes-service-nks-user-guide).
