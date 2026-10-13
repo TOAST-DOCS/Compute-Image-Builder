@@ -982,7 +982,7 @@ Deep Learning Framework Instance provides software as follows.
 
 NVIDIA cuDNN contains source code provided by NVIDIA Corporation. [License](https://docs.nvidia.com/deeplearning/cudnn/latest/reference/eula.html)
 
-After completing the setup, create an instance. For more information, see [Instance Overview](http://docs.toast.com/en/Compute/Instance/en/overview/).
+After completing the setup, create an instance. For more information, see [Instance Overview](https://docs.nhncloud.com/en/Compute/Instance/en/overview/).
 
 <a id="check-installed-development-environment"></a>
 ### Check Installed Development Environment { #check-installed-development-environment }

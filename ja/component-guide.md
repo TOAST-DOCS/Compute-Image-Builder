@@ -970,7 +970,7 @@ Deep Learning Framework Instanceでは次のソフトウェアが提供されま
 
 NVIDIA cuDNNにはNVIDIA Corporationで提供したソースコードが含まれています。 [License](https://docs.nvidia.com/deeplearning/cudnn/latest/reference/eula.html)
 
-設定完了後、インスタンスを作成します。詳細は[Instance 概要](http://docs.toast.com/ja/Compute/Instance/ja/overview/)をご参照ください。
+設定完了後、インスタンスを作成します。詳細は[Instance 概要](https://docs.nhncloud.com/ja/Compute/Instance/ja/overview/)をご参照ください。
 
 <a id="check-installed-development-environment"></a>
 ### インストールされた開発環境の確認 { #check-installed-development-environment }
