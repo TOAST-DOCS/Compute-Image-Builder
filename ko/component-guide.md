@@ -1,4 +1,4 @@
-<!-- pre-align:aligned sig=6c432dbbed32 -->
+<!-- pre-align:aligned sig=93dd85cdc37d -->
 
 <a id="compute-image-builder-installation-component-guide"></a>
 ## Compute > Image Builder > 설치 구성 요소 가이드 { #compute-image-builder-installation-component-guide }
